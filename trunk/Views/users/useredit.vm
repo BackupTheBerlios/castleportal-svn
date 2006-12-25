@@ -1,0 +1,43 @@
+<h3>$l10n.USER_EDITING</h3>
+<table>
+	<form action="usersave.$EXTENSION">
+		<input type="hidden" value="$f.Id" name="Form.Id"/>
+		<tr>
+			<td>Id</td>
+			<td>$f.Id</td>
+		</tr>
+		<tr>
+			<td>$l10n.NAME</td>
+			<td>$WebHelper.Name($f)</td>
+		</tr>
+		<!--<tr>
+			<td>MachinePassword</td>
+			<td>WebHelper.MachinePassword(f)</td>
+		</tr>-->
+		<tr>
+			<td>UserPassword</td>
+			<td>$WebHelper.UserPassword($f)</td>
+		</tr>
+		<tr>
+			<td>SessionGroup</td>
+			<td>$WebHelper.SessionGroup($f)</td>
+		</tr>
+		<tr>
+			<td>Groups</td>
+			<td>$WebHelper.Groups($f, $groups)</td>
+		</tr>
+		<tr>
+			<td>$l10n.SAVE</td>
+			<td><input type="submit" name="modifica" value="$l10n.SAVE" /></td>
+		</tr>
+		</form>
+		<form action="userdelete.$EXTENSION">
+			<input type="hidden" value="$f.Id" name="Id"/>
+			<tr>
+				<td>$l10n.DELETE</td>
+				<td><input type="submit" name="borra" value="$l10n.DELETE" /></td>
+			</tr>
+		</form>
+	</table>
+
+

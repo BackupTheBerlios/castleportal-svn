@@ -1,0 +1,52 @@
+$TemplateVarsTester.IsNotNull($dataModel, "dataModel", "file.vm", "$caller")
+
+#set ($file = false)
+#set ($file = $dataModel.GetObjectFromValue)
+#if ($file.ContentType == "application/pdf")
+	#set($helptext = '$l10n.DOWNLOAD_ACROBAT')
+	#set($helpurl= 'http://www.adobe.com/go/gntray_dl_get_reader')
+	#set($icon = 'pdf.png')
+#elseif ($file.ContentType == "application/x-shockwave-flash")
+	#set($helptext = '$l10n.DOWNLOAD_FLASH')
+	#set($helpurl = 'http://www.adobe.com/go/gntray_dl_getflashplayer_es')
+	#set($icon = 'swf.jpg')
+#else
+	#set($icon = 'unknown.png')
+	#set($helptext = '')
+	#set($helpurl = '')
+#end
+
+#if ($controller.Action == "viewcontent")
+	<div>
+		#if ($file)
+			<img src="$siteRoot/Public/mimetypes/$icon" />
+			<a href="$siteRoot/file/get.$EXTENSION?id=$file.Id" title="$l10n.SHOW $file.Name">$file.Name</a>
+			<a href="$siteRoot/file/download.$EXTENSION?id=$file.Id" title="$l10n.DOWNLOAD $file.Name"><img src="$siteRoot/Public/images/fileexport.png"/></a>
+			($StringHelper.IntFriendly($file.Size) - $StringHelper.DateFriendly($file.CreateDate))
+			#if ($helptext != '')
+			<a href="$helpurl" title="$helptext"><img src="$siteRoot/Public/images/vcs_status.png"></a>
+			#end
+		#else
+			$l10n.NO_FILE
+		#end
+	</div>
+
+#elseif ($controller.Action == "editcontent" || $controller.Action == "newcontent" || $controller.Action == "copycontent")
+
+	#if ($file)
+		<img src="$siteRoot/Public/mimetypes/$icon" />
+		<a href="$siteRoot/file/get.$EXTENSION?id=$file.Id" title="$l10n.SHOW $file.Name">$file.Name</a>
+		<a href="$siteRoot/file/download.$EXTENSION?id=$file.Id" title="$l10n.DOWNLOAD $file.Name"><img src="$siteRoot/Public/images/fileexport.png"/></a>
+		($StringHelper.IntFriendly($file.Size) - $StringHelper.DateFriendly($file.CreateDate))
+		<br>
+	#else
+		$l10n.NO_FILE
+	#end
+	<input type="file" name="$field.Field.Name" />
+#else
+	#if ($file)
+	<a href="$siteRoot/file/download.$EXTENSION?id=$file.Id" title="$l10n.DOWNLOAD $file.Name">$file.Name <img src="$siteRoot/Public/images/fileexport.png"/></a>
+	#else
+	-
+	#end
+#end

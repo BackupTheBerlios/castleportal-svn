@@ -1,0 +1,26 @@
+<form action="savefield.$EXTENSION" method="post">
+	<!-- Formulario de #if ($field) edición #else creación #end del campo: -->
+	<br>
+	#if ($field) <input type="hidden" name="Id" value="$field.Id"> #end
+	<table>
+		<tr>
+			<td>$l10n.SHORT_NAME:</td>
+			<td><input name="name" value="$!field.Name" class="formText"></td>
+		</tr>
+		<tr>
+			<td>$l10n.EXTENDED_NAME:</td>
+			<td><input name="description" value="$!field.Description" class="formText"></td>
+		</tr>
+		<tr>
+			<td>$l10n.FIELD_TYPE</td>
+			<td>
+				<select id="TypeId" name="TypeId">
+					#if ($types) 
+	                                      $HtmlHelper.CreateOptionsFromArray($types, "Description", "Id", $field.Type.Id) 
+                                        #end
+				</select>
+			</td>
+		</tr>
+	</table>
+	<input type="submit" value="$l10n.SAVE" class="formBoton">
+</form>

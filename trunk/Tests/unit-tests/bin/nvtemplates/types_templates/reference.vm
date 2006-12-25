@@ -1,0 +1,21 @@
+$TemplateVarsTester.IsNotNull($dataModel, "dataModel", "reference.vm", "$caller")
+
+#set ($content = false)
+#set ($content = $dataModel.GetPointedContent())
+
+#if( $controller.Action == "viewcontent")
+
+	<div class="reference">$content.GetValueByFieldName("title")</div>
+
+#elseif ($controller.Action == "editcontent" || $controller.Action == "newcontent" || $controller.Action == "copycontent")
+$TemplateVarsTester.IsNotNull($field, "field", "reference.vm", "$caller")
+
+	<select name="$field.Field.Name" class="formText" >
+	#foreach ($cont in $field.Field.ReferenceContentList)
+		<option value="$cont.Id" #if ($cont.Id == $content.Id) selected #end >
+                     $cont.GetValueByFieldName("title")</option>
+	#end
+	</select>
+#else
+	$content.GetValueByFieldName("title")
+#end

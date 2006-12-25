@@ -1,0 +1,48 @@
+<html>
+	<body>
+		<h1>Editor de configuracion</h1>
+		<table>
+			#foreach ($c in $configs)
+			<tr>
+				<form method="post" action="save.html">
+					<input type="hidden" name="Id" value="$c.Id" />
+					<td>$c.Key</td>
+					<td>
+						#if ($c.Key == "layout")
+							<select name="val">
+								<option value="0">ningun layout</option>
+								$HtmlHelper.CreateOptionsFromArray($layouts, "Description", "Val", $c.Val)
+							</select>
+						#elseif ($c.Key == "style")
+							<select name="val">
+								<option value="0">ningun style</option>
+								$HtmlHelper.CreateOptionsFromArray($styles, "Description", "Val", $c.Val)
+							</select>
+						#elseif ($c.Key == "header")
+							<select name="val">
+								<option value="0">ningun header</option>
+								$HtmlHelper.CreateOptionsFromArray($headers, "Description", "Val", $c.Val)
+							</select>
+						#else
+							<input type="text" name="val" value="$c.Val"/>
+						#end
+					</td>
+					<td><input type="submit" value="Guarda" /></td>
+				</form>
+				<form method="post" action="delete.html">
+					<input type="hidden" name="Id" value="$c.Id" />
+					<td><input type="submit" value="Borra" /></td>
+				</form>
+			</tr>
+			#end
+
+			<tr>
+				<form method="post" action="save.html">
+					<td><input type="text" name="key" value=""/></td>
+					<td><input type="text" name="val" value=""/></td>
+					<td><input type="submit" value="Crea" /></td>
+				</form>
+			</tr>
+		</table>
+	</body>
+</html>

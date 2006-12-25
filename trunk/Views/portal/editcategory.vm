@@ -1,0 +1,104 @@
+<div class="cuadro2ancho" id="cuadro">
+#set($placeholder = 'cuadro')
+$AjaxHelper.BuildFormRemoteTag("$siteRoot/portal/savecategory.$EXTENSION", $DictHelper.CreateDict( "update=$placeholder", "with=Form.serialize(this)", "loading=javascript:waitPointer('content')", "complete=javascript:defaultPointer('content'); setGreaterHeight('$leftdiv', '$maindiv');") )
+	#if($category)
+           <input name="id" type="hidden" value="$category.Id" />
+        #end
+
+	<!--<h2>Formulario de #if ($category) edición #else creación #end de category</h2> -->
+
+	<p><strong>$l10n.NAME:</strong> 
+            <input name="name" type="text" size="10" value="$!category.Name" /></p>
+	<p><strong>$l10n.DESCRIPTION:</strong> 
+            <input name="desc" type="text" size="10" value="$!category.Description" /></p>
+	<p><strong>$l10n.INFORMATION:</strong> 
+            <textarea name="info" cols="40" rows="5">$!category.Information</textarea></p>
+	#if ($session.IsRoot)
+	<p><strong>$l10n.PARENT:</strong>
+		#if ($parent.Id > 0)
+			$parent.Name <input type="hidden" name="parentId" value="$parent.Id" />
+		#else
+			TOP <input type="hidden" name="parentId" value="-1" />
+		#end
+	</p>
+	<p><strong>$l10n.OWNER:</strong>
+		<select name="ownerId">
+			<option value="0">$l10n.NOBODY</option>
+			#if ($users) 
+                            $HtmlHelper.CreateOptionsFromArray($users, "Name", "Id", $category.Owner.Id) 
+                        #end
+		</select>
+	</p>
+	<p><strong>$l10n.TEMPLATE:</strong>
+		<select name="tempId">
+			<option value="0">$l10n.NOTEMPLATE</option>
+			#if ($templates) 
+                             $HtmlHelper.CreateOptionsFromArray($templates, "Description", "Id", $category.Template.Id) 
+                        #end
+		</select>
+	</p>
+	#else
+		<input type="hidden" name="tempId" value="$!category.Template.Id" />
+		<input type="hidden" name="ownerId" value="$!category.Owner.Id" />
+		#if ($parent.Id > 0)
+			<input type="hidden" name="parentId" value="$parent.Id" />
+		#else
+			<input type="hidden" name="parentId" value="-1" />
+		#end
+	#end
+	<p class="hr">&nbsp;</p>
+
+	<h2>$l10n.PERMISSIONS:</h2>
+	<p><strong>$l10n.ANON_PERMISSIONS:</strong></p>
+	<p>
+		<select name="roleid">
+			<option value="0">$l10n.NOPERMISSIONS</option>
+			#if ($roles) 
+                            $HtmlHelper.CreateOptionsFromArray($roles, "Name", "Id", $category.AnonRole.Id) 
+                        #end
+		</select>
+	</p>
+	##if ($session.IsRoot)
+	<p><strong>$l10n.ACLS:</strong></p>
+##	<div style="float:left">
+##		<select name="acls[]" id="acls" style="width:220px;" size="10" multiple>
+##			## no vale porque queremos salida group:role
+##			##if ($acls) HtmlHelper.CreateOptionsFromArray($acls, "Description", "Id") #end
+##			#foreach ($acl in $acls)
+ ##                           #if (!$category.AclSet.Contains($acl))
+##				<option value="$acl.Id"> $acl.Group.Name : $acl.Role.Name</option>
+ ##                           #end
+##			#end
+##		</select>
+##	</div>
+##	<div style="float:left; padding: 4px; margin-top:50px;">
+##		<img title="$l10n.DEL_ACL" src="$siteRoot/Public/images/der.jpg" onClick="addSelectItem('acls', 'af')" /><br><br>
+##		<img title="$l10n.ADD_ACL" src="$siteRoot/Public/images/izda.gif"  onClick="removeSelectItem('af')" />
+##	</div>
+	<div style="">
+		<select name="af[]" id="af" style="width:220px;" size="10" multiple>
+		        #foreach ($acl in $acls)
+                            #if (!$category.AclSet.Contains($acl))
+				   <option value="$acl.Id"> $acl.Group.Name : $acl.Role.Name</option>
+                            #else 
+				   <option value="$acl.Id" SELECTED> $acl.Group.Name : $acl.Role.Name</option>
+                            #end
+			#end
+		</select>
+	</div>
+	##end
+	<p>
+	<input name="aFields" id="aFields" type="hidden" value="" />
+	<input name="layout" value="false" type="hidden" />
+		<input type="submit" value="$l10n.SAVE" onClick="updateValues();"  class="formBoton" />
+	</p>
+</form>
+#if($category)
+  <br>
+  <a href="viewcategory.$EXTENSION?id=$category.Id" title="$l10n.VIEW_CATEGORY">
+    $l10n.VIEW_CATEGORY
+  </a>
+  <br>
+#end
+#if($session.isRoot) ($category.Template.TEdit) #end
+</div>

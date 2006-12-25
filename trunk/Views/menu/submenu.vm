@@ -1,0 +1,8 @@
+#foreach ($m in $submenus)
+		<div id="list">
+			<img src='${siteRoot}/Public/images/plus.gif' id="img$m.Id" onclick="javascript:reloadSubmenu($m.Id, 'submenu$m.Id', '/menu/submenu.$EXTENSION', '${siteRoot}')"/>
+			<a href="javascript:void(0)" onclick="javascript:reloadContent('content', '$m.Url')">$m.Name</a>
+			<div id="submenu$m.Id" style="padding-left: 50px;"></div> 
+		</div>
+#end
+

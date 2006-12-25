@@ -1,0 +1,51 @@
+#set ($caller = "editcontent.vm")
+
+<div class="cuadro2ancho">
+#set ($category = $content.category)
+#set ($ajax = true)
+
+## If the template has input type files then, dont use AJAX
+## for compatibility with old issue (fucking coders who write variables in spanish :-)), we use 
+## "Fichero" in some statements
+
+#foreach ($fieldTemplate in $category.Template.Fields )
+	#if (($fieldTemplate.Field.Description == "File") || ($fieldTemplate.Field.Description == "Image") || ($fieldTemplate.Field.Description == "Fichero"))
+		#set ($ajax = false)
+	#end
+#end
+
+#if ($ajax)
+$AjaxHelper.BuildFormRemoteTag("$siteRoot/portal/savecontent.$EXTENSION", $DictHelper.CreateDict( "update=child", "formId=editcontent", "with=Form.serialize(this)", "loading=javascript:waitPointer('content')", "complete=javascript:defaultPointer('content'); setGreaterHeight('$leftdiv', '$maindiv');") )
+	<input type="hidden" name="layout" value="false"> 
+#else
+<form action="$siteRoot/portal/savecontent.$EXTENSION" method="post" enctype="multipart/form-data">
+#end
+	#if($content)
+		<input type="hidden" name="contentId" value="$content.Id">
+		#set($category=$content.Category)
+	#end
+	<input type="hidden" name="categoryId" value="$category.Id">
+	<input type="hidden" name="language" value="$lang">
+    #if ($category.Template.TEdit)
+	#parse ("/general_templates/$category.Template.TEdit")
+    #else
+        $l10n.TEMPLATE_EDIT_UNAVAILABLE
+    #end    
+	<div style="text-align: center; margin-top: 5px;">
+		#if ($ajax)
+			<input type="submit" onclick="javascript:updateValues(); onsubmit(); return false;" value="$l10n.SEND" class="formBoton">
+		#else
+			<input type="submit" onclick="javascript:updateValues(); submit();" value="$l10n.SEND" class="formBoton">
+		#end
+		<input type="reset" value="$l10n.CLEAN" class="formBoton">
+		<br>
+	#*	#if($content)
+			#parse("/actionsLinks/viewContent.vm")
+			#parse("/actionsLinks/deleteContent.vm")
+		#else
+			#parse("/actionsLinks/viewCategory.vm")
+		#end *#
+ </div> 
+</form>
+## #if($session.isRoot) ($category.Template.TEdit) #end
+</div>

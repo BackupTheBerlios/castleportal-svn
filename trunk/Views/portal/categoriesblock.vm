@@ -1,0 +1,25 @@
+#set ($caller = "categoriesblock.vm")
+
+#set($placeholder = 'tree')
+
+#foreach ($category in $categories)
+	#if($category.CanRead($session.User))
+	<div class="list">
+				<img src='${siteRoot}/Public/images/plus.gif' id="img$category.Id" onclick="javascript:reloadGenericSubmenu($category.Id, 'category$category.Id', '${siteRoot}/portal/categoriesblock.$EXTENSION', '${siteRoot}', '$placeholder')"/>
+##		$AjaxHelper.LinkToRemote("$category.Description", "$siteRoot/portal/viewcategory.$EXTENSION", $DictHelper.CreateDict("update=$placeholder", "with='id=$category.Id&layout=false'", "loading=javascript:waitPointer('content')", "complete=javascript:defaultPointer('content')"))
+<a href="$siteRoot/portal/viewcategory.$EXTENSION?id=$category.Id"> $category.Description </a>
+	<div style="display:inline; ">
+			&nbsp;&nbsp;&nbsp;&nbsp; 
+			#if($category.NumberOfChildrens() == 0)
+				#parse("/actionsLinks/deleteCategory.vm")
+			#end
+			#parse("/actionsLinks/editCategory.vm")
+			##parse("/actionsLinks/viewCategory.vm")
+			#parse("/actionsLinks/newContent.vm")
+		</div>
+	<div id="category$category.Id" style="padding-left: 50px;padding-top:7px;"></div> 
+	</div>
+	#end
+#end
+#parse("/actionsLinks/newCategory.vm")
+

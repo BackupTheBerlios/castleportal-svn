@@ -1,0 +1,48 @@
+<div id="aclssedit">
+<h3>$l10n.ACLS_ADMINISTRATION </h3>
+$HtmlHelper.Form("aclsave.$EXTENSION", "%{name='acls'}")
+  <table cellpadding="0" cellspacing="0" width="80%">
+    <tr>
+      <td valign="top">
+      <div id="categories_list">
+        <div class="smalltext">$l10n.CATEGORIES:</div>
+        <div id="categoriesCombo0" class="adminUsersCombo">
+          $HtmlHelper.Select('idCategory')
+              $HtmlHelper.CreateOption("--------", "0")
+              $HtmlHelper.CreateOptionsFromArray($categories, "Name", "Id")
+          $HtmlHelper.EndSelect
+        </div>
+      </div>
+      </td>
+      <td valign="top">
+        <div class="smalltext">$l10n.GROUPS:</div>
+        <div id="groupsCombo0" class="adminUsersCombo">
+          $HtmlHelper.Select('idGroup')
+              $HtmlHelper.CreateOption("--------", "0")
+              $HtmlHelper.CreateOptionsFromArray($groups, "Name", "Id")
+          $HtmlHelper.EndSelect
+        </div>
+      </div>
+      </td>
+      <td valign="top">
+      <div id="roless_list">
+        <div class="smalltext">$l10n.ROLES:</div>
+         <div id="rolesCombo0" class="adminUsersCombo">
+          $HtmlHelper.Select('roles', "%{multiple='true'}")
+            #foreach ($r in $roles)
+              $HtmlHelper.CreateOption($r.Name, "$r.Id")
+            #end
+          $HtmlHelper.EndSelect
+         </div>
+        </div>
+      </div>
+      </td>
+    </tr>
+  </table>
+  $HtmlHelper.SubmitButton("$l10n.SAVE")
+$HtmlHelper.EndForm()
+</div>
+
+    $AjaxHelper.ObserveField("idGroup", 2, "getrolesbycategoryandgroup.$EXTENSION", "rolesCombo0", "'idGroup='+value+'&idCategory='+document.acls.idCategory.options[document.acls.idCategory.selectedIndex].value")
+    $AjaxHelper.ObserveField("idCategory", 2, "getrolesbycategoryandgroup.$EXTENSION", "rolesCombo0", "'idCategory='+value+'&idGroup='+document.acls.idGroup.options[document.acls.idGroup.selectedIndex].value")
+

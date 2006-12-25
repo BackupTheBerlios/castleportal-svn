@@ -1,0 +1,35 @@
+$TemplateVarsTester.IsNotNull($category, "category", "displayCategoryFilesBlog.vm", "$caller")
+#set ($caller ="displayCategoryFilesBlog.vm")
+<H1>
+  $category.Description
+</H1>
+#if ($category.ContentList)
+
+#foreach ($content in $category.ContentList)
+   <P> 
+     $content.GetValueByFieldName("body")
+     <BR>
+     #set ($file = false)
+     #set ($file = $content.GetDataModelByFieldName("file").GetObjectFromValue)
+     #if ($file)
+     <A href="$siteRoot/file/download.$EXTENSION?id=$file.Id" title="$l10n.DOWNLOAD $file.Name">$file.Name 
+          <IMG src="$siteRoot/Public/images/fileexport.png"/>
+     </A>
+     $StringHelper.IntFriendly($file.Size)
+     #end
+     <BR>
+     #parse("$!templatesdir/actionsLinks/editContent.vm")
+     #parse("$!templatesdir/actionsLinks/copyContent.vm")
+
+        #if ($content.Published)
+            #parse("$!templatesdir/actionsLinks/unpublishContent.vm")
+        #else
+            #parse("$!templatesdir/actionsLinks/publishContent.vm")
+        #end
+     #parse("$!templatesdir/actionsLinks/deleteContent.vm")
+     ##set($file=true)
+   </P>
+#end
+#end
+#parse("$!templatesdir/actionsLinks/newContent.vm")
+

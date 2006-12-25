@@ -1,0 +1,17 @@
+##if ($context.Session.User.Name)
+
+<div id="languages">
+<form method="post" action="$siteRoot/portal/setlanguage.$EXTENSION" name="language_selector">
+    $l10n.LANGUAGE: <select name="language" onchange="submit()" class="languages">
+            #foreach ($language in $all_linguas)
+                #if ($lang == $language.Name)
+                    <option value="$language.Name" SELECTED> $language.EnglishName </option>
+                #else
+                    <option value="$language.Name"> $language.EnglishName </option>
+                #end
+            #end                
+##$HtmlHelper.CreateOptionsFromArray($all_linguas, "EnglishName", "Name", $language)
+    </select>
+</form>
+</div>
+##end

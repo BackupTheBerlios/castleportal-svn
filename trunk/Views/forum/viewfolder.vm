@@ -1,0 +1,25 @@
+<h4>$l10n.INDEX_THEME $!folder.Title</h4>
+
+#if ($folder.FoldersChildren.Count > 0)
+	#foreach ($f in $folder.FoldersChildren)
+		$AjaxHelper.LinkToRemote($!f.Title, "$siteRoot/forum/viewfolder.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='Id=$f.Id&layout=false'", "loading=javascript:waitPointer('f')", "complete=javascript:defaultPointer('f')"))<br>
+	#end
+#else
+    <table>
+	#foreach ($m in $folder.ForumMessages)
+        <tr>
+                <td>$AjaxHelper.LinkToRemote($!m.Title, "$siteRoot/forum/viewthread.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='Id=$m.Id&layout=false'", "loading=javascript:waitPointer('m')", "complete=javascript:defaultPointer('m')"))</td>
+                <td>
+                    #if (($folder.Moderators.HasUser($session.User) == true) || ($folder.Forum.Admins.HasUser($session.User)) || ($context.Session.isRoot))
+                        $AjaxHelper.LinkToRemote($l10n.DELETE, "$siteRoot/forum/deletemessage.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='Id=$m.Id&layout=false'", "loading=javascript:waitPointer('m')", "complete=javascript:defaultPointer('m')"))
+                    #end
+                </td>
+        </tr>
+	#end
+    </table>
+
+    <br>
+
+    $AjaxHelper.LinkToRemote("$l10n.CREATE_NEW_THREAD", "$siteRoot/forum/createmessage.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='idFolderParent=$folder.Id&idMessageParent=0&layout=false'", "loading=javascript:waitPointer('m')", "complete=javascript:defaultPointer('m')"))
+#end
+

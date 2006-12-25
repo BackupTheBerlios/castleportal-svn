@@ -1,0 +1,42 @@
+$TemplateVarsTester.IsNotNull($category, "category", "defaultList.vm", "$caller")
+#set ($caller = "defaultList.vm")
+
+<H2>$category.Name </H2>
+<TABLE>
+  <TR>
+    #foreach ($field in $category.Template.ListingVisibleFields)
+      <TH>$field.Field.Description </TH>
+    #end
+    <TH>$l10n.ACTIONS </TH>
+  </TR>
+  #foreach ($content in $category.ContentList)
+    #set( $oddeven = $velocityCount % 2 )
+    <TR class="row$oddeven">
+       #foreach ($field in $category.Template.ListingVisibleFields)
+           #set ($dataModel = "")
+           #set ($dataModel = $content.GetDataModelByFieldName($field.Field.Name))
+           <TD width="92%"> #parse ("$!templatesdir/types_templates/${field.Field.Type.Name}.vm") </TD>
+       #end
+    <TD valign="top">
+      #parse("$!templatesdir/actionsLinks/viewContent.vm")
+      #parse("$!templatesdir/actionsLinks/editContent.vm")
+                #parse("$!templatesdir/actionsLinks/copyContent.vm")
+
+        #if ($content.Published)
+            #parse("$!templatesdir/actionsLinks/unpublishContent.vm")
+        #else
+            #parse("$!templatesdir/actionsLinks/publishContent.vm")
+        #end
+      #parse("$!templatesdir/actionsLinks/deleteContent.vm")
+    </TD>
+  </TR>
+  #end
+  #if ($session.User) 
+  <TR>
+    <TD colspan="0">
+      #parse("$!templatesdir/actionsLinks/newContent.vm")
+    </TD>
+  </TR>
+  #end
+</TABLE>
+

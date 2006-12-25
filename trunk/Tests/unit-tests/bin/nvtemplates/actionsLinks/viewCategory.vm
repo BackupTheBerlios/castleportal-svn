@@ -1,0 +1,8 @@
+#if ($category.CanRead($session.User)) 
+
+<a href="$siteRoot/portal/viewcategory.$EXTENSION?id=$category.Id" title="$l10n.VIEW_CATEGORY">
+    <img src="$siteRoot/Public/images/viewcategory.gif" alt="vc"/>
+</a> 
+
+#end
+

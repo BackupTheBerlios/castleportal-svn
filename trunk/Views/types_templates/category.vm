@@ -1,0 +1,38 @@
+$TemplateVarsTester.IsNotNull($dataModel, "dataModel", "category.vm", "$caller")
+$TemplateVarsTester.IsNotNull($field, "field", "category.vm", "$caller")
+
+
+#set ($category = false)
+#set ($category = $dataModel.GetObjectFromValue)
+
+#if ($controller.Action == "viewcontent")
+
+	<div class="category_edit">
+		<b>$field.Field.Description:</b> <br>
+		#if ($category)
+			$l10n.THIS_IS_READONLY_CONTENT.<br>
+			Name= $category.Name<br>
+			Description=$category.Field.Description<br>
+			Information=$category.Information<br>
+			Owner=$category.Owner<br>
+			Template=$category.Template<br>
+		#else
+			$l10n.CATEGORY_NOT_FOUND 
+		#end
+	</div>
+
+#elseif ($controller.Action == "editcontent" || $controller.Action == "newcontent" || $controller.Action == "copycontent")
+
+	#if ($category)
+		$l10n.THIS_IS_READONLY_CONTENT.<br>
+		Name= $category.Name<br>
+		Description=$category.Field.Description<br>
+		Information=$category.Information<br>
+		Owner=$category.Owner<br>
+		Template=$category.Template<br>
+	#end
+	<input type="text" name="$field.Field.Name" value="$!dataModel.Value" class="formText" />
+#else
+	$category.Name
+#end
+

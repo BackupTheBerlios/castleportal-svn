@@ -1,0 +1,12 @@
+MODELS=Models/*.cs 
+CONTROLLERS=Controllers/*cs
+HELPERS=Helpers/*.cs
+WEBSERVICES=
+LIBRARIES= Lib/*.cs
+FILTERS=Filters/*.cs
+RAIZ=Generator/*.cs
+DLLS=Castle.MonoRail.Framework Castle.ActiveRecord \
+   Castle.MonoRail.ActiveRecordSupport NHibernate Iesi.Collections \
+   log4net Castle.Windsor 
+MODULES=System.Web System.Xml Mono.Posix System.Data System.Drawing
+

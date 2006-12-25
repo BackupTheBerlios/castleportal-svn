@@ -1,0 +1,6 @@
+#if ($category.CanModify($session.User)) 
+
+$AjaxHelper.LinkToRemote("<img src='$siteRoot/Public/images/copycontent.gif' title='$l10n.EDIT_IN_OTHER_LANGUAGE' alt='$l10n.EDIT_IN_OTHER_LANGUAGE'>", "$siteRoot/portal/copycontent.$EXTENSION", $DictHelper.CreateDict("update=$placeholder", "with='id=$content.Id&layout=false'", "loading=javascript:waitPointer('content')", "complete=javascript:pushDown('$placeholder', 'content', 'left_menu', 100);defaultPointer('content'); tinyRepaint(); "))
+
+
+#end

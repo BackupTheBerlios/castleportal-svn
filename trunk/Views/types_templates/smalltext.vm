@@ -1,0 +1,17 @@
+$TemplateVarsTester.IsNotNull($dataModel, "dataModel", "smalltext.vm", "$caller")
+
+#if( $controller.Action == "viewcontent")
+
+	<div class="smalltext">$!dataModel.Value</div>
+#elseif( $controller.Action == "viewcategory")
+
+	<div class="smalltext">$!dataModel</div>
+
+#elseif ($controller.Action == "editcontent" || $controller.Action == "newcontent" || $controller.Action == "copycontent")
+$TemplateVarsTester.IsNotNull($field, "field", "smalltext.vm", "$caller")
+
+	<input type="text" name="$field.Field.Name" value="$!dataModel.Value" size="50"  class="formText" />
+
+#else
+	$!dataModel.Value
+#end

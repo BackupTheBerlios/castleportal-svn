@@ -1,0 +1,51 @@
+#if ($context.Session.User.Name)
+
+<div id="adminheader">
+		#if ($context.Session.isRoot)
+                 <a href="$siteRoot/portal/index.$EXTENSION">[Home]</a>
+		 <a href="$siteRoot/config/index.$EXTENSION">[Config]</a>
+		 <a href="$siteRoot/groups/groupsedit.$EXTENSION">[$l10n.GROUPS]</a>
+		 <a href="$siteRoot/users/usersedit.$EXTENSION">[$l10n.USERS]</a>
+		 <a href="$siteRoot/backup/create.$EXTENSION">[$l10n.BACKUP]</a>
+		 #end
+		 #if ($context.Session.isAdmin)
+		 <a href="$siteRoot/portal/categories.$EXTENSION">[$l10n.CATEGORIES]</a>
+		 <a href="$siteRoot/menu/admin.$EXTENSION">[$l10n.MENUS]</a>
+		 <a href="$siteRoot/menutranslation/admin.$EXTENSION">[$l10n.MENUSTRANSLATION]</a>
+		 <a href="$siteRoot/portal/templates.$EXTENSION">[$l10n.TEMPLATES]</a>
+		 <a href="$siteRoot/portal/fields.$EXTENSION">[$l10n.FIELDS]</a>
+		 <a href="$siteRoot/acls/aclsedit.$EXTENSION">[$l10n.ACLS]</a>
+		 <a href="$siteRoot/acls/rolesedit.$EXTENSION">[$l10n.ROLES]</a>
+		 <a href="$siteRoot/chat/index.$EXTENSION">[$l10n.CHAT]</a>
+		 <a href="$siteRoot/forum/index.$EXTENSION">[$l10n.FORUM]</a>
+		 #end
+		#if (($published == 0) && ($context.Session.isAdmin))
+		<form method="post" action="$siteRoot/config/theme.$EXTENSION" name="theme">
+			<input type="hidden" name="layout" value="$layout">
+			<select name="color" onchange="document.forms.theme.submit()" class="camposPlantillas">
+				$HtmlHelper.CreateOptionsFromArray($colors, "Description", "Val", $color)
+			</select>
+			<select name="header" onchange="document.forms.theme.submit()" class="camposPlantillas">
+				$HtmlHelper.CreateOptionsFromArray($headers, "Description", "Val", $header)
+			</select>
+			<noscript>
+				<input type="submit" value="Guarda" class="btnPublicar" />
+			</noscript>
+			<input type="button" value="$l10n.PUBLISH" class="btnPublicar" onClick="javascript:window.location='$siteRoot/config/activate.$EXTENSION'"/>
+		</form>
+
+		#else
+			#if ($context.Session.isAdmin)
+				<input type="button" value="$l10n.UNPUBLISH" class="btnPublicar" onClick="javascript:window.location='$siteRoot/config/unactivate.$EXTENSION'"/>
+			#end
+		#end
+
+##		| <a href="$siteRoot/portal/index.$EXTENSION">Portal</a>
+##		| <a href="/users/filefoldersedit.$EXTENSION">Directorios</a>
+##		| <a href="/users/messagenew.$EXTENSION">Nuevo mensaje</a>
+##		| <a href="/schedule/showcalendar.$EXTENSION">Agenda</a>
+##		| <a href="/file/list.$EXTENSION">Files</a>
+##		| <a href="admin/index.$EXTENSION">Scaffolding</a> 
+
+	</div>
+#end

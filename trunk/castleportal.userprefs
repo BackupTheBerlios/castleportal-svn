@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<UserCombinePreferences filename="/home/carlosble/svns/castleportal-svn/castleportal.mds">
+  <Files>
+    <File filename="./Controllers/PortalController.cs" />
+    <File filename="./Models/Category.cs" />
+    <File filename="./Models/Menu.cs" />
+    <File filename="./Models/Group.cs" />
+    <File filename="./Models/Role.cs" />
+    <File filename="./Models/Acl.cs" />
+    <File filename="./Models/Container.cs" />
+  </Files>
+  <Views>
+    <ViewMemento Id="MonoDevelop.Ide.Gui.Pads.ProjectPad">
+      <TreeView>
+        <Node expanded="True">
+          <Node name="castleportal" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="Controllers" expanded="True" />
+            <Node name="Filters" expanded="True" />
+            <Node name="Generator" expanded="True" />
+            <Node name="Helpers" expanded="True" />
+            <Node name="Lib" expanded="True" />
+            <Node name="Models" expanded="True">
+              <Node name="Container.cs" expanded="False" selected="True" />
+            </Node>
+          </Node>
+        </Node>
+      </TreeView>
+    </ViewMemento>
+    <ViewMemento Id="MonoDevelop.Ide.Gui.Pads.ClassPad">
+      <TreeView>
+        <Node expanded="True" />
+      </TreeView>
+    </ViewMemento>
+    <ViewMemento Id="MonoDevelop.NUnit.TestPad">
+      <TreeView>
+        <Node expanded="False" />
+      </TreeView>
+    </ViewMemento>
+    <ViewMemento Id="MonoQuery.DatabasePad">
+      <TreeView>
+        <Node expanded="False" />
+      </TreeView>
+    </ViewMemento>
+  </Views>
+  <Properties>
+    <Properties>
+      <Property key="ActiveConfiguration" value="Debug" />
+      <Property key="ActiveWindow" value="/home/carlosble/svns/castleportal-svn/Models/Container.cs" />
+    </Properties>
+  </Properties>
+</UserCombinePreferences>

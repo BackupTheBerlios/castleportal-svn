@@ -1,0 +1,9 @@
+$TemplateVarsTester.IsNotNull($category, "category", "showAllCategoryChildrenContents.vm", "$caller")
+#set ($caller = "showAllCategoryChildrenContents.vm")
+#set($parent = $category)
+#foreach ($category in $parent.Children)
+    #parse ("$!templatesdir/general_templates/$category.Template.TList")
+#end
+
+#set($category = $parent)
+

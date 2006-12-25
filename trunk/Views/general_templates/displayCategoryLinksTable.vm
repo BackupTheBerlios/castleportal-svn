@@ -1,0 +1,47 @@
+$TemplateVarsTester.IsNotNull($category, "category", "displayCategoryLinksTable.vm", "$caller")
+#set ($caller = "displayCategoryLinksTable.vm")
+
+<TABLE bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="1" height="50" width="431">
+  <TR> 
+    <TD class="title" align="center">
+      $category.Description
+    </TD>
+  </TR>
+  
+  #foreach ($content in $category.ContentList)
+     #set( $oddeven = $velocityCount % 2 )
+     <TR class="linea1" > 
+       <TD align="center">
+         #set($url = $content.GetValueByFieldName("url"))
+         #if($url != "")
+             <A target="blank" href="http://$content.GetValueByFieldName("url")">
+                $content.GetValueByFieldName("title")
+             </A>
+         #else
+            $content.GetValueByFieldName("name")
+         #end
+       </TD>
+       #if ($session.User) 
+         <TD width="12%">
+            #parse("$!templatesdir/actionsLinks/editContent.vm")
+                #parse("$!templatesdir/actionsLinks/copyContent.vm")
+
+        #if ($content.Published)
+            #parse("$!templatesdir/actionsLinks/unpublishContent.vm")
+        #else
+            #parse("$!templatesdir/actionsLinks/publishContent.vm")
+        #end
+            #parse("$!templatesdir/actionsLinks/deleteContent.vm")
+         </TD>
+       #end
+     </TR>
+  #end
+  #if ($session.User) 
+  <TR class="linea1"> 
+    <TD colspan="2" class="name" align="center">
+      #parse("$!templatesdir/actionsLinks/newContent.vm")
+    </TD>
+  </TR>
+  #end
+  
+</TABLE>

@@ -1,0 +1,55 @@
+<table class="listado">
+	<tr>
+		<th>$l10n.GROUP</th>
+		<th>$l10n.ROL</th>
+		<th>$l10N.ACTIONS</th>
+	</tr>
+	#foreach ($gp in $GroupPermissions)
+	#if ($velocityCount % 2 == 0)
+		<tr class="odd">
+	#else
+		<tr class="even">
+	#end
+		<form action="$siteRoot/users/grouppermissionsave.$EXTENSION" name="Form$gp.Id">
+			<input type="hidden" value="$gp.Id" name="Form.Id"/>
+			<input type="hidden" value="$gp.Group.Id" name="GroupId"/>
+			<input type="hidden" value="$f.Id" name="ContainerId"/>
+			<td>$gp.Group.Name</td>
+			<td>
+				<select name="RoleId">
+					<option value="0">ningun rol</option>
+					$HtmlHelper.CreateOptionsFromArray($roles, "Name", "Id", $gp.Role.Id)
+				</select>
+			</td>
+			<td align="center">
+				<a href="#" onclick="document.Form${gp.Id}.submit()" title="Guardar cambios">
+					<img src="$siteRoot/Public/images/guardarcambios.png" alt="Guardar cambios"/>
+				</a>
+				<a href="grouppermissiondelete.$EXTENSION?Id=$gp.Id" title="Borrar">
+					<img src="$siteRoot/Public/images/borrar.png" alt="Borrar"/>
+				</a>
+			</td>
+		</form>
+	</tr>
+	#end
+	<tr>
+		<form action="$siteRoot/users/grouppermissioncreate.$EXTENSION">
+			<input type="hidden" value="0" name="Form.Id"/>
+			<input type="hidden" value="$f.Id" name="ContainerId"/>
+			<td>
+				<select name="GroupId">
+					<option value="0">ningun grupo</option>
+					$HtmlHelper.CreateOptionsFromArray($groups, "Name", "Id")
+				</select>
+			</td>
+			<td>
+				<select name="RoleId">
+					<option value="0">ningun rol</option>
+					$HtmlHelper.CreateOptionsFromArray($roles, "Name", "Id")
+				</select>
+			</td>
+			<td><input type="submit" name="crea" value="crea" /></td>
+		</form>
+	</tr>
+</table>
+

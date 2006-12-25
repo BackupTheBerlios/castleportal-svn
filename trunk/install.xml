@@ -1,0 +1,31 @@
+<xml>
+	<Includes>
+		<Include fichero="baseTypes.xml" />
+		<Include fichero="castleportal.xml" />
+	</Includes>
+			
+	<ConfigCombos>
+		<ConfigCombo key="header" val="gradientA" nombre="Sample 1" />
+		<ConfigCombo key="header" val="gradientB" nombre="Sample 2" />
+		<ConfigCombo key="color" val="1" nombre="Blue" />
+		<ConfigCombo key="color" val="2" nombre="Yellow" />
+	</ConfigCombos>
+
+	<Configs>
+                <Config key="layout" val="layout_castleportal" description="Layout" />
+                <Config key="header" val="gradientA" description="Header" />
+                <Config key="color" val="1" description="Color" />
+                <Config key="published" val="0" description="Published" />
+	</Configs>
+	<Users>
+		<User username="test1" password="WhBei51A4TKXgNYuoiZdig==">
+			<Group nombre="Publishers" />
+		</User>
+		<User username="test" password="CY9rzUYh03PK3k6DJie09g==">
+			<Group nombre="Editors" />
+		</User>
+		<User username="root" password="Y6nw6nu5gFB5a2SehUgYRQ==">
+			<Group nombre="Admins" />
+		</User>
+	</Users>
+</xml>

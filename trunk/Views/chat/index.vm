@@ -1,0 +1,39 @@
+#if ($chats.Length == 0)
+   <p>$l10n.CHATS_DONT_HAVE</p>
+#else
+   <p>$l10n.CHATS_ACCESS:</p>
+   <table>
+	   <tr>
+         <th>$l10n.NAME</th>
+		   <th>$l10n.GROUPS</th>
+		   <th>$l10n.MEMBERS</th>
+		   <th>$l10n.ONLINE</th>
+         <th></th>
+	   </tr>
+	   #foreach ($c in $chats)
+       <tr>
+          <td>
+              $AjaxHelper.LinkToRemote($c.Name, "$siteRoot/chat/join.$EXTENSION", $DictHelper.CreateDict("update=central", "with='cid=$c.Id&layout=false'", "loading=javascript:waitPointer('chat')", "complete=javascript:defaultPointer('chat')"))
+          </td>
+          <td>
+              $AjaxHelper.LinkToRemote($c.OGroup.Name, "$siteRoot/chat/join.$EXTENSION", $DictHelper.CreateDict("update=central", "with='cid=$c.Id&layout=false'", "loading=javascript:waitPointer('chat')", "complete=javascript:defaultPointer('chat')"))
+          </td>
+          <td>$c.OGroup.Users.Count</td>
+          #if ($people.ContainsKey($c.Id))
+              <td>$people.get_Item($c.Id).Count</td>
+          #else
+              <td>0</td>
+          #end
+          <td>
+              $AjaxHelper.LinkToRemote($l10n.DELETE, "$siteRoot/chat/delete.$EXTENSION", $DictHelper.CreateDict("update=central", "with='Id=$c.Id&layout=false'", "loading=javascript:waitPointer('chat')", "complete=javascript:defaultPointer('chat')"))
+          </td>
+       </tr>
+	    #end 
+   </table>
+#end 
+
+<br>
+#if ($context.Session.isRoot)
+    $AjaxHelper.LinkToRemote($l10n.NEW, "$siteRoot/chat/new.$EXTENSION", $DictHelper.CreateDict("update=central", "with='layout=false'", "loading=javascript:waitPointer('chat')", "complete=javascript:defaultPointer('chat')"))
+#end
+

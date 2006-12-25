@@ -1,0 +1,8 @@
+$TemplateVarsTester.IsNotNull($category, "category", "showAllCategoryChildrenList.vm", "$caller")
+<H1>$category.Description</H1>
+#set($parent = $category)
+<UL>
+  #foreach ($category in $parent.Children)
+      <LI><A href="$category.ToUrl($siteRoot)">$category.Description</A></LI>
+  #end
+</UL>

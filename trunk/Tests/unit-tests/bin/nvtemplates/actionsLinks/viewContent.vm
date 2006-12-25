@@ -1,0 +1,6 @@
+#if ($category.CanRead($session.User)) 
+
+<a href="$siteRoot/portal/viewcontent.$EXTENSION?id=$content.Id" title="$l10n.VIEW_CONTENT">
+    <img src="$siteRoot/Public/images/viewcontent.gif" alt="vi"/></a> 
+
+#end

@@ -1,0 +1,16 @@
+---------------------
+
+Making templates:
+If the template need a variable to work properly you must add this line at the topmost :
+$TemplateVarsTester.IsNotNull($variable, "variable", "currentTemplateName.vm", "$caller")
+
+If the template uses the "#parse" directive you must add this line at the topmost:
+#set($caller = "currentTemplateName.vm")
+
+----------------------
+
+Using global variables at nvelocity templates:
+just put the variable at sites.config and restart your server. The variable will be accessed 
+by $variable_name at the template
+
+-----------------------

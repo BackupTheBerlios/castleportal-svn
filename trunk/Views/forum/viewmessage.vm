@@ -1,0 +1,8 @@
+$ForumHelper.Shift($message.Level)$message.Title<br>
+$ForumHelper.Shift($message.Level)$message.Owner<br>
+$ForumHelper.Shift($message.Level)$message.Body<br>
+
+<a href="$siteRoot/forum/createmessage.$EXTENSION?idFolderParent=0&idMessageParent=$message.Id">
+$ForumHelper.Shift($message.Level)$l10n.REPLY
+</a>
+

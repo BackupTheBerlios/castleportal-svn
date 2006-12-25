@@ -1,0 +1,6 @@
+#if ($category.CanPublish($session.User)) 
+
+$AjaxHelper.LinkToRemote("<img src='$siteRoot/Public/images/publish.gif' title='$l10n.PUBLISH' alt='publish'>", "$siteRoot/portal/publishcontent.$EXTENSION", $DictHelper.CreateDict("update=$placeholder", "with='id=$content.Id&layout=false'", "loading=javascript:waitPointer('content')", "complete=javascript:pushDown('$placeholder', 'content', 'left_menu', 100);defaultPointer('content'); tinyRepaint(); "))
+
+
+#end

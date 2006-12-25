@@ -1,0 +1,28 @@
+<p>
+	#if($catresults.Count == 0)
+		$l10n.NO_CATEGORIES_FOUND "$key".
+	#else
+		$l10n.THERE_ARE $catresults.Count $l10n.CATEGORIES_CONTAINING "$key".
+	#end
+</p>
+<ul>
+	#foreach($category in $catresults)
+		<li><a href="viewcategory.$EXTENSION?id=$category.Id">$category.Description</a></li>
+	#end
+</ul>
+<p>
+	#if($dataresults.Count == 0)
+		$l10n.NO_CONTENTS_FOUND "$key".
+	#else
+		$l10n.THERE_ARE $dataresults.Count $l10n.CONTENTS_CONTAINING "$key".
+	#end
+</p>
+<ul>
+	#foreach($data in $dataresults)
+		#set($content = $data.Content)
+		#set($category = $content.Category)
+		#if ($category.CanRead($session.User))
+		<li><a href="viewcontent.$EXTENSION?id=$content.Id">$data ($data.Field.Name)</a> en <a href="viewcategory.$EXTENSION?id=$category.Id">$category.Description</a></li>
+		#end
+	#end
+</ul>

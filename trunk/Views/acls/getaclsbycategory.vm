@@ -1,0 +1,19 @@
+$HtmlHelper.Select('acls', "%{multiple='true'}")
+    #foreach ($a in $acls)
+        #set ($in = false)
+        #foreach ($a2 in $category.AclSet)
+            #if ($a.Id == $a2.Id)
+                #set ($in = true)
+            #end
+        #end
+
+        #if ($in == true)
+            $HtmlHelper.CreateOption($a.ToString, "$a.Id", $DictHelper.CreateDict("SELECTED"))
+        #else
+            $HtmlHelper.CreateOption($a.ToString, "$a.Id")
+        #end
+    #end
+
+##    $HtmlHelper.CreateOptionsFromArray($acls, "Name", "Id", $category.AclSet.Id)
+$HtmlHelper.EndSelect
+

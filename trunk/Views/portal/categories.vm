@@ -1,0 +1,7 @@
+#set ($caller = "categories.vm")
+
+<div id="tree">
+<div id="cat$parent" class="" style="margin-left:100px;" >
+	#parse("portal/categoriesblock.vm")
+</div>
+</div>

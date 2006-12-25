@@ -1,0 +1,42 @@
+#if ($file.ContentType == "application/pdf")
+	#set($ayudatext = 'Descargar Adobe Acrobat Reader')
+	#set($ayudaurl= 'http://www.adobe.com/go/gntray_dl_get_reader')
+	#set($icon = 'pdf.png')
+#elseif ($file.ContentType == "application/x-shockwave-flash")
+	#set($ayudatext = 'Descargar Adobe Macromedia Shockwave Flash')
+	#set($ayudaurl = 'http://www.adobe.com/go/gntray_dl_getflashplayer_es')
+	#set($icon = 'swf.jpg')
+#else
+	#set($icon = 'unknown.png')
+	#set($ayudatext = '')
+	#set($ayudaurl = '')
+#end
+
+##elseif ($file.ContentType == "application/x-shockwave-flash")
+##	<object type="application/x-shockwave-flash" data="$ayudaurl" width="230" height="100">
+##		<param name="movie" value="$ayudaurl" />
+##		<param name="quality" value="high" />
+##		<img src="$siteRoot/Public/mimetypes/swf.jpg" width="230" height="100" alt="Imagen en reemplazo de flash" />
+##	</object>
+
+<div style="border: 1px solid #ffd; background-color: #eee; margin: 2px; padding: 3px; width: 60ex;">
+	<div style="float: left;">
+		<img src="$siteRoot/Public/mimetypes/$icon" />
+		<a href="$siteRoot/file/get.$EXTENSION?id=$file.Id" title="Ver $file.Name">$file.Name</a>
+	</div>
+	<div style="float: right; min-width: 50px;">
+	#if ($ayudatext != '')
+		<a href="$ayudaurl" title="$ayudatext"><img src="$siteRoot/Public/images/vcs_status.png"></a>
+	#else
+		&nbsp;
+	#end
+		<a href="$siteRoot/file/download.$EXTENSION?id=$file.Id" title="Descargar $file.Name"><img src="$siteRoot/Public/images/fileexport.png"/></a>
+		<a href="$siteRoot/file/delete.$EXTENSION?id=$file.Id" title="Borrar $file.Name"><img src="$siteRoot/Public/images/borrar.png"/></a>
+	</div>
+	<div style="float: right; width: 25ex;">
+		<div style="font-size: 60%;"><b>Tamaño:</b> $StringHelper.IntFriendly($file.Size)</div>
+		<div style="font-size: 60%;"><b>Fecha:</b> $StringHelper.DateFriendly($file.CreateDate)</div>
+		<div style="font-size: 60%;"><b>Tipo:</b> $file.ContentType</div>
+	</div>
+	<div style="clear: both;" />
+</div>

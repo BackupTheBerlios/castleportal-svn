@@ -1,0 +1,7 @@
+$HtmlHelper.Form("updateforum.$EXTENSION")
+    $HtmlHelper.InputHidden("forum.Id", $!forum.Id)
+    #parse("forum/forumform.vm")
+
+    $HtmlHelper.SubmitButton("$l10n.SEND")
+$HtmlHelper.EndForm()
+

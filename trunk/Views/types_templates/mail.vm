@@ -1,0 +1,14 @@
+$TemplateVarsTester.IsNotNull($dataModel, "dataModel", "mail.vm", "$caller")
+
+#if( $controller.Action == "viewcontent")
+
+	<div class="mail">$!dataModel.Value</div>
+
+#elseif ($controller.Action == "editcontent" || $controller.Action == "newcontent" || $controller.Action == "copycontent")
+$TemplateVarsTester.IsNotNull($field, "field", "mail.vm", "$caller")
+
+	<input class="mail" type="text" name="$field.Field.Name" value="$!dataModel.Value" size="30"  class="formText" />
+
+#else
+	$!dataModel.Value
+#end

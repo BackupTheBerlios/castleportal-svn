@@ -1,0 +1,10 @@
+$AjaxHelper.BuildFormRemoteTag("$siteRoot/forum/savefolder.$EXTENSION", $DictHelper.CreateDict( "update=contenido", "with=Form.serialize(this)", "loading=javascript:waitPointer('folder')", "complete=javascript:defaultPointer('folder'); setGreaterHeight('$leftdiv', '$maindiv');") )
+##<form action="$siteRoot/forum/savefolder.$EXTENSION">
+	<input type="hidden" value="$idForum" name="idForum" />
+	<input type="hidden" value="$idFolderParent" name="idFolderParent" />
+
+	#parse("forum/folderform.vm")
+
+	<input type="submit" value="$l10n.SEND" /><br>
+</form>
+

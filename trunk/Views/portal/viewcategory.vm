@@ -1,0 +1,35 @@
+#set ($caller = "viewcategory.vm")
+
+<div id="child">
+#set($placeholder = 'child')
+
+##set($ancestors = false)
+##    #set($ancestors = $category.Ancestors(1))
+##    #if($ancestors.Count>0)
+##    <div id="ruta">
+##      Está usted en
+##      #foreach($m in $ancestors)
+##			&gt; $AjaxHelper.LinkToRemote("$m.Description", "$siteRoot/portal/viewcategory.$EXTENSION", $DictHelper.CreateDict("update=child", "with='id=$m.Id&layout=false'", "loading=javascript:waitPointer('content')", "complete=javascript:defaultPointer('content')"))
+##<!--        &gt; <a href="$m.ToUrl($siteRoot)" class="ruta" >$m.Description</a> -->
+##      #end
+##    </div>
+##end
+
+<div>
+#if ($category.Template.TList)
+	#parse ("/general_templates/$category.Template.TList")
+#else
+    $l10n.TEMPLATE_LIST_UNAVAILABLE
+#end
+
+</div>
+
+#if($session.isRoot) 
+	<div style="float: left;">
+		<a href="#" onmouseover="javascript:AlternateShowHide('templatename');" onmouseout="javascript:AlternateShowHide('templatename');">O</a>
+	</div>
+	<div id="templatename" style="float: left; display:none; border: 1px solid red;">
+		Template: $category.Template.TList
+	</div>
+#end
+</div>

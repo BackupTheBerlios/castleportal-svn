@@ -1,0 +1,14 @@
+$TemplateVarsTester.IsNotNull($dataModel, "dataModel", "float.vm", "$caller")
+
+#if ($controller.Action == "viewcontent")
+
+	<div class="float">$!dataModel.Value</div>
+
+#elseif ($controller.Action == "editcontent" || $controller.Action == "newcontent" || $controller.Action == "copycontent")
+$TemplateVarsTester.IsNotNull($field, "field", "float.vm", "$caller")
+
+	<input class="float" type="text" name="$field.Field.Name" value="$!dataModel.Value" size="10" class="formText" />
+
+#else
+	$!dataModel.Value
+#end

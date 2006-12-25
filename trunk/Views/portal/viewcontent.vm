@@ -1,0 +1,18 @@
+#set ($caller = "viewcontent.vm")
+
+<div id="child">
+#set($category=$content.Category)
+#set($placeholder='child')
+<div>
+	#parse ("/general_templates/$category.Template.TView")
+</div>
+<!-- <font size="1"><center>
+##if ($content.Published) 
+## ($l10n.PUBLISHED)
+##else
+## ($l10n.UNPUBLISHED)
+##end
+</center>
+</font>
+-->
+</div>

@@ -1,0 +1,15 @@
+$TemplateVarsTester.IsNotNull($category, "category", "showFirstCategoryChild.vm", "$caller")
+#set ($caller ="showFirstCategoryChild.vm")
+
+#set($parent = $category)
+#if($menu.Children.Count > 0 && $menu.Children.get_Item(0))
+     #set($category = $menu.Children.get_Item(0).GetCategory)
+     #parse ("$!templatesdir/general_templates/$category.Template.TList")
+#elseif($parent.Children.get_Item(0))
+     #set($category = $parent.Children.get_Item(0))
+     #parse ("$!templatesdir/general_templates/$category.Template.TList")
+#else
+     <P>$l10n.NO_CATEGORY_CHILDREN</P>
+#end
+#set($category = $parent)
+

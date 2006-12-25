@@ -1,0 +1,55 @@
+## Warning: If you change anything in the macros, the server must be restarted to refresh it
+
+#macro(showsubtree $array)
+  #foreach ($m in $array)
+     #if ($m.Description)
+         <DIV class="menulatitem">
+           #if ($m.CategoryId == $category.Id)
+               <SPAN>$m.FindTranslation($lang)</SPAN>
+           #else
+               <A href="$m.ToUrl($siteRoot)" title="$m.Name">$m.FindTranslation($lang)</A>
+           #end
+         </DIV>
+     #else
+         <DIV class="menulatblock">
+           #showsubtree($m)
+         </DIV>
+     #end
+  #end
+#end
+
+
+###macro(buildtree $top $div)
+##  #foreach ($menuIter in $TreeHelper.GetMenu($top).Children)
+ ##    #set($menuPermissionsHash = $session.aclmenu.get_Item($menuIter.Id))
+  ##   #if ($menuPermissionsHash)
+   ##     #if($menuPermissionsHash.get_Item($PermissionRead))
+    ##        <DIV class="$div">
+     ####           #if ($menuIter.CategoryId == $category.Id)
+      ##              <SPAN>$menuIter.FindTranslation($lang)</SPAN>
+       ##         #else
+        ##            <A href="$menuIter.ToUrl($siteRoot)" title="$menuIter.Name">
+         ##               $menuIter.FindTranslation($lang)
+          ##          </A>
+           ##     #end
+##            </DIV>     
+ ##       #end
+  ##   #end
+  ###end
+###end
+
+
+#macro(showsitemap $parent)
+   #if($parent.Children) 
+      <UL>
+         #foreach ($menu in $parent.Children)
+            <LI>
+                <A href="$menu.ToUrl($siteRoot)">$menu</A> 
+                #showsitemap($menu)
+            </LI>
+         #end
+      </UL>
+   #end
+#end
+
+

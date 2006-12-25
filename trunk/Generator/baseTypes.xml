@@ -1,0 +1,15 @@
+<xml>
+	<BaseTypes>
+		<!--  Type nombrecorto="nombrecorto" nombrelargo="nombrelargo -->
+		<Type nombrecorto="date" nombrelargo="Date" />
+		<Type nombrecorto="file" nombrelargo="Attachment" />
+		<!-- Type nombrecorto="float" nombrelargo="Numero flotante -->
+		<Type nombrecorto="int" nombrelargo="Number" />
+		<Type nombrecorto="largetext" nombrelargo="Large Text" />
+		<Type nombrecorto="link" nombrelargo="Url" />
+		<Type nombrecorto="mail" nombrelargo="Email" />
+		<Type nombrecorto="reference" nombrelargo="Pointer to another category" />
+		<Type nombrecorto="smalltext" nombrelargo="Small text" />
+		<Type nombrecorto="flash" nombrelargo="Flash movie" />
+	</BaseTypes>
+</xml>

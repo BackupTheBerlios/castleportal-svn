@@ -1,0 +1,9 @@
+1. Templates must be copied from castleportal/Views to castleportal/Tests/unit-tests/bin/nvtemplates,
+    because of the NVelocity ResourceLoader rationale which doesn't allow for ../../ paths.
+    Directories to copy: actionsLinks, general_templates, types_templates.
+2. Always send the templates variable to the view before merge:
+    context.Put(TestsCommons.TEMPLATESDIRVAR, TestsCommons.TEMPLATESDIR);
+3. To run tests:
+    cd Tests/unit-tests/bin
+    nunit-console unit-tests.dll
+

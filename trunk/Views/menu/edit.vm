@@ -1,0 +1,32 @@
+<form action="save.$EXTENSION">
+		#if($menu)<input type="hidden" name="id" value="$menu.Id" />#end
+		<p><strong>$l10n.TITLE:</strong> <input name="name" type="text" 
+                    value="$!menu.Name" /></p>
+		<p><strong>$l10n.DESCRIPTION:</strong> <input name="desc" type="text" 
+                    value="$!menu.Description" /></p>
+		<p><strong>URL:</strong> <input name="newUrl" type="text" 
+                    value="$!menu.Url" /></p>
+		<p><strong>$l10n.CATEGORY:</strong> 
+			<select name="categoryId">
+				<option value="0">$l10n.NOCATEGORY</option>
+				#foreach ($c in $categories)
+					#if ($menu.CategoryId == $c.Id)
+						<option value="$c.Id" selected>${c.Name}</option>
+					#else
+						<option value="$c.Id">${c.Name}</option>
+					#end
+				#end
+			</select>
+		</p>
+		<p><strong>$l10n.PARENT:</strong> 
+			#if ($parent.Id > 0)
+  				$parent.Description ($parent.Name) <input type="hidden" name="parentId" value="$parent.Id" />
+			#else
+  				TOP <input type="hidden" name="parentId" value="-1" />
+			#end
+		</p>
+		<p><strong>$l10n.ORDER:</strong> <input name="ordering" type="text" 
+                    value="$!menu.Ordering" /></p>
+	
+		<input type="submit" name="modifica" value="$l10n.SAVE" />
+	</form>

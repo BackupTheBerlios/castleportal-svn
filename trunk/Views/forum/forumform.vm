@@ -1,0 +1,27 @@
+<table>
+  <tr>
+    <td><strong>$l10n.TITLE</strong></td>
+    <td>$FormHelper.TextField("forum.Title")</td>
+  </tr>
+  <tr>
+    <td><strong>$l10n.DESCRIPTION</strong></td>
+    <td>$FormHelper.TextArea("forum.Description", $DictHelper.CreateDict("cols='70'", "rows='8'"))</td>
+  </tr>
+  <tr>
+    <td><strong>$l10n.GROUP_NAME</strong></td>
+    <td>
+      $HtmlHelper.Select('forum.ForumGroup.Id')
+        $HtmlHelper.CreateOptionsFromArray($groups, "Name", "Id", $!forum.ForumGroup.Id)
+      $HtmlHelper.EndSelect()
+    </td>
+  </tr>
+  <tr>
+    <td><strong>$l10n.ADMINISTRATORS_GROUP</strong></td>
+    <td>
+      $HtmlHelper.Select('forum.ADMINS.Id')
+        $HtmlHelper.CreateOptionsFromArray($groups, "Name", "Id", $!forum.ADMINS.Id)
+      $HtmlHelper.EndSelect()
+    </td>
+  </tr>
+</table>
+

@@ -1,0 +1,4 @@
+
+To change page extensions:
+edit site.config and change the extension (EXTENSION)
+edit web.config and change the extension

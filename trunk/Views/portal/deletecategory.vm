@@ -1,0 +1,14 @@
+<div class="advertencia">
+	<h2>$l0n.WARNING</h2>
+	<h3>$l10n.ASK_DELETE <em>"$f.Name"</em>?</h3>
+	<div class="botones">
+		<a href="$siteRoot/portal/deletecategory.$EXTENSION?id=${f.Id}&confirm=yes" title="$l10n.DELETE">
+			<img src="$siteRoot/Public/images/button_ok.png" alt="$l10n.DELETE"/>
+		</a>
+		<a href="$siteRoot/portal/viewcategory.$EXTENSION?id=${f.Id}" title="$l10n.CANCEL">
+			<img src="$siteRoot/Public/images/button_cancel.png" alt="$l10n.CANCEL"/>
+		</a>
+	</div>
+</div>
+
+

@@ -1,0 +1,46 @@
+$TemplateVarsTester.IsNotNull($category, "category", "displayCategoryFilesTable.vm", "$caller")
+#set ($caller = "displayCategoryFilesTable.vm")
+
+<TABLE bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="1" height="50" width="431">
+  <TR> 
+    <TD colspan="2" class="title" align="center">
+      $category.Description
+    </TD>
+  </TR>
+  
+  #foreach ($content in $category.ContentList)
+  #set( $oddeven = $velocityCount % 2 )
+  <TR> 
+    <TD class="linea$oddeven" align="center">
+      $content.GetValueByFieldName("title")
+      #set($file = false)
+      #set($file = $content.GetDataModelByFieldName("file").GetObjectFromValue)
+      #if($file)
+          <A href="$siteRoot/file/download.$EXTENSION?id=$file.Id" title="$l10n.DOWNLOAD $file.Name">
+             <IMG src="$siteRoot/Public/images/fileexport.png"/>
+          </A>
+      $StringHelper.IntFriendly($file.Size)
+      #else
+         -
+      #end
+      #parse("$!templatesdir/actionsLinks/editContent.vm")
+        #parse("$!templatesdir/actionsLinks/copyContent.vm")
+        #if ($content.Published)
+            #parse("$!templatesdir/actionsLinks/unpublishContent.vm")
+        #else
+            #parse("$!templatesdir/actionsLinks/publishContent.vm")
+        #end
+      #parse("$!templatesdir/actionsLinks/deleteContent.vm")
+    </TD>
+  </TR>
+  #end
+  
+  #if ($session.User) 
+  <TR> 
+    <TD class="name" align="center">
+      #parse("$!templatesdir/actionsLinks/newContent.vm")
+    </TD>
+  </TR>
+  #end
+  
+</TABLE>

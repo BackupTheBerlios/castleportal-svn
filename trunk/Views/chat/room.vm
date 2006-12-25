@@ -1,0 +1,59 @@
+<div >
+	<p>$chat.Name</p>
+
+	<ul>
+		<li>$l10n.USERS $l10n.ONLINE: $people.Count</li>
+		#foreach ($p in $people)
+			<strong>$p.Name</strong><br>
+		#end
+
+		#if ($messages)
+			<li>$l10n.MESSAGES: $messages.Count</li>
+		#else
+			<li>$l10n.MESSAGES: 0</li>
+		#end
+	</ul>
+
+	<p>$AjaxHelper.LinkToRemote("$l10n.EXIT", "$siteRoot/chat/quit.$EXTENSION", $DictHelper.CreateDict("update=central", "with='cid=$chat.Id&layout=false'", "loading=javascript:waitPointer('chat')", "complete=javascript:defaultPointer('chat')"))</p>
+
+	<script lang=JavaScript>
+		var idlastmsg;
+	</script>
+
+	<div id="outputlist2">
+	<script lang=JavaScript>
+		idlastmsg  = $idLastMsg;
+	</script>
+
+	#set ($aux = ".ChatMessage")
+	#set ($type = ${SITE_NAME})
+	#set ($tipo = "$type$aux")
+
+	#foreach ($m in $messages)
+		#if ($m.GetType == $tipo)
+			$ChatHelper.Color($m.Owner.Name): $m.Message<br/>
+		#else
+			$ChatHelper.Color($m.Owner): $m.Message<br/>
+		#end
+	#end
+</div>
+
+<div id="outputlist"></div>
+
+<script lang=JavaScript>
+	window.onload = setInterval('reloadMessage(\'outputlist\', \'GetMessages.$EXTENSION\', $chat.Id, idlastmsg)', 5000);
+</script>
+
+$AjaxHelper.BuildFormRemoteTag("$siteRoot/chat/enter.$EXTENSION", $DictHelper.CreateDict( "update=outputlist", "with=Form.serialize(this)", "loading=javascript:waitPointer('chat')", "complete=javascript:defaultPointer('chat'); setGreaterHeight('$leftdiv', '$maindiv');") )
+	<table>
+		<tr>
+			<td>$l10n.MESSAGE:</td>
+			<td><input type="hidden" name="cid" value="$chat.Id" >
+			<td><input type="text" name="message" id="chat" maxlength="100" size="80" onExit='resetChatEnter()'></td>
+			<td><input type="hidden" name="ChatMessage.message" id="chat2">
+			<td><input type="submit" value="$l10n.SEND" onClick='resetChatEnter()'></td>
+		</tr>
+	</table>
+</form>
+</div>
+

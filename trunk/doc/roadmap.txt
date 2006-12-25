@@ -1,0 +1,17 @@
+Roadmap:
+
+
+1. Add an image upload plugin for tinyMce.
+     - http://pascal.vanhecke.info/2005/08/25/image-upload-plugin-for-tinymce/
+     - Another way and maybe a better one, is to integrate advimage: 
+          http://sourceforge.net/tracker/download.php?group_id=103281&atid=738747&file_id=195980&aid=1568343
+     - This is another approach:
+          http://www.crossedconnections.org/w/index.php/2006/05/15/tinymce-free-aspnet-image-filemanager/
+
+
+2. Use Lazy collections for relations
+
+
+3. Migrate to ActiveRecord generics
+
+

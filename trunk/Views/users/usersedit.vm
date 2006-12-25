@@ -1,0 +1,122 @@
+<div id="usersedit">
+  <h3>$l10n.USERS_ADMINISTRATION </h3>
+  <table cellpadding="0" cellspacing="0" width="80%">
+    <tr>
+      <td valign="top">
+	<div id="users_list">
+	  <div class="smalltext">$l10n.SYSTEM_USERS:</div>
+	  <div id="usersIndexes0" class="nodecoration">
+		    #foreach ( $i in $ExtraHelper.CharRange(26) )
+		    	$AjaxHelper.LinkToRemote("<div class='index'>#if ($i == $uindex) <b>$i</b> #else $i #end</div>", "usersedit.$EXTENSION", $DictHelper.CreateDict("update=usersedit", "with='gindex=$gindex&uindex=$i'", "loading=javascript:waitPointer('usersIndexes0')", "complete=javascript:defaultPointer('usersIndexes0')"))
+		    #end
+		    $AjaxHelper.LinkToRemote("<div class='index'>[*]</div>", "usersedit.$EXTENSION", $DictHelper.CreateDict("update=usersedit", "with='gindex=$gindex&uindex='" , "loading=javascript:waitPointer('usersIndexes0')", "complete=javascript:defaultPointer('usersIndexes0')"))
+	    <div style="display:inline;">
+	  <a style="font-size: 10px" title="$l10n.CREATE_NEW_USER" href="javascript:void(0);" onclick="javascript:showCreateGroup('usersedit', 'CreateUser', 'usersedit.$EXTENSION', 'uid=0&gindex=&uindex=')"> [+]</a>
+	  </div>
+
+	  $AjaxHelper.BuildFormRemoteTag("usersedit.$EXTENSION", $DictHelper.CreateDict( "update=usersedit", "with=Form.serialize(this)", "loading=javascript:waitPointer('usersCombo0')", "complete=javascript:defaultPointer('usersCombo0')") )
+	  <select id="usersCombo0" class="adminUsersCombos" name="uid"  size="7" onchange="javascript:this.form.onsubmit()"> 
+	    #foreach ($u in $users)
+	        #if ($u.Name != "") 
+	            <option value="$u.Id" #if ($u.Id == $uid) selected #end>$u.Name</option>
+	        #end
+	    #end
+	  </select> 
+	  <input type="hidden" name="gindex" value="$gindex">
+	  <input type="hidden" name="uindex" value="$uindex">
+	  $HtmlHelper.EndForm()
+	</div>
+   </td>
+   <td align="center">
+	<div >
+	  <center><div class="smalltext">$l10n.USER_GROUPS:</div></center>
+	  <br>
+	  <select id="groups" name="groups" size="6" class="adminUsersCombos"> 
+	    #foreach ($g in $groups)
+	        <option value="$g.Id" #if ($g.Id == $uid) selected #end>$g.Name
+	    #end
+	  </select> 
+	</div>
+      </td>
+   <td >
+	<div class="smalltext">
+	  <a href="javascript:void(0);" onclick="javascript:addUser('usersedit', 'adduser.$EXTENSION', 'usersCombo0', 'allgroups', '$gindex', '$uindex', 'arrowup')">
+	    <img id="arrowup" src="$siteRoot/Public/images/izda.gif" >
+	  </a>     
+	  <a href="javascript:void(0);" onclick="javascript:delUser('usersedit', 'deluser.$EXTENSION', 'usersCombo0', 'groups', '$gindex', '$uindex','arrowdown')">
+	    <img id="arrowdown" src="$siteRoot/Public/images/der.jpg" style="padding-top:15px">
+	  </a>
+	</div>
+      </td>
+
+   <td valign="top">
+	<div id="groups_list">
+	  <div class="smalltext">$l10n.OTHER_GROUPS:</div>
+	  <div id="groupsIndexes0" class="nodecoration">
+	    #foreach ( $i in $ExtraHelper.CharRange(26) )
+	    $AjaxHelper.LinkToRemote("<div class='index'>#if ($i == $gindex) <b>$i</b> #else $i #end</div>", "usersedit.$EXTENSION", $DictHelper.CreateDict("update=usersedit", "with='uid=#if($user.Id)$user.id#else 0#end&gindex=$i&uindex=$uindex'", "loading=javascript:waitPointer('groupsIndexes0')", "complete=javascript:defaultPointer('groupsIndexes0')"))
+	    #end
+	    $AjaxHelper.LinkToRemote("<div class='index'>[*]</div>", "usersedit.$EXTENSION", $DictHelper.CreateDict("update=usersedit", "with='uid=0&gindex=&uindex='" , "loading=javascript:waitPointer('groupsIndexes0')", "complete=javascript:defaultPointer('groupsIndexes0')"))
+	  </div>
+	  <select id="allgroups" class="adminUsersCombos" name="allgroups"  size="7"> 
+	    #foreach ($g in $allgroups)
+	        #if ($g.Name != "")
+	            <option value="$g.Id" #if ($g.Id == $gid) selected #end>$g.Name
+	        #end
+	    #end
+	  </select> 
+	</div>
+      </td>
+    </tr>
+    <tr>
+      <td colspan="4">
+      </td>
+       </tr>
+    <tr>
+      <td colspan="2">
+	#if ($user)
+	<div id="ModifyUser" style="position:relative;">
+	  <form action="usersave.$EXTENSION" method="post" enctype="multipart/form-data">
+	    <input type="hidden" value="$user.Id" name="id"/>
+	    <table>
+	      <tr>
+		<td width="5%"></td>
+	      </tr>
+	      <tr>
+		<td width="15%">$l10n.USERNAME:</td><td><input name="name" type="text" value="$user.Name" /></td>
+	      </tr>
+	      <tr>
+		<td width="15%">$l10n.PASSWORD:</td><td><input name="password" type="password" value="" /></td>
+	      </tr>
+	      <tr>
+		<td width="5%"><input type="submit" name="crea" value="$l10n.SAVE" /></td>
+		<td width="5%"><a href="userdelete.$EXTENSION?Id=$user.Id">$l10n.DELETE <!--<input type="button" name="borra" value="$l10n.DELETE"/>--></a></td>
+	      </tr>
+	    </table>
+	  </form>
+	</div>
+	#else
+	<div id="CreateUser" style="position:relative; visibility: hidden;">
+	  <form action="usercreate.$EXTENSION"  method="post" enctype="multipart/form-data">
+	    <!--<input type="hidden" value="0" name="Form.Id"/>-->
+	    <table>
+	      <tr>
+		<td width="5%"></td>
+	      </tr>
+	      <tr>
+                <td width="15%">$l10n.USERNAME:</td><td><input name="user.Name" type="text" value="" /></td>
+              </tr>
+	      <tr>
+                <td width="15%">$l10n.PASSWORD:</td><td><input name="user.UserPassword" type="password" value="" /></td>
+              </tr>
+	      <tr>
+		<td width="5%"><input type="submit" name="crea" value="$l10n.CREATE" /></td>
+	      </tr>
+	    </table>
+	  </form>
+	</div>
+	#end
+      </td>
+    </tr>
+  </table>
+</div>

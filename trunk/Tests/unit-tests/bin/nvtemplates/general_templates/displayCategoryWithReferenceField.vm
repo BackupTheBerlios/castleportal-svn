@@ -1,0 +1,60 @@
+$TemplateVarsTester.IsNotNull($category, "category", "displayCategoryWithReferenceField.vm", "$caller")
+#set ($caller ="displayCategoryWithReferenceField.vm")
+
+<H1>$category.Description</H1>
+#set($fieldlist = $category.Template.ListingVisibleFields)
+#if ($fieldlist.Count > 0)
+
+  #set($referencename = $fieldlist.get_Item(0).Field.Name)
+  #set($tables = $category.ContentHashGroupedByFieldName($referencename, title))
+  #if ($tables.Keys.Count == 0)
+    <P>#parse("$!templatesdir/actionsLinks/newContent.vm")</P>
+#end
+#foreach ($contentreference in $tables.Keys)
+<H2>$contentreference</H2>
+<TABLE>
+  <TR>
+    <TD width="10px"></TD>
+    #foreach ($field in $fieldlist)
+       #if ($field.Field.Name != $referencename)
+          <TH>$field.Field.Description </TH>
+       #end
+    #end
+    <TH></TH>
+  </TR>
+  
+  #foreach ($content in $tables.get_Item($contentreference))
+    #set( $oddeven = $velocityCount % 2 )
+    <TR class="row$oddeven">
+      <TD width="10px"></TD>
+      #foreach ($field in $fieldlist)
+          #if (($field.Field.Name != $referencename) && ($field.Field.Type.Name != "File"))
+             #set ($dataModel = "")
+             #set ($dataModel = $content.GetValueByFieldName($field.Field.Name))
+             #set ($file = $content.GetDataModelByFieldName("file").GetObjectFromValue())
+             <TD>#parse ("$!templatesdir/types_templates/${field.Field.Type.Name}.vm") </TD>
+          #elseif ($field.Field.Type.Name == "File")
+             #set ($dataModel = "")
+             #set ($dataModel = $content.GetDataModelByFieldName($field.Field.Name))
+          <TD>#parse ("$!templatesdir/types_templates/${field.Field.Type.Name}.vm") </TD>
+          #end
+      #end
+      <TD>
+          <A href="viewcontent.$EXTENSION?id=$content.Id" title="view">
+              <IMG src="$siteRoot/Public/images/viewcontent.gif">
+          </A> 
+        #parse("$!templatesdir/actionsLinks/editContent.vm")
+        #parse("$!templatesdir/actionsLinks/copyContent.vm")
+        #if ($content.Published)
+            #parse("$!templatesdir/actionsLinks/unpublishContent.vm")
+        #else
+            #parse("$!templatesdir/actionsLinks/publishContent.vm")
+        #end
+        #parse("$!templatesdir/actionsLinks/deleteContent.vm")
+      </TD>
+    </TR>
+  #end
+</TABLE>
+#end
+<P>#parse("$!templatesdir/actionsLinks/newContent.vm")</P>
+#end

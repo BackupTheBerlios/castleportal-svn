@@ -1,0 +1,37 @@
+$TemplateVarsTester.IsNotNull($content, "content", "defaultView.vm", "$caller")
+$TemplateVarsTester.IsNotNull($category, "category", "defaultView.vm", "$caller")
+#set ($caller = "defaultView.vm")
+
+<TABLE>
+  <TR><TD>&nbsp;</TD></TR>
+  #foreach ($field in $content.Category.Template.Fields)
+      #set( $oddeven = $velocityCount % 2 )
+      <TR class="linea$oddeven">
+      <TH>$field.Field.Description </TH>
+      <TD> 
+          #set ($dataModel = "")
+          #set ($dataModel = $content.GetDataModelByFieldName($field.Field.Name))
+          #parse("$!templatesdir/types_templates/${field.Field.Type.Name}.vm") 
+      </TD>
+  </TR>
+  #end
+  #if ($session.User)
+    <TR>
+    <TD colspan="1" style="text-align: center;">
+        #parse("$!templatesdir/actionsLinks/viewCategory.vm")
+        #parse("$!templatesdir/actionsLinks/editContent.vm")
+        #parse("$!templatesdir/actionsLinks/copyContent.vm")
+        #if ($content.Published)
+            #parse("$!templatesdir/actionsLinks/unpublishContent.vm")
+        #else
+            #parse("$!templatesdir/actionsLinks/publishContent.vm")
+        #end
+        #parse("$!templatesdir/actionsLinks/deleteContent.vm")
+        #parse("$!templatesdir/actionsLinks/newContent.vm")
+        #if($session.isRoot) 
+           ($category.Template.TView) 
+        #end
+    </TD>
+    </TR>
+  #end
+</TABLE>

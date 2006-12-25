@@ -1,0 +1,6 @@
+#if ($category.CanDelete($session.User)) 
+
+<a href="$siteRoot/portal/deletecategory.$EXTENSION?id=$category.Id" title="$l10n.DELETE_CATEGORY">
+   <img src="$siteRoot/Public/images/deletecategory.gif" alt="bc"/></a> 
+
+#end

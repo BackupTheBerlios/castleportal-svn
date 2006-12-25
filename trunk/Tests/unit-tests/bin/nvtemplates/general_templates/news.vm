@@ -1,0 +1,50 @@
+#set ($caller = "news.vm")
+
+#if($category)
+
+  #set($contents = $category.ContentListSortedByReverseDate)
+  #if($parent)
+     #set($contents = $PaginationHelper.CreatePagination( $contents, 3))
+  #end
+
+  #if ($parent)
+    <DIV id="news">
+  #else
+    <DIV>
+  #end
+      <H2>$category.Description</H2>
+      <UL>
+        #foreach ($content in $contents)
+           #if ($content.Lang.Name == $lang)
+             <LI>
+                $content.GetValueByFieldName("title") ($StringHelper.DateFriendly($content.CreationDate))
+                <A href="$siteRoot/portal/viewcontent.$EXTENSION?Id=$content.Id">
+                 <!-- <IMG src="$siteRoot/Public/estilos/img/masinfo.gif" width="37" height="13" 
+                  border="0" alt="mas info">-->
+                     $l10n.VIEW
+                </A>
+                #parse("$!templatesdir/actionsLinks/editContent.vm")
+                #parse("$!templatesdir/actionsLinks/deleteContent.vm")
+                #parse("$!templatesdir/actionsLinks/copyContent.vm")
+
+        #if ($content.Published)
+            #parse("$!templatesdir/actionsLinks/unpublishContent.vm")
+        #else
+            #parse("$!templatesdir/actionsLinks/publishContent.vm")
+        #end
+
+              </LI>
+           #end
+        #end
+      </UL>
+    </DIV>
+    <DIV id="news_footer">
+      #parse("$!templatesdir/actionsLinks/newContent.vm")
+      #parse("$!templatesdir/actionsLinks/editCategory.vm")
+      #if($parent)
+          <A href="viewcategory.$EXTENSION?Id=$category.Id" title="$l10n.VIEW_ALL">
+              <IMG src="$siteRoot/Public/estilos/img/vertodas.jpg" border="0" alt="$l10n.VIEW_ALL">
+          </A>
+      #end
+    </DIV>
+#end

@@ -1,0 +1,7 @@
+<div class="cuadro2ancho">
+<h2>Está usted a punto de <strong>publicar</strong> el portal.<br>
+Esto significa que no podrá volver a modificar el aspecto y/o la estructura del portal.<br>
+Para proceder con la publicación haga click 
+<input type="button" onclick="javascript:window.location='activate.$EXTENSION?confirm=yes'" value="aquí">
+</h2>
+</div>

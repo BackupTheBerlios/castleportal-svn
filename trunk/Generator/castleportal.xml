@@ -1,0 +1,261 @@
+<?xml version="1.0"?>
+<xml>
+
+<!-- _______________________ ROLES ______________________ -->
+
+    <Roles>
+        <Role nombrecorto="ro" nombrelargo="Read Only" create="false" modify="false" delete="false" publish="false" read="true"/>
+        <Role nombrecorto="rw" nombrelargo="Edition" create="true" modify="true" delete="true" publish="false" read="true"/>
+        <Role nombrecorto="pu" nombrelargo="Publish" create="false" modify="false" delete="false" publish="true" read="true" />
+        <Role nombrecorto="full" nombrelargo="All" create="true" modify="true" delete="true" publish="true" read="true"/>
+    </Roles>
+
+<!-- _______________________ ACL _____________________ -->
+
+    <Acls>
+        <Acl nombre="efull" group="Editors" role="full"/>
+        <Acl nombre="ero" group="Editors" role="ro"/>
+        <Acl nombre="erw" group="Editors" role="rw"/>
+        <Acl nombre="epu" group="Editors" role="pu"/>
+
+        <Acl nombre="ppu" group="Publishers" role="pu" />
+        <Acl nombre="prw" group="Publishers" role="rw" />
+        <Acl nombre="pro" group="Publishers" role="ro" />
+        <Acl nombre="pfull" group="Publishers" role="full" />
+
+        <Acl nombre="afull" group="Admins" role="full"/>
+        <Acl nombre="aro" group="Admins" role="ro"/>
+        <Acl nombre="arw" group="Admins" role="rw"/>
+        <Acl nombre="apu" group="Admins" role="pu"/>
+    </Acls>
+
+<!-- _______________________ GROUPS _______________ -->
+
+    <Groups>
+        <Group nombre="Editors">
+            <Role nombre="ro"/>
+            <Role nombre="rw"/>
+        </Group>
+        <Group nombre="Publishers">
+            <Role nombre="ro"/>
+            <Role nombre="pu"/>
+        </Group>
+        <Group nombre="Admins">
+            <Role nombre="ro"/>
+            <Role nombre="rw"/>
+            <Role nombre="pu"/>
+            <Role nombre="full"/>
+        </Group>
+    </Groups>
+
+<!-- _______________________ FIELDS _______________ -->
+
+    <Fields>
+        <Field nombrecorto="name" nombrelargo="Name" type="smalltext"/>
+        <Field nombrecorto="title" nombrelargo="Title" type="smalltext" />
+        <Field nombrecorto="body" nombrelargo="Body" type="largetext"/>
+        <Field nombrecorto="postcod" nombrelargo="Post Code" type="int"/>
+        <Field nombrecorto="link" nombrelargo="Link" type="link"/>
+        <Field nombrecorto="url" nombrelargo="Url" type="link"/>
+        <Field nombrecorto="date" nombrelargo="Date" type="date"/>
+        <Field nombrecorto="file" nombrelargo="File" type="file"/>
+        <Field nombrecorto="image" nombrelargo="Image" type="file"/>
+        <Field nombrecorto="mail" nombrelargo="Email address" type="mail" />
+        <Field nombrecorto="flash" nombrelargo="Flash Movie" type="flash" />
+
+    </Fields>
+
+<!-- _______________________ TEMPLATES _______________ -->
+
+    <Templates>
+<!-- Without Fields -->
+        <Template nombre="defaultEdit" nombrelargo="Default Edition" fichero="defaultEdit.vm" public="false" />
+
+        <Template nombre="defaultList" nombrelargo="Default List" fichero="defaultList" public="false"/>
+
+        <Template nombre="defaultView" nombrelargo="Default View" fichero="defaultView" public="false"/>
+
+        <Template nombre="displayCategoryHelp" nombrelargo="Display Help Category" fichero="displayCategoryHelp" public="true"/>
+
+        <Template nombre="showAllCategoryChildrenContents" nombrelargo="Show All Category Children Contents" fichero="showAllCategoryChildrenContents" public="true"/>
+ 
+        <Template nombre="showAllCategoryChildrenList" nombrelargo="Show All Category Children List" fichero="showAllCategoryChildrenList" public="true"/>
+
+        <Template nombre="showFirstCategoryChild" nombrelargo="Show First Category Child" fichero="showFirstCategoryChild" public="true"/>
+
+        <!--<Template nombre="siteMap" nombrelargo="Site Map" fichero="siteMap" />-->
+
+        <Template nombre="unavailable" nombrelargo="Unavailable" fichero="unavailable" public="true"/>
+
+<!-- With Fields -->
+<!--        <Template nombre="combos" nombrelargo="Combos">
+            <Field nombre="name" show="1"/>
+            <Field nombre="title" show="1"/>
+        </Template>
+-->
+        <Template nombre="displayCategoryFilesBlog" nombrelargo="Display Files Category Blog" fichero="displayCategoryFilesBlog" public="true">
+            <Field nombre="body" show="1" />
+            <Field nombre="file" show="1" />
+        </Template>
+
+        <Template nombre="displayCategoryFilesTable" nombrelargo="Display Files Category Table" fichero="displayCategoryFilesTable" public="true">
+            <Field nombre="title" show="1" />
+            <Field nombre="file" show="1" />
+        </Template>
+
+        <Template nombre="displayCategoryLinksTable" nombrelargo="Display Links Category Table" fichero="displayCategoryLinksTable" public="true">
+            <Field nombre="title" show="1" />
+            <Field nombre="url" show="1" />
+        </Template>
+
+        <Template nombre="displayCategoryTextsBlog" nombrelargo="Display Texts Category Blog" fichero="displayCategoryTextsBlog" public="true">
+            <Field nombre="body" show="1" />
+        </Template>
+
+        <Template nombre="displayCategoryTitlesImages" nombrelargo="Display Titles and Images Category" fichero="displayCategoryTitlesImages" public="true">
+            <Field nombre="title" show="1"/>
+            <Field nombre="image" show="1"/>
+        </Template>
+
+        <Template nombre="displayCategoryTitlesTable" nombrelargo="Display Titles Category Table" fichero="displayCategoryTitlesTable" public="true"> 
+            <Field nombre="title" show="1" />
+        </Template>
+
+        <Template nombre="displayCategoryTitlesTexts" nombrelargo="Display Title and Body Category" fichero="displayCategoryTitlesTexts" public="true" > 
+            <Field nombre="title" show="1"/>
+            <Field nombre="body" show="1"/>
+        </Template>
+
+        <Template nombre="displayCategoryWithReferenceField" nombrelargo="Display Category With Reference Field" fichero="displayCategoryWithReferenceField" public="true" > 
+
+        </Template>
+
+        <Template nombre="news" nombrelargo="News Board" fichero="news" public="true" > 
+            <Field nombre="title" show="1"/>
+            <Field nombre="body" show="0"/>
+        </Template>
+    </Templates>
+
+<!-- _______________________ CATEGORIES _______________ -->
+
+    <Categories>
+
+        <Category name="main" template="unavailable" role="ro">
+            <Acl nombre="erw"/>
+            <Acl nombre="afull"/>
+            <Acl nombre="ppu" />
+        </Category>
+        <Category name="left" template="unavailable" role="ro">
+            <Acl nombre="erw"/>
+            <Acl nombre="afull"/>
+            <Acl nombre="ppu" />
+        </Category>
+        <Category name="right" template="unavailable" role="ro">
+            <Acl nombre="erw"/>
+            <Acl nombre="afull"/>
+            <Acl nombre="ppu" />
+        </Category>
+
+        <Category name="Home" category="main" template="showAllCategoryChildrenList" role="ro">
+            <Acl nombre="erw"/>
+            <Acl nombre="afull"/>
+            <Acl nombre="ppu" />
+
+            <Category name="News" category="Home" template="news" role="ro">
+                <Acl nombre="erw"/>
+                <Acl nombre="afull"/>
+                <Acl nombre="ppu" />
+            </Category>
+        </Category>
+        <Category name="Web Links" category="main" template="displayCategoryLinksTable" role="ro">
+           <Acl nombre="erw"/>
+           <Acl nombre="afull"/>
+            <Acl nombre="ppu" />
+        </Category>
+        <Category name="Support" category="main" template="displayCategoryTextsBlog" role="ro">
+           <Acl nombre="erw"/>
+           <Acl nombre="afull"/>
+            <Acl nombre="ppu" />
+        </Category>
+        <Category name="Downloads" category="main" template="displayCategoryFilesTable" role="ro">
+           <Acl nombre="erw"/>
+           <Acl nombre="afull"/>
+            <Acl nombre="ppu" />
+        </Category>
+        <Category name="About" category="main" template="displayCategoryTextsBlog" role="ro">
+           <Acl nombre="erw"/>
+           <Acl nombre="afull"/>
+           <Acl nombre="ppu" />
+        </Category>
+        <Category name="Contribute" category="main" template="displayCategoryTextsBlog" role="ro">
+           <Acl nombre="erw"/>
+           <Acl nombre="afull"/>
+           <Acl nombre="ppu" />
+        </Category>
+
+        <Category name="Documentation" category="left" template="showAllCategoryChildrenList" role="ro">
+           <Acl nombre="erw"/>
+           <Acl nombre="afull"/>
+           <Acl nombre="ppu" />
+           <Category name="Installation" category="Documentation" template="displayCategoryTextsBlog" role="ro">
+               <Acl nombre="erw"/>
+               <Acl nombre="afull"/>
+               <Acl nombre="ppu" />
+           </Category>
+           <Category name="Users Guide" category="Documentation" template="displayCategoryTextsBlog" role="ro">
+               <Acl nombre="erw"/>
+               <Acl nombre="afull"/>
+               <Acl nombre="ppu" />
+           </Category>
+           <Category name="Developers Guide" category="Documentation" template="displayCategoryTextsBlog" role="ro">
+               <Acl nombre="erw"/>
+               <Acl nombre="afull"/>
+               <Acl nombre="ppu" />
+           </Category>
+        </Category>
+        <Category name="Roadmap" category="left" template="showAllCategoryChildrenList" role="ro">
+           <Acl nombre="erw"/>
+           <Acl nombre="afull"/>
+           <Acl nombre="ppu" />
+        </Category>
+        <Category name="TO-DO List" category="left" template="displayCategoryTitlesTexts" role="ro">
+           <Acl nombre="erw"/>
+           <Acl nombre="afull"/>
+           <Acl nombre="ppu" />
+        </Category>
+    </Categories>
+
+<!-- _______________________ MENUS _______________ -->
+
+    <Menus>
+        <Menu nombre="main" order="1">
+            <Menu nombre="Home" parent="main" order="1" />
+            <Menu nombre="About" parent="main" order="2" />
+            <Menu nombre="News" parent="main" order="3" />
+            <Menu nombre="Downloads" parent="main" order="4" />
+            <Menu nombre="Support" parent="main" order="5" />
+            <Menu nombre="Contribute" parent="main" order="6" />
+            <Menu nombre="Web Links" parent="main" order="7" />
+            <Menu nombre="Site Map" url="portal/showsitemap.aspx"  parent="main" order="8" />
+        </Menu>
+        <Menu nombre="left" order="2">
+            <Menu nombre="Documentation" parent="left" order="1" />
+                <Menu nombre="Installation" parent="Documentation" order="1" />
+                <Menu nombre="Users Guide" parent="Documentation" order="2" />
+                <Menu nombre="Developers Guide" parent="Documentation" order="3" />
+            <Menu nombre="Roadmap" parent="left" order="2" />
+            <Menu nombre="TO-DO List" parent="left" order="3" />
+        </Menu>
+        <Menu nombre="right" order="3">
+
+        </Menu>
+    </Menus>
+
+<!-- _______________________ LANGUAGES _______________ -->
+    
+    <Languages>
+        <Language name="en" englishname="English" description="UK-US"/>
+        <Language name="es" englishname="Spanish" description="España"/>
+    </Languages>
+    
+</xml>

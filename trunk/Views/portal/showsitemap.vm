@@ -1,0 +1,8 @@
+#parse("layouts/macros.vm")
+
+#set($top = $MenuHelper.GetMenu("main"))
+#showsitemap ($top)
+<hr>
+#set($top = $MenuHelper.GetMenu("left"))
+#showsitemap ($top)
+

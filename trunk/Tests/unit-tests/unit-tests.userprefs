@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<UserCombinePreferences filename="/home/carlosble/svns/castleportal-svn/Tests/unit-tests/unit-tests.mds">
+  <Files>
+    <File filename="Bienvenido" />
+    <File filename="./Test1.cs" />
+    <File filename="./Test2.cs" />
+    <File filename="./TestsCommons.cs" />
+  </Files>
+  <Views>
+    <ViewMemento Id="MonoDevelop.Ide.Gui.Pads.ProjectPad">
+      <TreeView>
+        <Node expanded="True">
+          <Node name="unit-tests" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="Test2.cs" expanded="False" selected="True" />
+          </Node>
+        </Node>
+      </TreeView>
+    </ViewMemento>
+    <ViewMemento Id="MonoDevelop.Ide.Gui.Pads.ClassPad">
+      <TreeView>
+        <Node expanded="True" />
+      </TreeView>
+    </ViewMemento>
+    <ViewMemento Id="MonoDevelop.NUnit.TestPad">
+      <TreeView>
+        <Node expanded="True" />
+      </TreeView>
+    </ViewMemento>
+    <ViewMemento Id="MonoQuery.DatabasePad">
+      <TreeView>
+        <Node expanded="False" />
+      </TreeView>
+    </ViewMemento>
+  </Views>
+  <Properties>
+    <Properties>
+      <Property key="ActiveConfiguration" value="Debug" />
+      <Property key="ActiveWindow" value="/home/carlosble/svns/castleportal-svn/Tests/unit-tests/Test2.cs" />
+    </Properties>
+  </Properties>
+</UserCombinePreferences>

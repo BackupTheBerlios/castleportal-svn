@@ -1,0 +1,21 @@
+$TemplateVarsTester.IsNotNull($category, "category", "displayCategoryTextsBlog.vm", "$caller")
+#set ($caller = "displayCategoryTextsBlog.vm")
+<H1>
+  $category.Description 
+  #parse("$!templatesdir/actionsLinks/editCategory.vm")
+</H1>
+  
+#foreach ($content in $category.ContentList)
+  <P>
+    $content.GetValueByFieldName("body")
+    #parse("$!templatesdir/actionsLinks/editContent.vm")
+        #parse("$!templatesdir/actionsLinks/copyContent.vm")
+        #if ($content.Published)
+            #parse("$!templatesdir/actionsLinks/unpublishContent.vm")
+        #else
+            #parse("$!templatesdir/actionsLinks/publishContent.vm")
+        #end
+    #parse("$!templatesdir/actionsLinks/deleteContent.vm")
+  </P>
+#end
+#parse("$!templatesdir/actionsLinks/newContent.vm")

@@ -1,0 +1,15 @@
+Development guidelines:
+
+Please read the C# coding standard:
+http://idesign.net/idesign/download/IDesign%20CSharp%20Coding%20Standard.zip
+If you see any code not complying with the standard please refactor it.
+
+Do nou use tabs, use spaces instead of tabs. If you use vim, just add this lines to your .vimrc:
+set shiftwidth=4
+set expandtab
+set smarttab
+
+Nice tool to indent c# files:
+astyle -b filename.cs
+Warning: if file contains properties (get/set), reedit it after astyle to indent properties properly
+

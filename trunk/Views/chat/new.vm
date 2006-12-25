@@ -1,0 +1,10 @@
+$AjaxHelper.BuildFormRemoteTag("$siteRoot/chat/create.$EXTENSION", $DictHelper.CreateDict( "update=central", "with=Form.serialize(this)", "loading=javascript:waitPointer('chat')", "complete=javascript:defaultPointer('chat'); setGreaterHeight('$leftdiv', '$maindiv');") )
+##$HtmlHelper.Form("create.$EXTENSION")
+
+   $HtmlHelper.InputHidden("chat.Id", $!chat.Id)
+
+   #parse("chat/_form.vm")
+
+	$HtmlHelper.SubmitButton($l10n.NEW)
+
+$HtmlHelper.EndForm()

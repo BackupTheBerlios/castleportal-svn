@@ -1,0 +1,33 @@
+$l10n.DATABASE_TEMPLATES_LIST
+<br>
+#if ($templates)
+	<table>
+		<tr>
+			<th>$l10n.NAME</th>
+			<!--<th>Alias</th>-->
+			<th>$l10n.FIELDS </th>
+			<!--<th>Campos Edit</th>-->
+			<!--<th>Editar</th>-->
+		</tr>
+		#foreach ($f in $templates)
+		#set( $oddeven = $velocityCount % 2 )
+		<tr class="row$oddeven">
+			<td width="33%"><a href="$siteRoot/portal/edittemplate.$EXTENSION?Id=$f.Id" title="$f.Name">$f.Description</a></td>
+			<td width="33%">
+				#foreach($x in $f.Fields) 
+					<a href="editfield.$EXTENSION?Id=$x.Field.Id" title="$x.Field.Description" >$x.Field.Name</a> 
+					#if ($f.ListingVisibleFields.Contains($x))
+						(*)
+					#end 
+					<br/>
+				#end 
+			</td>
+			<!--<td><a href="$siteRoot/portal/edittemplate.$EXTENSION?Id=$f.Id"> Editar</a> </td> -->
+			<!--<td><a href="$siteRoot/portal/deletetemplate.$EXTENSION?Id=$f.Id"> Eliminar </a></td>-->
+		</tr>
+		#end
+	</table>
+#end
+<br>
+<br>
+<a href="$siteRoot/portal/edittemplate.$EXTENSION"> $l10n.CREATE_NEW_TEMPLATE</a>

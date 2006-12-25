@@ -1,0 +1,9 @@
+$AjaxHelper.BuildFormRemoteTag("$siteRoot/forum/savemessage.$EXTENSION", $DictHelper.CreateDict( "update=contenido", "with=Form.serialize(this)", "loading=javascript:waitPointer('folder')", "complete=javascript:defaultPointer('folder'); setGreaterHeight('$leftdiv', '$maindiv');") )
+##<form action="$siteRoot/forum/savemessage.$EXTENSION">
+	<input type="hidden" value="$idFolderParent" name="idFolderParent" />
+	<input type="hidden" value="$idMessageParent" name="idMessageParent" />
+	#parse("forum/messageform.vm")
+
+	<input type="submit" value="$l10n.SEND"/><br>
+</form>
+

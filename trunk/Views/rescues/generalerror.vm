@@ -1,0 +1,38 @@
+#if ($context.LastException.GetType == "CastlePortal.LoginRequired")
+	 <a href="$siteRoot/login/index.$EXTENSION">$l10n.UNAUTHENTICATED</a>
+
+
+#elseif ($context.LastException.GetType == "CastlePortal.Unauthorized")
+	$l10n.UNAUTHORIZED
+
+#elseif ($context.LastException.GetType == "Castle.ActiveRecord.NotFoundException")
+	$l10n.Error: $l10n.CONTENT_NOT_FOUND or $l10n.CATEGORY_NOT_FOUND
+
+#elseif ($context.LastException.GetType == "CastlePortal.TimeOut")
+    #if (!$EXTENSION)
+        #set ($EXTENSION = "aspx")
+    #end
+	<div id="timeoutbox" style="border: 1px solid; background: #edf5f7; color: #00396c; font-size: 1.0em; font-family: sans-serif; text-align: center;	padding-bottom: 10px; margin: 10px;">
+			<h2 style="font-size: 1.1em;" >Time Out</h2>
+			$l10n.PLEASE_LOGIN_AGAIN 
+			<br><br><a href="$siteRoot/login/index.$EXTENSION" style="color:#000000; font-family:sans-serif"><b>$l10n.CLICK_HERE</b></a><br>
+	</div>
+
+#elseif ($context.LastException.GetType == "CastlePortal.UnPublished")
+        $l10n.WEBSITE_UNAVAILABLE. $l10n.PLEASE_CHECK_SETTINGS
+        <p>Exception: <b>$context.LastException.GetType.FullName</b><br/>
+	Message: <b>$context.LastException.Message </b><br>
+	InnerException: <b>$context.LastException.InnerException.Message</b></p>
+
+#else
+	<p>Exception: <b>$context.LastException.GetType.FullName</b><br/>
+	Message: <b>$context.LastException.Message </b><br>
+	InnerException: <b>$context.LastException.InnerException.Message</b></p>
+	#if($session.isRoot)
+	<p>stacktrace</p>
+	<div style="overflow:auto;">
+		<pre>$context.LastException.StackTrace</pre>
+	</div>
+	#end
+#end
+

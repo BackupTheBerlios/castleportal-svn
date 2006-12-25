@@ -1,0 +1,29 @@
+$TemplateVarsTester.IsNotNull($content, "content", "newsView.vm", "$caller")
+#set ($caller = "newsView.vm")
+
+<H1>
+  $content.GetValueByFieldName("title")
+</H1>
+
+<P>
+   $content.GetValueByFieldName("body")
+</P>
+
+<P>
+#parse("$!templatesdir/actionsLinks/viewCategory.vm")
+#if ($session.User)
+   #parse("$!templatesdir/actionsLinks/editContent.vm")
+        #parse("$!templatesdir/actionsLinks/copyContent.vm")
+
+        #if ($content.Published)
+            #parse("$!templatesdir/actionsLinks/unpublishContent.vm")
+        #else
+            #parse("$!templatesdir/actionsLinks/publishContent.vm")
+        #end
+   #parse("$!templatesdir/actionsLinks/deleteContent.vm")
+   #parse("$!templatesdir/actionsLinks/newContent.vm")
+   #if($session.isRoot) 
+      ($category.Template.TView) 
+   #end
+#end
+</P>

@@ -1,0 +1,33 @@
+<h1>$l10n.CONTACT</h1>
+<div class="cuadro2">
+  <p><strong>#if($sitetype=="departamentos") Departamento de #end $description</strong></p>
+  <p>$direccion<br>
+  $codpostal. $lugar</p>
+  <p><strong>Tel&eacute;fono:</strong> $tfnofijo<br>
+  <strong>Fax:</strong>  $tfnofax<br>
+  <strong>Correo electr&oacute;nico:</strong> $email</p>
+</div>
+
+
+<form action="sendmail.$EXTENSION">
+	<div class="baseform">
+  	<h2><br>
+    	Formulario de contacto<br>
+    	<br>
+  	</h2>
+  	<p><strong>Nombre:</strong>
+  		<input name="name" type="text" class="formText">
+  	</p>
+  	<p> <strong>Asunto:</strong>
+  		<input name="subject" type="text" class="formText">
+  	</p>
+  	<p>
+  		<textarea name="body" cols="65" rows="8" class="formTextmultilinea"></textarea>
+  	</p>
+  	<p>
+		<input name="Submit" type="submit" class="formBoton" value="Enviar">
+	</p>
+  	</div>
+    
+    
+</form>

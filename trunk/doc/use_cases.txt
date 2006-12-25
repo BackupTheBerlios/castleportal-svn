@@ -1,0 +1,24 @@
+List of use cases. Please write the fucking use cases
+
+1.Publish and Unpublish the website
+2.Create/Edit/Delete a category
+3.Create/Edit/Delete a content
+4.Publish/Unpublish a content
+5.Create an user
+6.Change password to an user
+7.Add user to group
+8.Delete user from group
+9.Copy a content to another language
+10.Copy a content which has attachments to another language
+11. Delete a content with attachments
+12. Show menus checking permissions for registered users
+13. Show menus checking permissions for anonymous users
+14. Display category checking it permissions
+15. Display category checking it permissions and the permissions of their parents
+16. Create/Delete a  chat
+17. Create/Edit/Delete a forum/folder
+18. Post a message in chat
+19. Post a message in forum
+20. Edit/Update message in forum
+21. Translate a menu option
+

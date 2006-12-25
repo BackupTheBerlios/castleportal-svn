@@ -1,0 +1,13 @@
+Use cases for Groups Administration
+1.Create a group "A" adding acls at the existent containers
+2.Delete group "A"
+3.Create the group "A", restart the server and delete it
+4.Create a group "B" without adding acls to existent containers
+5.Delete group "B"
+6.Create group "B", restart the server and delete it
+7.Create group "A" an add one user to it before delete. Then try delete by both, restarting the server and without restarting
+8.Same for group "B"
+9.Repeat all use cases by disabling the NHibernate Cache
+
+Urgent TO-DO!!!: Write test cases for all these use cases 
+

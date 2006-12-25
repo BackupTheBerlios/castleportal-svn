@@ -1,0 +1,22 @@
+$l10n.DATABASE_FIELDS_LIST:
+<br>
+#if ($fields)
+	<table>
+		<tr>
+			<th>$l10n.NAME</th>
+			<th>$l10n.FIELD_TYPE</th>
+		</tr>
+		#foreach ($field in $fields)
+		   #set( $oddeven = $velocityCount % 2 )
+		   <tr class="row$oddeven">
+			<td>$field.Description</td>
+			<td>$field.Type.Description</td>
+			<td><a href="$siteRoot/portal/editfield.$EXTENSION?Id=$field.Id"> $l10n.EDIT</a> </td> 
+			<td><a href="$siteRoot/portal/deletefield.$EXTENSION?Id=$field.Id"> $l10n.DELETE </a></td>
+		   </tr>
+		#end
+	</table>
+#end
+<br>
+<br>
+<a href="$siteRoot/portal/newfield.$EXTENSION"> $l10n.CREATE_NEW_FIELD</a>

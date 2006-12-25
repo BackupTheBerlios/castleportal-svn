@@ -1,0 +1,20 @@
+<script lang=JavaScript>
+idlastmsg = $idLastMsg;
+div = document.getElementById("outputlist2");
+
+#set ($aux = ".ChatMessage")
+#set ($type = ${SITE_NAME})
+#set ($tipo = "$type$aux")
+
+#foreach ($m in $messages)
+	#if ($m.GetType == $tipo)
+		div.innerHTML += '$ChatHelper.Color($m.Owner.Name): $m.Message<br/>';
+	#else
+		div.innerHTML += '$ChatHelper.Color($m.Owner): $m.Message<br/>';
+	#end
+
+##	div.innerHTML += '$ChatHelper.Color($m.Owner.Name): $m.Message<br/>';
+#end
+</script>
+
+

@@ -1,0 +1,28 @@
+$TemplateVarsTester.IsNotNull($category, "category", "defaultEdit.vm", "$caller")
+#set ($caller ="defaultEdit.vm")
+
+<TABLE style="background-image: none" cellpadding="3px">
+  <TR>
+    <TD width="10px"></TD> 
+    <TH colspan="3">
+        #if ($content) 
+           $l10n.EDITING_CONTENT_AT
+        #else 
+           $l10n.ADDING_CONTENT_TO 
+        #end 
+        $category.Description
+    </TH>
+  </TR>
+  
+  #foreach ($field in $category.Template.Fields)
+  <TR class="document_edit">
+    <TD width="10px"></TD>
+    <TD class="formLabel">$field.Field.Description</TD>
+    <TD class="formInput">
+      #set ($dataModel = "")
+      #set ($dataModel = $content.GetDataModelByFieldName($field.Field.Name))
+      #parse("$!templatesdir/types_templates/${field.Field.Type.Name}.vm") 
+    </TD>
+  </TR>
+  #end
+</TABLE>

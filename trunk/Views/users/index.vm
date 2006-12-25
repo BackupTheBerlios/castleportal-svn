@@ -1,0 +1,26 @@
+<p>
+#if ($user.Groups)
+Estás en los grupos: #foreach ($g in $user.Groups) $g.Name #end
+#else
+No estas en ningun grupo.
+#end
+</p>
+<h3>Mi agenda</h3>
+<ul>
+	#if ($user.Schedule.Events.Count > 0)
+		#foreach ($e in $user.Schedule.Events) 
+		<li>name = $e.Name, description=$e.Description</li>
+		#end
+	#else
+		<li>No hay eventos</li>
+	#end
+</ul>
+<h3>Mis buzones de correo</h3>
+<ul>
+	<li><a href="$siteRoot/webmail/list.$EXTENSION?id=$user.Inbox.Id">$user.Inbox.Name</a>   $user.Inbox.Count  mensajes #if($user.Inbox.CountNew)  ($user.Inbox.CountNew  nuevos)#end</li>
+	<li><a href="$siteRoot/webmail/list.$EXTENSION?id=$user.Outbox.Id">$user.Outbox.Name</a> $user.Outbox.Count mensajes #if($user.Outbox.CountNew) ($user.Outbox.CountNew nuevos)#end</li>
+</ul>
+<h3>Mis ficheros</h3>
+<ul>
+	<li><a href="$siteRoot/carpeta/edit.$EXTENSION?id=$user.Home.Id">$user.Home.Name</a></li>
+</ul>

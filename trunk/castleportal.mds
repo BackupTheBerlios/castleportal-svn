@@ -1,0 +1,17 @@
+<Combine name="castleportal" fileversion="2.0">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="CombineConfiguration">
+      <Entry build="True" name="castleportal" configuration="Debug" />
+    </Configuration>
+    <Configuration name="Release" ctype="CombineConfiguration">
+      <Entry build="True" name="castleportal" configuration="Release" />
+    </Configuration>
+  </Configurations>
+  <DeployTargets />
+  <StartMode startupentry="castleportal" single="True">
+    <Execute type="None" entry="castleportal" />
+  </StartMode>
+  <Entries>
+    <Entry filename="./castleportal.mdp" />
+  </Entries>
+</Combine>

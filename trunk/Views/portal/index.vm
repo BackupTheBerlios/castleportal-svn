@@ -1,0 +1,36 @@
+#set ($caller = "index.vm")
+
+#set($contentcount= 4)
+
+<div id="cathijas">
+#set($category = $cat1)
+
+#if ($category.Template.TList)
+	#parse ("/general_templates/$category.Template.TList")
+#else
+    $l10n.TEMPLATE_LIST_UNAVAILABLE
+#end
+
+
+#set($category = $cat2)
+#if ($category.Template.TList)
+	#parse ("/general_templates/$category.Template.TList")
+#else
+    $l10n.TEMPLATE_LIST_UNAVAILABLE
+#end
+
+#set($category = $cat3)
+#if ($category.Template.TList)
+	#parse ("/general_templates/$category.Template.TList")
+#else
+    $l10n.TEMPLATE_LIST_UNAVAILABLE
+#end
+
+#set($category = $cat4)
+#if ($category.Template.TList)
+	#parse ("/general_templates/$category.Template.TList")
+#else
+    $l10n.TEMPLATE_LIST_UNAVAILABLE
+#end
+
+</div>

@@ -1,0 +1,17 @@
+$HtmlHelper.Select('roles', "%{multiple='true'}")
+    #foreach ($r in $roles)
+        #set ($in = false)
+        #foreach ($r2 in $rolesbycategoryandgroup)
+            #if ($r.Id == $r2.Id)
+                #set ($in = true)
+            #end
+        #end
+
+        #if ($in == true)
+            $HtmlHelper.CreateOption($r.Name, "$r.Id", $DictHelper.CreateDict("SELECTED"))
+        #else
+            $HtmlHelper.CreateOption($r.Name, "$r.Id")
+        #end
+    #end
+$HtmlHelper.EndSelect
+

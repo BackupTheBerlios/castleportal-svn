@@ -1,0 +1,33 @@
+<form action="save.$EXTENSION" method="post">
+		#if($menu)<input type="hidden" name="idMenu" value="$menu.Id" />#end
+      #if($menutranslation)<input type="hidden" name="id" value="$menutranslation.Id" />#end
+		<p><strong>$l10n.TITLE:</strong> $!menu.Name</p>
+		<p><strong>$l10n.DESCRIPTION:</strong> $!menu.Description</p>
+
+		<table>
+			<tr>
+				<th>$l10n.LANGUAGE</th>
+				<th>$l10n.TRANSLATION</th>
+			<tr>
+			#foreach ($l in $languages)
+				<tr>
+					<td>$l.Description</td>
+					#set ($find = 0)
+					#foreach ($t in $translations)
+						#if ($t.Lang.Id == $l.Id)
+							#set ($find = $t.Translation)
+						#end
+					#end
+					#if ($find != 0)
+						<td><input type="text" name="$l.Id" value="$find" /></td>
+					#else
+						<td><input type="text" name="$l.Id" /></td>
+					#end
+
+				</tr>
+			#end
+		</table>
+
+		<input type="submit" name="modifica" value="$l10n.SAVE" />
+</form>
+

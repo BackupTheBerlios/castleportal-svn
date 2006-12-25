@@ -1,0 +1,25 @@
+$TemplateVarsTester.IsNotNull($category, "category", "displayCategoryTitlesImages.vm", "$caller")
+#set ($caller = "displayCategoryTitlesImages.vm")
+<H1>
+  $category.Description
+</H1>
+#foreach ($content in $category.ContentList)
+   <P style="clear: right">
+     #set ($file = false)
+     #set ($file = $content.GetDataModelByFieldName("image").GetObjectFromValue)
+     #if ($file)
+       <IMG src="$siteRoot/file/get.$EXTENSION?id=$file.Id" class="foto" alt="$file.Name">
+     #end
+     $content.GetValueByFieldName("title")
+     #parse("$!templatesdir/actionsLinks/editContent.vm")
+                #parse("$!templatesdir/actionsLinks/copyContent.vm")
+
+        #if ($content.Published)
+            #parse("$!templatesdir/actionsLinks/unpublishContent.vm")
+        #else
+            #parse("$!templatesdir/actionsLinks/publishContent.vm")
+        #end
+     #parse("$!templatesdir/actionsLinks/deleteContent.vm")
+   </P>
+#end
+#parse("$!templatesdir/actionsLinks/newContent.vm")

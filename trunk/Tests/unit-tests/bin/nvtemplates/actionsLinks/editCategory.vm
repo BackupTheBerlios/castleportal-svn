@@ -1,0 +1,6 @@
+#if ($category.CanModify($session.User)) 
+
+$AjaxHelper.LinkToRemote("<img src='$siteRoot/Public/images/editcategory.gif' title='$l10n.EDIT' alt='ec'>", "$siteRoot/portal/editcategory.$EXTENSION", $DictHelper.CreateDict("update=$placeholder", "with='id=$category.Id&layout=false'", "loading=javascript:waitPointer('content')", "complete=javascript:pushDown('$placeholder', 'content', 'left_menu', 100);defaultPointer('content'); tinyRepaint(); "))
+
+#end
+

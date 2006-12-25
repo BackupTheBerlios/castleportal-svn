@@ -1,0 +1,15 @@
+		<h3>$l10n.LOGIN_PAGE</h3>
+		<div class="cuadro" style="width:300px; height:150px; ">
+			$!error
+			<form action="login.$EXTENSION">
+                        <table>
+                        <tr>
+			<td>$l10n.USERNAME:</td>
+                        <td><input name="username" type="text"  class="camposForm" value="" /></td>
+                        </tr><tr>
+                        <td>$l10n.PASSWORD:</td> 
+                        <td><input name="password" type="password" class="camposForm" value="" /></td>
+                        </tr><tr>
+                        <td><input type="submit" name="autentificarse" value="$l10n.LOGIN" class="btn" /></td></tr></table>       
+			</form>
+		</div>

@@ -1,0 +1,5 @@
+#if ($parent.CanCreate($session.User)) 
+
+$AjaxHelper.LinkToRemote("<img src='$siteRoot/Public/images/newcategory.gif' alt='nc'/>", "$siteRoot/portal/newcategory.$EXTENSION", $DictHelper.CreateDict("update=$placeholder", "with='parent=$parent.Id'", "loading=javascript:waitPointer('content')", "complete=javascript:pushDown('$placeholder', 'content', 'left_menu', 100);defaultPointer('content'); tinyRepaint();"))
+
+#end

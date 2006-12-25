@@ -1,0 +1,11 @@
+<table>
+  <tr>
+    <td><strong>$l10n.TITLE</strong></td>
+    <td>$FormHelper.TextField("folder.Title")</td>
+  </tr>
+  <tr>
+    <td><strong>$l10n.DESCRIPTION</strong></td>
+    <td>$FormHelper.TextArea("folder.Description", $DictHelper.CreateDict("cols='70'", "rows='8'"))</td>
+  </tr>
+</table>
+

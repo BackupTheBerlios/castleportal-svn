@@ -1,0 +1,21 @@
+<h5>$l10n.FORUMS</h5>
+
+<table>
+    #foreach ($f in $forums)
+        <tr>
+            <td>$AjaxHelper.LinkToRemote($!f.Title, "$siteRoot/forum/viewforum.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='Id=$f.Id&layout=false'", "loading=javascript:waitPointer('forum')", "complete=javascript:defaultPointer('forum')"))</td>
+            <td>$!f.Date</td>
+            <td>
+                #if ($f.Admins.HasUser($session.User) == true)
+                    $AjaxHelper.LinkToRemote($l10n.EDIT, "$siteRoot/forum/editforum.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='Id=$f.Id&layout=false'", "loading=javascript:waitPointer('forum')", "complete=javascript:defaultPointer('forum')"))
+                    $AjaxHelper.LinkToRemote($l10n.DELETE, "$siteRoot/forum/deleteforum.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='Id=$f.Id&layout=false'", "loading=javascript:waitPointer('forum')", "complete=javascript:defaultPointer('forum')"))
+                #end
+            </td>
+    #end
+</table>
+
+<br><br>
+#if ($f.Admins.HasUser($session.User) == true)
+    $AjaxHelper.LinkToRemote("$l10n.CREATE_NEW_FORUM", "$siteRoot/forum/createforum.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='layout=false'", "loading=javascript:waitPointer('forum')", "complete=javascript:defaultPointer('forum')"))
+#end
+

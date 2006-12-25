@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" ?> 
+
+<configuration>
+	<configSections>  
+		<section name="monoRail" type="Castle.MonoRail.Framework.Configuration.MonoRailSectionHandler, Castle.MonoRail.Framework" />
+		<section name="activerecord" type="Castle.ActiveRecord.Framework.Config.ActiveRecordSectionHandler, Castle.ActiveRecord" /> 
+		<section name="log4net" type="log4net.Config.Log4NetConfigurationSectionHandler, log4net" />
+		<section name="nlog" type="NLog.Config.ConfigSectionHandler, NLog"/>
+	</configSections>
+
+	<facility id="logging"
+		type="Castle.Facilities.Logging.LoggingFacility, Castle.Facilities.Logging"
+		loggingApi="log4net|nlog|none"
+		configFile="log4net.xml" watch="false"/>
+	<!--  customLoggerFactory="PublicAPI" />-->
+
+	<monoRail>
+		<!--
+		Hasta que  no usemos vistas de boo, mas rapido asi
+		<viewEngine viewPathRoot="Views" customEngine="Castle.MonoRail.Framework.Views.CompositeView.CompositeViewEngine, Castle.MonoRail.Framework.Views.CompositeView" />
+		-->
+		<viewEngine viewPathRoot="Views" customEngine="Castle.MonoRail.Framework.Views.NVelocity.NVelocityViewEngine, Castle.MonoRail.Framework.Views.NVelocity" />
+		<controllers>
+			<assembly>portal</assembly>
+		</controllers>
+	</monoRail>
+
+	<system.web>
+		<compilation defaultLanguage="C#" />
+		<httpHandlers>
+			<!--<add verb="GET,HEAD" path="FCKeditor/*" type="System.Web.StaticFileHandler" />-->
+			<!--<add verb="*" path="FCKeditor/*" type="System.Web.UI.PageHandlerFactory" />-->
+			<!--<add verb="*" path="Public/*" type="System.Web.UI.PageHandlerFactory" />-->
+			<add verb="*" path="Public/*" type="System.Web.StaticFileHandler" />
+			<add verb="*" path="*.html" type="Castle.MonoRail.Framework.MonoRailHttpHandlerFactory, Castle.MonoRail.Framework" />
+		</httpHandlers> 
+		<httpModules>
+			<add name="monorail" type="Castle.MonoRail.Framework.EngineContextModule, Castle.MonoRail.Framework" />
+		</httpModules>
+		<globalization culture="es-ES" uiCulture="es-ES" />
+		<!-- linea util para los delays -->
+		<!--<httpRuntime executionTimeout="600" />-->
+		<sessionState mode="InProc" timeout="60" />    <!-- timeout por inactividad en minutos -->
+	</system.web>
+
+	<!--<log4net threshold="OFF" />-->
+
+	<activerecord isWeb="true">
+		<config>
+			<add key="hibernate.connection.driver_class" value="NHibernate.Driver.NpgsqlDriver" />
+			<add key="hibernate.dialect" value="NHibernate.Dialect.PostgreSQLDialect"/>
+			<add key="hibernate.connection.provider" value="NHibernate.Connection.DriverConnectionProvider" />
+			<add key="hibernate.connection.connection_string" value="Server=192.168.1.150;initial catalog=nhibernate;Database=gpcxxxxx;User=gpcxxxxx;Password=gpcxxxxx;Encoding=UNICODE;"/>
+			<add key="hibernate.cache.provider_class" value="NHibernate.Caches.SysCache.SysCacheProvider,NHibernate.Caches.SysCache" /> 
+  			<add key="relativeExpiration" value="300" />
+		</config>
+	</activerecord>
+
+	<nlog>
+        <targets>
+            <target name="debug" type="File" filename="debug.log" />
+            <target name="error" type="File" filename="error.log" />
+			   <target name="console" type="Console" />
+        </targets>
+
+        <rules>
+            <logger name="*" level="Debug" appendTo="debug, console" />
+            <logger name="*" minlevel="Error" appendTo="error" />
+        </rules>
+    </nlog>
+</configuration> 

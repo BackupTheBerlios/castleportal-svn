@@ -1,0 +1,48 @@
+<h3>Roles en el sistema</h3>
+<table width="100%">
+	<tr>
+		<td width="5%">Id</td>
+		<td width="15%">$l10n.NAME</td>
+		<td width="15%">Create</td>
+		<td width="15%">Modify</td>
+		<td width="15%">Delete</td>
+		<td width="15%">Publish</td>
+		<td width="15%">Read</td>
+		<td width="5%">submit</td>
+		<td width="5%">borra</td>
+	</tr>
+#foreach ($r in $roles)
+	<tr>
+		<form method="post" action="rolesave.$EXTENSION">
+			<input type="hidden" value="$r.Id" name="Form.Id"/>
+			<td width="5%">$r.Id</td>
+			<td width="75%"><input name="Form.Name" type="text" value="$r.Name" /></td>
+			<td width="15%">$WebHelper.Checkbox("Form.CanCreate", $r.CanCreate)</td>
+			<td width="15%">$WebHelper.Checkbox("Form.CanModify", $r.CanModify)</td>
+			<td width="15%">$WebHelper.Checkbox("Form.CanDelete", $r.CanDelete)</td>
+			<td width="15%">$WebHelper.Checkbox("Form.CanPublish", $r.CanPublish)</td>
+			<td width="15%">$WebHelper.Checkbox("Form.CanRead", $r.CanRead)</td>
+			<td width="5%"><input type="submit" name="modifica" value="modifica" /></td>
+		</form>
+		<form action="roledelete.$EXTENSION">
+			<td>
+				<input type="hidden" value="$r.Id" name="Id"/><input type="submit" name="borra" value="borra" />
+			</td>
+		</form>
+	</tr>
+#end
+	<tr>
+		<form method="post" action="rolecreate.$EXTENSION">
+			<input type="hidden" value="0" name="Form.Id"/>
+			<td width="5%"></td>
+			<td width="15%"><input name="Form.Name" type="text" value="" /></td>
+			<td width="15%">$WebHelper.Checkbox("Form.CanCreate")</td>
+			<td width="15%">$WebHelper.Checkbox("Form.CanModify")</td>
+			<td width="15%">$WebHelper.Checkbox("Form.CanDelete")</td>
+			<td width="15%">$WebHelper.Checkbox("Form.CanPublish")</td>
+			<td width="15%">$WebHelper.Checkbox("Form.CanRead")</td>
+			<td width="5%"><input type="submit" name="crea" value="crea" /></td>
+		</form>
+	</tr>
+</table>
+

@@ -1,0 +1,21 @@
+#if ($Flash.ContainsKey("aviso")) $Flash.get_Item("aviso") <img src="$siteRoot/Public/mapas/images/tick.png"/> #end
+<h1>Editor de configuracion</h1>
+<form method="post" action="save.html">
+<table>
+	#foreach ($c in $configs)
+				#if (($c.Description == "Tipo de portal") || ($c.Key == "layout") || ($c.Key == "color") || ($c.Key == "cabecera") || ($c.Key == "published"))
+				#else
+					<tr>
+						<td>$c.Description</td>
+						<td>
+							<input type="text" name="$c.Key" value="$c.Val"/>
+						</td>
+					</tr>
+				#end
+	#end
+	<tr>
+			<td colspan="2"><input type="submit" value="Guarda" /></td>
+	</tr>
+
+</table>
+</form>

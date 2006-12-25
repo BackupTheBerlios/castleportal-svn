@@ -1,0 +1,52 @@
+$TemplateVarsTester.IsNotNull($dataModel, "dataModel", "flash.vm", "$caller")
+#set ($file = false)
+#set ($file = $dataModel.GetObjectFromValue)
+#if ($file.ContentType == "application/pdf")
+	#set($ayudatext = '$l10n.DOWNLOAD_ACROBAT')
+	#set($ayudaurl= 'http://www.adobe.com/go/gntray_dl_get_reader')
+	#set($icon = 'pdf.png')
+#elseif ($file.ContentType == "application/x-shockwave-flash")
+	#set($ayudatext = '$l0n.DOWNLOAD_FLASH')
+	#set($ayudaurl = 'http://www.adobe.com/go/gntray_dl_getflashplayer_es')
+	#set($icon = 'swf.jpg')
+#else
+	#set($icon = 'unknown.png')
+	#set($ayudatext = '')
+	#set($ayudaurl = '')
+#end
+
+#if ($controller.Action == "viewcontent")
+
+	<div>
+		#if ($file)
+			<img src="$siteRoot/Public/mimetypes/$icon" />
+			<a href="$siteRoot/file/get.$EXTENSION?id=$file.Id" title="$l10n.SHOW $file.Name">$file.Name</a>
+			<a href="$siteRoot/file/download.$EXTENSION?id=$file.Id" title="$l10n.DOWNLOAD $file.Name"><img src="$siteRoot/Public/images/fileexport.png"/></a>
+			($StringHelper.IntFriendly($file.Size) - $StringHelper.DateFriendly($file.CreateDate))
+			#if ($ayudatext != '')
+			<a href="$ayudaurl" title="$ayudatext"><img src="$siteRoot/Public/images/vcs_status.png"></a>
+			#end
+		#else
+			$l10n.NO_FILE
+		#end
+	</div>
+
+#elseif ($controller.Action == "editcontent" || $controller.Action == "newcontent" || $controller.Action == "copycontent")
+
+	#if ($file)
+		<img src="$siteRoot/Public/mimetypes/$icon" />
+		<a href="$siteRoot/file/get.$EXTENSION?id=$file.Id" title="$l10n.SHOW $file.Name">$file.Name</a>
+		<a href="$siteRoot/file/download.$EXTENSION?id=$file.Id" title="$l10n.DOWNLOAD $file.Name"><img src="$siteRoot/Public/images/fileexport.png"/></a>
+		($StringHelper.IntFriendly($file.Size) - $StringHelper.DateFriendly($file.CreateDate))
+		<br>
+	#else
+		$10n.NO_FILE
+	#end
+	<input type="file" name="$field.Field.Name" class="formText" />
+#else
+	#if ($file)
+	<a href="$siteRoot/file/download.$EXTENSION?id=$file.Id" title="$l0n.DOWNLOAD $file.Name">$file.Name <img src="$siteRoot/Public/images/fileexport.png"/></a>
+	#else
+	-
+	#end
+#end

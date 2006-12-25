@@ -1,0 +1,10 @@
+DBNAME=cms
+DBUSER=carlos
+DBHOST=localhost
+DBPORT=5432
+
+XSP=xsp
+#XSP=mono /usr/lib/xsp/1.0/xsp.exe
+#XSP=mono --profile /usr/lib/xsp/1.0/xsp.exe
+XSPPORT=8080
+XSPFLAGS=--verbose

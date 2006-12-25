@@ -1,0 +1,97 @@
+<Project name="castleportal" fileversion="2.0" language="C#" clr-version="Net_1_1" ctype="DotNetProject">
+  <Configurations active="Debug">
+    <Configuration name="Debug" ctype="DotNetProjectConfiguration">
+      <Output directory="./bin/" assembly="castleportal" />
+      <Build debugmode="True" target="Library" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_1_1" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" mainclass="" definesymbols="CACHE, DEBUG, NHLOGS, CHAT" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+    </Configuration>
+    <Configuration name="Release" ctype="DotNetProjectConfiguration">
+      <Output directory="./bin/Release" assembly="castleportal" />
+      <Build debugmode="False" target="Exe" />
+      <Execution runwithwarnings="True" consolepause="True" runtime="MsNet" clr-version="Net_1_1" />
+      <CodeGeneration compiler="Mcs" warninglevel="4" optimize="True" unsafecodeallowed="False" generateoverflowchecks="True" generatexmldocumentation="False" ctype="CSharpCompilerParameters" />
+    </Configuration>
+  </Configurations>
+  <DeployTargets />
+  <Contents>
+    <File name="./Controllers/AclsController.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Controllers/BackupController.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Controllers/ChatController.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Controllers/ConfigController.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Controllers/FileController.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Controllers/ForumController.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Controllers/GroupsController.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Controllers/LoginController.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Controllers/MenuController.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Controllers/PortalController.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Controllers/UsersController.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Filters/CheckAuthentication.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Filters/CheckGroup.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Filters/CheckPublish.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Filters/ConfigLoad.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Helpers/CastlePortalHashtable.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Helpers/ChatHelper.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Helpers/Conversions.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Helpers/ExtraHelper.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Helpers/ForumHelper.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Helpers/MenuHelper.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Helpers/TemplateVarsTester.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Helpers/WebHelper.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Lib/AdminApi.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Lib/ChatsCache.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Lib/Commons.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Lib/ConfigManager.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Lib/Constants.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Lib/Exceptions.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Lib/HttpApp.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Lib/PermissionsEnum.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/Acl.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/Category.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/CategoryTranslation.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/Chat.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/ChatMessage.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/ConfigCombo.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/ConfigModel.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/Container.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/Content.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/DataModel.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/Field.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/FieldComparer.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/FieldTemplate.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/File.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/Forum.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/ForumFolder.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/ForumMessage.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/Group.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/Language.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/Menu.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/MenuTranslation.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/Role.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/Template.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/Type.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/TypeTranslation.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Models/User.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Generator/SchemaGenerator.cs" subtype="Code" buildaction="Compile" />
+    <File name="./Resources/l10n/l10n.en.resources" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./Resources/l10n/l10n.es.resources" subtype="Code" buildaction="EmbedAsResource" />
+    <File name="./Resources/l10n/l10n.resources" subtype="Code" buildaction="EmbedAsResource" />
+  </Contents>
+  <References>
+    <ProjectReference type="Assembly" localcopy="True" refto="./bin/anrControls.Markdown.NET.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="./bin/Castle.ActiveRecord.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="./bin/Castle.MonoRail.ActiveRecordSupport.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="./bin/Castle.MonoRail.Framework.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="./bin/Castle.MonoRail.Framework.Views.CompositeView.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="./bin/Castle.MonoRail.Framework.Views.NVelocity.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="./bin/Iesi.Collections.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="./bin/NHibernate.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="./bin/NLog.dll" />
+    <ProjectReference type="Assembly" localcopy="True" refto="./bin/Castle.Core.dll" />
+    <ProjectReference type="Gac" localcopy="True" refto="System.Web, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+    <ProjectReference type="Gac" localcopy="True" refto="System, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Assembly" localcopy="True" refto="./bin/Castle.Windsor.dll" />
+    <ProjectReference type="Gac" localcopy="True" refto="System.Xml, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+    <ProjectReference type="Gac" localcopy="True" refto="System.Drawing, Version=1.0.5000.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  </References>
+</Project>

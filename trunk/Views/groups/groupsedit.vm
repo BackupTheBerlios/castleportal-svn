@@ -1,0 +1,157 @@
+<div id="groupsedit">
+  <h3>$l10n.GROUPS_ADMINISTRATION </h3>
+
+  <table cellpadding="0" cellspacing="0" width="80%">
+    <tr>
+      <td valign="top">
+	<div id="groups_list">
+	  <div class="smalltext">$l10n.SYSTEM_GROUPS:</div>
+	  <div id="groupsIndexes0" class="nodecoration">
+	    #foreach ( $i in $ExtraHelper.CharRange(26) )
+	        $AjaxHelper.LinkToRemote("<div class='index'>#if ($i == $gindex) <b>$i</b> #else $i #end</div>", "groupsedit.$EXTENSION", $DictHelper.CreateDict("update=groupsedit", "with='gindex=$i&uindex=$uindex'", "loading=javascript:waitPointer('groupsIndexes0')", "complete=javascript:defaultPointer('groupsIndexes0')"))
+	    #end
+	    $AjaxHelper.LinkToRemote("<div class='index' title='$l10n.SHOW_ALL_GROUPS'>[*]</div>", "groupsedit.$EXTENSION", $DictHelper.CreateDict("update=groupsedit", "with='gid=0&gindex=&uindex='" , "loading=javascript:waitPointer('groupsIndexes0')", "complete=javascript:defaultPointer('groupsIndexes0')"))
+	    <div style="display:inline;">
+	  <a style="font-size: 10px" title="$l10n.CREATE_NEW_GROUP" href="javascript:void(0);" onclick="javascript:showCreateGroup('groupsedit', 'CreateGroup', 'groupsedit.$EXTENSION', 'gid=0&gindex=&uindex=')"> [+]</a>
+	</div>
+</div>
+
+	  $AjaxHelper.BuildFormRemoteTag("groupsedit.$EXTENSION", $DictHelper.CreateDict( "update=groupsedit", "with=Form.serialize(this)", "loading=javascript:waitPointer('groupsCombo0')", "complete=javascript:defaultPointer('groupsCombo0')") )
+	  <select id="groupsCombo0" class="adminUsersCombos" name="gid"  size="7" onchange="javascript:this.form.onsubmit()"> 
+	    #foreach ($g in $groups)
+	        #if ($g.Name != "")
+	            <option value=$g.Id #if ($g.Id == $group.Id) selected #end>$g.Name</option>
+	        #end
+	    #end
+	  </select> 
+	  <input type="hidden" name="gindex" value="$gindex">
+	  <input type="hidden" name="uindex" value="$uindex">
+	  $HtmlHelper.EndForm()
+	</div>
+      </td>
+      <td align="center">
+	<div>
+	  <center><div class="smalltext">$l10n.GROUP_USERS:</div></center>
+	  <br>
+	  <select id="users" name="users" size="6" class="adminUsersCombos"> 
+	    #foreach ($u in $users)
+	    	<option value="$u.Id" #if ($u.Id == $uid) selected #end>$u.Name
+	    #end
+	  </select> 
+	</div>
+      </td>
+      <td>
+	<div class="smalltext">
+	  <a href="javascript:void(0);" onclick="javascript:addUser('groupsedit', 'adduser.$EXTENSION', 'allusers', 'groupsCombo0', '$gindex', '$uindex', 'arrowup')">
+	    <img id="arrowup" src="$siteRoot/Public/images/izda.gif">
+	  </a>     
+	  <a href="javascript:void(0);" onclick="javascript:delUser('groupsedit', 'deluser.$EXTENSION', 'users', 'groupsCombo0', '$gindex', '$uindex', 'arrowdown')">
+	    <img id="arrowdown" src="$siteRoot/Public/images/der.jpg" style="padding-top:15px">
+	  </a>
+	</div>
+      </td>
+
+      <td valign="top">
+	<div id="users_list">
+	  <div class="smalltext">$l10n.OTHER_USERS:</div>
+	  <div id="usersIndexes0" class="nodecoration">
+	    #foreach ( $i in $ExtraHelper.CharRange(26) )
+	    $AjaxHelper.LinkToRemote("<div class='index'>#if ($i == $uindex) <b>$i</b> #else $i #end</div>", "groupsedit.$EXTENSION", $DictHelper.CreateDict("update=groupsedit", "with='gid=#if($group.Id)$group.id#else 0#end&gindex=$gindex&uindex=$i'", "loading=javascript:waitPointer('usersIndexes0')", "complete=javascript:defaultPointer('usersIndexes0')"))
+	    #end
+	    $AjaxHelper.LinkToRemote("<div class='index'>[*]</div>", "groupsedit.$EXTENSION", $DictHelper.CreateDict("update=groupsedit", "with='gid=0&gindex=$gindex&uindex='" , "loading=javascript:waitPointer('usersIndexes0')", "complete=javascript:defaultPointer('usersIndexes0')"))
+	  </div>
+	  <select id="allusers" name="allusers" size="7" class="adminUsersCombos"> 
+	    #foreach ($u in $allusers)
+	        #if ($u.Name != "")
+	            <option value="$u.Id" #if ($u.Id == $uid) selected #end>$u.Name
+	        #end
+	    #end
+	  </select> 
+	</div>
+      </td>
+		</tr>
+		<tr>	
+      <td colspan="2">
+	      </td>
+	</tr>
+    <tr>
+      <td colspan="2">
+	#if ($group)
+	<div id="ModifyGroup" style="position:relative;">
+	  <form action="groupsave.$EXTENSION" method="post" enctype="multipart/form-data">
+	    <input type="hidden" value="$group.Id" name="groupId"/>
+	    <table>
+	      <tr>
+		<td width="15%">$l10n.GROUP_NAME:</td>
+		<td><input name="groupName" type="text" value="$group.Name" /></td>
+	      </tr>
+	      <tr>
+		<td width="15%">$l10n.DEFAULT_ROLE</td>
+		<td> 
+                    <select name="Roles[]" id="roles" style="width:120px" size="5" multiple>
+                        #foreach($rol in $roles)
+                            #set ($found = 0)
+                            #foreach ($groupRole in $group.Roles)
+                                #if ($rol.Id == $groupRole.Id)
+                                   <option value="$rol.Id" SELECTED> $rol.Name </option>
+                                    #set ($found = 1)
+                                #end
+                            #end
+                            #if ($found == 0)
+                                <option value="$rol.Id"> $rol.Name </option>
+                            #end
+                        #end
+                        ##$HtmlHelper.CreateOptionsFromArray($roles, "Name", "Id", $group.Role.Id)
+                    </select>
+                </td>
+	      </tr>
+	      <tr>
+		<td></td><td width="5%"><input type="submit" name="crea" value="$l10n.SAVE" /></td>
+              </tr>
+              <tr>
+		<td width="5%">
+                    <a href="groupdelete.$EXTENSION?groupId=$group.Id">
+                            $l10n.DELETE 
+                    </a>
+                </td><td>
+                    <a href="groupaclsdelete.$EXTENSION?groupId=$group.Id">
+                            $l10n.DELETE_ACLS 
+                    </a>
+
+                </td>
+	      </tr>
+	    </table>
+	  </form>
+	</div>
+	#else
+	<div id="CreateGroup" style="position:relative; visibility: hidden;">
+	  <form action="groupcreate.$EXTENSION"  method="post" enctype="multipart/form-data">
+	    <!--<input type="hidden" value="0" name="Form.Id"/>-->
+	    <table>
+	      <tr>
+		<td width="15%">$l10n.GROUP_NAME:</td>
+		<td><input name="groupName" type="text" value="" /></td>
+	      </tr>
+	      <tr>
+		<td width="15%">$l10n.DEFAULT_ROLE </td>
+		<td>
+                    #foreach($r in $roles) 
+                        <input name="Roles[]" type="checkbox" value="$r.Id" />$r.Name<br/>
+                    #end
+                </td>
+	      </tr>
+              <tr>
+                <td colspan="2"> <input name="updateAcls" type="checkbox" value="true" CHECKED />
+                $l10n.UPDATE_ACLS</td>
+              </tr>
+	      <tr>
+		<td width="5%"><input type="submit" name="crea" value="$l10n.CREATE" /></td>
+	      </tr>
+	    </table>
+	  </form>
+	</div>
+	#end
+      </td>
+    </tr>
+  </table>
+</div>

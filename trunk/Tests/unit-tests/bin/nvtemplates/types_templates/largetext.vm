@@ -1,0 +1,14 @@
+$TemplateVarsTester.IsNotNull($dataModel, "dataModel", "largetext.vm", "$caller")
+
+#if( $controller.Action == "viewcontent")
+
+	<div class="largetext">$!dataModel.Value</div>
+
+#elseif ($controller.Action == "editcontent" || $controller.Action == "newcontent" || $controller.Action == "copycontent")
+$TemplateVarsTester.IsNotNull($field, "field", "largetext.vm", "$caller")
+
+	<textarea name="$field.Field.Name" id="$field.Id" cols="50" rows="20" class="formTextmultilinea">$!dataModel.Value</textarea>
+
+#else
+	$!dataModel.Value
+#end

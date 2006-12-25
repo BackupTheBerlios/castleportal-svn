@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!--This file represents the results of running a test suite-->
+<test-results name="/home/carlosble/svns/castleportal-svn/Tests/unit-tests/bin/unit-tests.dll" total="6" failures="0" not-run="0" date="25/12/2006" time="12:38">
+  <test-suite name="/home/carlosble/svns/castleportal-svn/Tests/unit-tests/bin/unit-tests.dll" success="True" time="1,760789" asserts="0">
+    <results>
+      <test-suite name="unittests" success="True" time="1,743779" asserts="0">
+        <results>
+          <test-suite name="Test1" success="True" time="1,561665" asserts="0">
+            <results>
+              <test-case name="unittests.Test1.LoadCategories" executed="True" success="True" time="0.806" asserts="0" />
+              <test-case name="unittests.Test1.LoadTemplates" executed="True" success="True" time="0.036" asserts="0" />
+              <test-case name="unittests.Test1.FillSampleTemplate" executed="True" success="True" time="0.036" asserts="0" />
+            </results>
+          </test-suite>
+          <test-suite name="Test2" success="True" time="0,172539" asserts="0">
+            <results>
+              <test-case name="unittests.Test2.PopulateTemplatesWithCurrentCategories" executed="True" success="True" time="0.120" asserts="0" />
+              <test-case name="unittests.Test2.MergeEmptyTemplates" executed="True" success="True" time="0.036" asserts="0" />
+              <test-case name="unittests.Test2.PopulateAllTemplates" executed="True" success="True" time="0.010" asserts="0" />
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>

@@ -1,0 +1,11 @@
+<table>
+  <tr>
+    <td><strong>$l10n.TITLE</strong></td>
+    <td>$FormHelper.TextField("message.Title")</td>
+  </tr>
+  <tr>
+    <td><strong>$l10n.BODY</strong></td>
+    <td>$FormHelper.TextArea("message.Body", $DictHelper.CreateDict("cols='70'", "rows='8'"))</td>
+  </tr>
+</table>
+

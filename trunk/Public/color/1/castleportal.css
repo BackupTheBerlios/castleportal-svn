@@ -1,0 +1,484 @@
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+	text-align:center;
+}
+
+div {
+	text-align:left;
+}
+
+#languages 
+{
+    font-size: 9px;
+    padding: 7px;
+}
+
+#container, #contenedor {
+	display: block;
+	position: relative;
+	width: 770px;
+	text-align:left;
+	width: 770px;
+	margin: 0px auto;
+}
+
+#adminheader
+{
+    padding-bottom: 7px;
+}
+
+#header {
+	background-repeat: no-repeat;
+	height: 107px;
+	width: 770px;
+}
+
+#departamento{
+	float: right;
+	width: 770px;
+	padding-top: 67px;
+	padding-right: 14px;
+	text-align: right;
+	/*text-antialiasing: true;
+	font-smooth: always;*/
+	font-size: 11px;
+	font-weight:bold;
+	color: #CCC;
+	text-transform: uppercase;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#menumain {
+	/*background-image: url(img/bgmenu1.gif);*/
+	background: #94a6ff no-repeat;
+	height: 22px;
+	width: 770px;
+	text-align: left;
+	color: #ffffff;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	font-size: 11px;
+	text-decoration: none;
+}
+
+#menumain a
+{
+    color: #000000;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+
+#menuleft {
+        border: 0px solid black;
+        padding: 10px;
+	text-align: center;
+	color: #333333;
+	font-family: Arial, Helvetica, sans-serif;
+	font-weight: normal;
+	font-size: 11px;
+	text-decoration: none;
+}
+
+div.menuitemdiv 
+{
+    padding: 3px;
+    font-size: 11px;
+}
+
+div.menuitemdiv a
+{
+    text-decoration: none;
+    font-weight: bold;
+    color: #000000;
+    font-size: 11px;
+}
+
+#lateral {
+	width: 180px;
+	float: left;
+	min-height: 430px;
+	background-color: #dde3ff;
+	height: 100%;
+}
+
+#lateral a 
+{
+    font-size: 9px;
+    padding: 7px;
+}
+
+
+#search {
+	background-image: url(img/search1.gif);
+	background-repeat: no-repeat;
+	height: 37px;
+	width: 180px;
+        border: 1px;
+        font-size: 10px;
+        padding-left: 7px;
+
+}
+
+.buscar {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #666666;
+	height: 12px;
+	width: 130px;
+	border: 1px solid #666666;
+	float: left;
+	margin-top: 1px;
+	margin-left: 10px;
+}
+
+#central
+{
+	background-color: #FFFFFF;
+	width: 590px;
+	float: right;
+}
+
+#centralSup 
+{
+	background-color: #FFFFFF;
+	background-image: url(img/bgruta.gif);
+	height: 20px;
+	width: 590px;
+	float: left;
+}
+
+#ruta {
+	background-color: #FFFFFF;
+	height: 20px;
+	width: 570px;
+	float: left;
+	text-align: left;
+	padding-left: 20px;
+	font-size: 9px;
+}
+
+#accesibilidad {
+	padding-left: 490px; 
+}
+
+img {
+    border: 0px;
+}
+
+a {
+    border: 0px;
+}
+
+a.ruta
+{
+	font-weight: bold;
+	color: #333f99;
+	text-decoration: none;
+}
+
+a:hover
+{
+	color: #003300;
+}
+
+a.ruta:visited 
+{
+	color:#333f99;
+}
+
+#contenido
+{
+	background-color: #FFFFFF;
+	width: 480px;
+	float: left;
+	padding-left: 84px;
+	padding-right: 25px;
+	padding-top: 35px;
+	padding-bottom: 20px;
+	text-align: left;
+	background: url(img/fachada.gif) no-repeat left bottom;
+	min-height: 400px;
+	margin-bottom: 0px;
+	_height: 300px;
+}
+
+#inferior
+{
+	background: #acacac;
+        float: left;
+	height: 30px;
+	width: 770px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #000000;
+	text-decoration: none;
+	text-align: center;
+	padding-top: 7px;
+}
+
+
+#Titulo, #Form
+{
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	font-style: normal;
+	line-height: 20px;
+	font-weight: normal;
+	color: #333333;
+}
+
+#Form
+{
+	float:left;
+	margin-top: 10px;
+	margin-bottom: 5px;
+	background: url("img/baseform.gif") no-repeat; 
+	width: 508px;
+	height: 431px;
+}
+
+#Form h1
+{
+	height: 10px;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 18px;
+	font-family: Arial, Helvetica, sans-serif;
+	text-decoration: none;
+	padding-left: 25px;
+	margin-top: 18px;
+	color: #666666;
+}
+
+#cabprogramaform
+{
+	margin-top: 10px;
+	margin-bottom: 2px;
+	background: url("img/solapasup.gif") no-repeat; 
+	width: 492px;
+	height: 27px;
+	text-align: center;
+	padding: 0px;
+}
+
+#Formprogram
+{
+	margin-top: 5px;
+	margin-bottom: 5px;
+	width: 469px;
+	background: #f8f8f8;
+	border: 1px solid #666;
+	padding: 10px;
+}
+
+#Formprogram h1
+{
+	height: 10px;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 18px;
+	font-family: Arial, Helvetica, sans-serif;
+	text-decoration: none;
+	padding-left: 25px;
+	margin-top: 18px;
+	color: #666666;
+}
+
+#cabprograma
+{
+	margin-top: 10px;
+	text-align: left;
+	padding-left: 10px;
+	padding-top: 1px;
+	background-color: #f8f8f8;
+	border: 1px solid #ccc;
+}
+
+#imgasigna
+{
+	background: url("img/bgasignatura.gif") no-repeat; 
+	width: 465px;
+	height: 60px;
+	text-align: left;
+	padding-left: 25px;
+	padding-top: 1px;
+	margin-top: 10px;
+	margin-left: 0px;
+}
+
+table.contact {
+	height: 20px;
+	text-align: left;
+	text-indent: 20px;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	margin-left: 0px;
+	border-left-color: #CCCCCC;
+	font-size: 11px;
+	color: #000000;
+}
+
+table.contact tr {
+
+}
+
+table.contact td {
+
+}
+
+#titlematera {
+	width: 495px;
+	height: 45px;
+	background: url("img/bgasignatura.gif") no-repeat;
+}
+
+.menutop {
+	float: left;
+	padding-left: 20px;
+	padding-right: 20px;
+	margin-top: 2px;
+	color: #069;
+	border-right: 1px solid #ccc;
+}
+
+.menutop a, .menutop a:visited, .menutop a:hover  {
+	color: #666;
+}
+
+#menuvirtual {
+	padding-left: 20px;
+	padding-right: 10px;
+	color: #069;
+	text-align: right;
+}
+#menuvirtual a {
+	color: #fff;
+	font-size: 10px;
+}
+
+#menuvirtual a:hover {
+	color: #ccc;
+}
+
+#submenu {
+	float: left;
+	padding-left: 5px;
+	padding-right: 10px;
+	color: #069;
+	font-size: 12px;
+}
+
+#submenu a {
+	color: #069;
+}
+
+#submenu a:hover {
+	color: #666;
+}
+
+#lista {
+}
+
+#Titulo, #Contacto {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+#Contacto {
+	margin-top:40px;
+}
+
+#Contacto h2 {
+	font-size: 14px;
+	font-weight: bold;
+	color: #03689a;
+	line-height: 18px;
+	font-family: Arial, Helvetica, sans-serif;
+	text-decoration: none;
+}
+
+#text, #image {
+	width: 92%;
+	float:left;
+	border: 1px solid #ccc;
+	background: #f8f8f8;
+}
+
+
+/* USERS AND GROUPS ADMINISTRATION */
+
+#usersedit table {
+   width: 360px;
+}
+
+#usersedit h3 {
+   color: #000000;
+   font-size: 15px;
+   font-family: Arial, sans-serif;
+}
+			
+#users_list {
+   color: #666666;
+   margin-bottom: 20px;
+   padding-left: 15px;
+}
+
+#groupsedit table {
+   width: 360px;
+}
+
+#groupsedit h3 {
+   color: #000000;
+   font-size: 15px;
+   font-family: Arial, sans-serif;
+}
+			
+#groups_list {
+   color: #666666;
+   margin-bottom: 20px;
+   padding-left: 15px;
+}
+
+#child {
+    font-size: 10px;
+}
+
+.index
+{
+        display: inline;
+        font-size: 9px;
+        text-decoration: none;
+        color: blue;
+}
+
+.smalltext
+{
+  font-size: 10px;
+  text-decoration: none;
+  font-weight: bold;
+  color: black;
+}
+
+.adminUsersCombos {
+    width: 130px;
+}
+
+#usersIndexes0
+{
+    width: 130px;
+}
+
+#groupsIndexes0
+{
+    width: 130px;
+}
+
+.nodecoration a
+{
+        text-decoration: none;
+}
+
+			

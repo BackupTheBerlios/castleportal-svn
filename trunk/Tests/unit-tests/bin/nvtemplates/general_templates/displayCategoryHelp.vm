@@ -1,0 +1,4 @@
+$TemplateVarsTester.IsNotNull($category, "category", "displayCategoryHelp.vm", "$caller")
+<DIV>
+  $category.Information
+</DIV>

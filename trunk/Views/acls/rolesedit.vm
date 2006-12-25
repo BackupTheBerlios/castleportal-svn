@@ -1,0 +1,45 @@
+<div id="rolesedit">
+<h3>$l10n.ROLES_ADMINISTRATION </h3>
+
+$HtmlHelper.Form("rolessave.$EXTENSION")
+  <table cellspacing="4">
+    <th>$l10n.ROLE</th>
+    <th>$l10n.CANCREATE</th>
+    <th>$l10n.CANMODIFY</th>
+    <th>$l10n.CANDELETE</th>
+    <th>$l10n.CANPUBLISH</th>
+    <th>$l10n.CANREAD</th>
+    <th></th>
+    #foreach ($r in $roles)
+      <tr>
+        <td>$!r.Name</td>
+        <td align="center">$HtmlHelper.InputCheckbox("$r.Id", "$PERMISSION_CREATE", $!r.CanCreate)</td>
+        <td align="center">$HtmlHelper.InputCheckbox("$r.Id", "$PERMISSION_MODIFY", $!r.CanModify)</td>
+        <td align="center">$HtmlHelper.InputCheckbox("$r.Id", "$PERMISSION_DELETE", $!r.CanDelete)</td>
+        <td align="center">$HtmlHelper.InputCheckbox("$r.Id", "$PERMISSION_PUBLISH", $!r.CanPublish)</td>
+        <td align="center">$HtmlHelper.InputCheckbox("$r.Id", "$PERMISSION_READ", $!r.CanRead)</td>
+        <td align="center">$HtmlHelper.LinkTo("$l10n.DELETE", "acls", "roledelete", $r.Id)</td>
+      </tr>
+    #end
+  </table>
+
+  $HtmlHelper.SubmitButton("$l10n.SAVE")
+$HtmlHelper.EndForm()
+
+
+<br><br>
+$HtmlHelper.Form("rolenew.$EXTENSION")
+  <table>
+    <tr>
+      <td>$l10n.New $l10n.ROLE</td>
+    </tr>
+    <tr>
+      <td>$FormHelper.TextField("name")</td>
+    </tr>
+  </table>
+
+  $HtmlHelper.SubmitButton("$l10n.ADD")
+$HtmlHelper.EndForm()
+
+</div>
+

@@ -1,0 +1,31 @@
+Please explain here all important information you discover:
+
+-------------------------
+Controllers/MenuController:
+The acls list of categories and menus are stored in the Session dictionary to achieve 
+a more efficient search. It has a problem, changing and delete menus and categories, requires
+update the session variable:
+    private void RefreshMenusAcl()
+    {
+        Hashtable categoriesHash = Session[Constants.CATEGORIES_ACLS] as Hashtable;
+        if (categoriesHash == null)
+        {
+            logger.Error("Danger, Session[Constants.CATEGORIES_ACLS] is null or not hashtable");
+        }
+        Session[Constants.MENUS_ACLS] = Menu.GetHashByCategoryHash(categoriesHash);
+    }
+So after Save and Delete I call the method above. 
+We must do the same task on categories
+-----------------------
+Helpers/MenuHelper.cs:
+BuildTree (first overloaded method):
+// Permissions check: (is working fine)
+                /*Object permission = menuPermissionsHash[Constants.PERMISSION_READ];
+                if (permission == null)
+                {
+                    return String.Empty;
+                }
+The permissions check is done but the menuPermissionsHash[Constants.PERMISSION_READ] is null, 
+so we need to check why.
+----------------------
+

@@ -1,0 +1,16 @@
+TODO:
+
+1.Clean source code avoiding literal strings. Use Contants class instead for literal strings
+2.Change Generator/* to english
+4.Write user documentation
+6.Check javascripts to avoid literal strings. Most of them could not work now
+11.Third level cache (maybe nested hashes) to store languages, menu items translations and type translations
+14. Test the parameters at the forms; avoid using chars on numeric fields and so
+15. Configure NAnt instead of Makefiles
+16. Tests: 
+    One test function that reads categories and their templates and try to fill them.
+    One test for file uploads and downloads.
+17. Show menu items in their language
+18. How to access $l10n inside rescues
+
+Timeout while getting a connection from pool. ---> System.Exception: Timeout while getting a connection from pool

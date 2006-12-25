@@ -1,0 +1,6 @@
+<form action="$siteRoot/forum/saveforum.$EXTENSION">
+	#parse("forum/forumform.vm")
+
+	<input type="submit" value="$l10n.SEND"><br>
+</form>
+

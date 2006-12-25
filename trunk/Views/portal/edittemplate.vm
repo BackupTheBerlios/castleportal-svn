@@ -1,0 +1,52 @@
+<form action="savetemplate.$EXTENSION" method="post">
+	<!-- Formulario de #if ($template) edición #else creación #end de la template: -->
+	<br>
+	#if ($template) <input type="hidden" name="Id" value="$template.Id"> #end
+	<input name="sFields" id="sFields" type="hidden" value="" />
+	<input name="sFieldsEdit" id="sFieldsEdit" type="hidden" value="" />
+	<p> <strong>$l10n.SHORT_NAME: </strong> <input name="name" id="name" value="$!template.Name" class="formText"/></p>
+	<p> <strong>$l10n.EXTENDED_NAME:</strong> <input name="description" value="$!template.Description" class="formText"/></p>
+	<p> <strong>$l10n.LISTING_TEMPLATE: </strong> <input name="tlist" value="$!template.TList" class="formText" /></p>
+	<p> <strong>$l10n.VIEWING_TEMPLATE: </strong> <input name="tview" value="$!template.TView" class="formText" /></p>
+	<p> <strong>$l10n.EDITING_TEMPLATE: </strong> <input name="tedit" value="$!template.TEdit" class="formText" /></p>
+	<p> <strong>$l10n.FIELDS: </strong><br/>
+		<select name="fields[]" id="fields" style="width:200px;" size="10" multiple>
+			###if ($fields) $HtmlHelper.CreateOptionsFromArray($fields, "Description", "Id") #end
+			#foreach ($fi in $fields)
+				<option value="$fi.Id"> $fi.Description</option>
+			#end
+		</select>
+		<img src="${siteRoot}/Public/images/plus.gif" onClick="addSelectItem('fields', 'sf'); addSelectItem('fields','fieldslist')" /> 
+		<img src="${siteRoot}/Public/images/minus.gif" onClick="removeSelectItemCascade('sf', 'fieldslist', 'sfl');" />
+		<select name="sf[]" id="sf" style="width:200px;" size="10" multiple>
+			##if ($template.ListingVisibleFields) 
+                        ##      $HtmlHelper.CreateOptionsFromArray($template.ListingVisibleFields, "Description", "Id") 
+                        ##end
+			#foreach ($f in $template.Fields)
+				<option value="$f.Field.Id"> $f.Field.Description</option>
+			#end
+		</select></p>
+	<p> <strong>$l10n.LISTING_VISIBLE_FIELDS: </strong><br/>
+		<select name="fieldslist[]" id="fieldslist" style="width:200px;" size="10" multiple>
+			###if ($fields) 
+                        ##    $HtmlHelper.CreateOptionsFromArray($fields, "Description", "Id") 
+                        ###end
+                        
+                        #foreach ($fi in $fields)
+				<option value="$fi.Id"> $fi.Description</option>
+			#end
+
+		</select>
+		<img src="${siteRoot}/Public/images/plus.gif" onClick="addSelectItem('fieldslist', 'sfl')" /> 
+		<img src="${siteRoot}/Public/images/minus.gif" onClick="removeSelectItem('sfl')" />
+		<select name="sfl[]" id="sfl" style="width:200px;" size="10" multiple>
+			##if ($template.ListingVisibleFields) 
+                        ##     $HtmlHelper.CreateOptionsFromArray($template.ListingVisibleFields, "Description", "Id") 
+                        ##end
+			#foreach ($f in $template.ListingVisibleFields)
+				<option value="$f.Field.Id"> $f.Field.Description</option>
+			#end
+		</select></p>
+	
+	<input type="submit" value="$l10n.SAVE" onClick="getAllSelect('sf', 'sFieldsEdit');getAllSelect('sfl', 'sFields');" class="formBoton" />	
+</form>

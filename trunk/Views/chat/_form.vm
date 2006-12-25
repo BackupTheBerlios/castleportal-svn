@@ -1,0 +1,16 @@
+<table>
+    <tr>
+        <td><strong>$l10n.NAME : </strong></td>
+        <td>$FormHelper.TextField("chat.Name")</td>
+    </tr>
+    <tr>
+        <td><strong>$l10n.GROUP_NAME : </strong></td>
+        <td>
+            $HtmlHelper.Select('chat.OGroup.Id')
+                $HtmlHelper.CreateOption("---------", "0")
+                $HtmlHelper.CreateOptionsFromArray($groups, "Name", "Id", $!chat.OGroup.Id)
+            $HtmlHelper.EndSelect()
+        </td>
+    </tr>
+</table>
+

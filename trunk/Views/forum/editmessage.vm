@@ -1,16 +1,25 @@
 #if ($idMessage)
-	$title<br>
-	$body<br>
-
-	$AjaxHelper.BuildFormRemoteTag("$siteRoot/forum/saveupdatedmessage.$EXTENSION", $DictHelper.CreateDict( "update=contenido", "with=Form.serialize(this)", "loading=javascript:waitPointer('folder')", "complete=javascript:defaultPointer('folder'); setGreaterHeight('$leftdiv', '$maindiv');") )
+<table class="newtheme">
+	<tr>
+		<td colspan="2" style="text-align:center">$title</td>
+	</tr>
+	<tr>
+		<!--<td>$body</td>-->
+		<td>Mensaje</td>
+		<td>$FormHelper.TextArea("forum.Description", $DictHelper.CreateDict("cols='70'", "rows='8'"))</td>
+	</tr>
+</table>
+<div id="enviar">
+	$AjaxHelper.BuildFormRemoteTag("$siteRoot/forum/saveupdatedmessage.$EXTENSION", $DictHelper.CreateDict( "update=$maindiv", "with=Form.serialize(this)", "loading=javascript:waitPointer('folder')", "complete=javascript:defaultPointer('folder'); setGreaterHeight('$leftdiv', '$maindiv');") )
+</div>
+<br>
 	##<form action="$siteRoot/forum/saveupdatedmessage.$EXTENSION">
       $HtmlHelper.InputHidden("message.Id", $!message.Id)
-		<input type="text" name="text" />
 
 		<input type="submit" value="$l10n.SEND" />
 	</form>
 #else
-	$AjaxHelper.BuildFormRemoteTag("$siteRoot/forum/saveeditedmessage.$EXTENSION", $DictHelper.CreateDict( "update=contenido", "with=Form.serialize(this)", "loading=javascript:waitPointer('folder')", "complete=javascript:defaultPointer('folder'); setGreaterHeight('$leftdiv', '$maindiv');") )
+	$AjaxHelper.BuildFormRemoteTag("$siteRoot/forum/saveeditedmessage.$EXTENSION", $DictHelper.CreateDict( "update=$maindiv", "with=Form.serialize(this)", "loading=javascript:waitPointer('folder')", "complete=javascript:defaultPointer('folder'); setGreaterHeight('$leftdiv', '$maindiv');") )
 ##	<form action="$siteRoot/forum/saveeditedmessage.$EXTENSION">
 		<input type="hidden" value="$message.Id" name="message.Id" />
 

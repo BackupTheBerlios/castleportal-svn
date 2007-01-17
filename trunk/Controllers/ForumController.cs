@@ -88,13 +88,13 @@ namespace CastlePortal
 
                     foreach (Group g in user.Groups)
                     {
-                        if (g.Id == folder.Forum.Admins.Id)
+                        if ((folder.Forum.Admins != null) && (g.Id == folder.Forum.Admins.Id))
                             userbelongstogroup = true;
                     }
 
                     foreach (Group g in user.Groups)
                     {
-                        if (g.Id == folder.Moderators.Id)
+                        if ((folder.Moderators != null) && (g.Id == folder.Moderators.Id))
                             userbelongstogroup = true;
                     }
 
@@ -142,7 +142,6 @@ namespace CastlePortal
             RedirectToAction("index");
         }
 
-
         public void Index()
         {
             Forum[] forums = Forum.FindAllOrderByDateTime();
@@ -150,9 +149,9 @@ namespace CastlePortal
             PropertyBag["forums"] = forums;
         }
 
-        public void ViewForum(int Id, bool layout)
+        public void ViewForum(string Id, bool layout)
         {
-            Forum forum = Forum.Find(Id);
+            Forum forum = Forum.Find(Int32.Parse(Id.Split('.')[0]));
 
             CheckGroup(forum);
 
@@ -209,8 +208,12 @@ namespace CastlePortal
 
         public void CreateFolder(int idForum, int idFolderParent)
         {
-            CheckAdmins(Forum.Find(idForum));
+            if (idForum != 0)
+                CheckAdmins(Forum.Find(idForum));
+            else
+                CheckAdmins(GetForumBelongsFolder(ForumFolder.Find(idFolderParent)));
 
+            PropertyBag["groups"] = Group.FindAll();
             PropertyBag["idForum"] = idForum;
             PropertyBag["idFolderParent"] = idFolderParent;
             PropertyBag["forum"] = new ForumFolder();
@@ -220,7 +223,10 @@ namespace CastlePortal
 
         public void SaveFolder([DataBind("folder")] ForumFolder folder, int idFolderParent, int idForum)
         {
-            CheckAdmins(Forum.Find(idForum));
+            if (idForum != 0)
+                CheckAdmins(Forum.Find(idForum));
+            else
+                CheckAdmins(GetForumBelongsFolder(ForumFolder.Find(idFolderParent)));
 
             folder.Date = System.DateTime.Now;
 
@@ -367,8 +373,9 @@ namespace CastlePortal
 
         public void EditFolder([ARFetch("Id", Create = false)] ForumFolder folder)
         {
-            CheckAdmins(folder.Forum);
+            CheckAdmins(GetForumBelongsFolder(folder));
 
+            PropertyBag["groups"] = Group.FindAll();
             PropertyBag["folder"] = folder;
             LayoutName = null;
         }
@@ -483,7 +490,18 @@ namespace CastlePortal
             ForumFolder folder = GetFolderBelongsMessage(message);
             CheckModerators(folder);
 //FIXME IF CACHE
-            DeleteMessagesChildren(message);
+//            DeleteMessagesChildren(message);
+            foreach (ForumMessage m in message.MessagesChildren)
+            {
+                if (message.Parent != null)
+                    m.Parent = message.Parent;
+                else
+                    m.ForumFolder = message.ForumFolder;
+                m.Save();
+            }
+            message.MessagesChildren.Clear();
+            message.Save();
+
             if (message.Parent != null)
             {
                 ForumMessage parent = message.Parent;

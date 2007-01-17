@@ -1,32 +1,41 @@
-<h4>$l10n.INDEX_FORUM $!forum.Title</h4>
+<div id="generalforum">
+<div id="indiceforo">$l10n.INDEX_FORUM</div>
+<div id="newtheme">
+#if (($t.Forum.Admins.HasUser($session.User) == true) || ($context.Session.isRoot))
+    $AjaxHelper.LinkToRemote("$l10n.CREATE_NEW_THEME", "$siteRoot/forum/createfolder.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='idForum=$forum.Id&idFolderParent=0&layout=false'", "loading=javascript:waitPointer('t')", "complete=javascript:defaultPointer('t')"))
+#end
+</div>
 
-<table>
+<div id="tituloforo">$!forum.Title</div>
+
+<table class="show_list_foros">
 	<tr>
-		<th>$l10n.THEME/$l10n.AUTHOR</th>
-		<th>$l10n.LASTMESSAGE</th>
-		<th></th>
+		<th style="background:#2785b4; color:#fff; width:30%">$l10n.THEME/$l10n.AUTHOR</th>
+		<th style="background:#2785b4; color:#fff; width:30%">$l10n.LASTMESSAGE</th>
+		<th style="background:#2785b4; color:#fff; width:35%">Acciones</th>
 	</tr>
 
 	#foreach ($t in $forum.ForumFolders)
 		<tr>
-			<td>$AjaxHelper.LinkToRemote($!t.Title, "$siteRoot/forum/viewfolder.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='Id=$t.Id&layout=false'", "loading=javascript:waitPointer('t')", "complete=javascript:defaultPointer('t')"))</td>
-			<td></td>
-			<td>
+			<td style="background:#efefef">$AjaxHelper.LinkToRemote($!t.Title, "$siteRoot/forum/viewfolder.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='Id=$t.Id&layout=false'", "loading=javascript:waitPointer('t')", "complete=javascript:defaultPointer('t')"))</td>
+			<td style="background:#efefef"></td>
+			<td style="background:#efefef">
             #if (($t.Forum.Admins.HasUser($session.User) == true) || ($context.Session.isRoot))
-				    $AjaxHelper.LinkToRemote("Crear subtema", "$siteRoot/forum/createfolder.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='idForum=0&idFolderParent=$t.Id&layout=false'", "loading=javascript:waitPointer('t')", "complete=javascript:defaultPointer('t')"))
-				    $AjaxHelper.LinkToRemote($l10n.EDIT, "$siteRoot/forum/editfolder.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='Id=$t.Id&layout=false'", "loading=javascript:waitPointer('t')", "complete=javascript:defaultPointer('t')"))
-				    $AjaxHelper.LinkToRemote($l10n.DELETE, "$siteRoot/forum/deletefolder.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='Id=$t.Id&layout=false'", "loading=javascript:waitPointer('t')", "complete=javascript:defaultPointer('t')"))
+				   
+					 $AjaxHelper.LinkToRemote("<img src='$siteRoot/Public/images/newcontent.gif' title='Nuevo' alt='ec'>&nbsp;Crear subtema", "$siteRoot/forum/createfolder.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='idForum=0&idFolderParent=$t.Id&layout=false'", "loading=javascript:waitPointer('t')", "complete=javascript:defaultPointer('t')"))
+				    $AjaxHelper.LinkToRemote("<img src='$siteRoot/Public/images/editcategory.gif' title='Editar' alt='ec'>&nbsp;Editar", "$siteRoot/forum/editfolder.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='Id=$t.Id&layout=false'", "loading=javascript:waitPointer('t')", "complete=javascript:defaultPointer('t')"))
+				    $AjaxHelper.LinkToRemote("<img src='$siteRoot/Public/images/eliminar.gif' title='Eliminar' alt='ec'>&nbsp;Eliminar", "$siteRoot/forum/deletefolder.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='Id=$t.Id&layout=false'", "loading=javascript:waitPointer('t')", "complete=javascript:defaultPointer('t')"))
             #end
 			</td>
 		</tr>
 		#foreach ($t2 in $t.FoldersChildren)
 			<tr>
-				<td>&nbsp;&nbsp;$AjaxHelper.LinkToRemote($!t2.Title, "$siteRoot/forum/viewfolder.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='Id=$t2.Id&layout=false'", "loading=javascript:waitPointer('t')", "complete=javascript:defaultPointer('t')"))</td>
+				<td>&nbsp;&nbsp;$AjaxHelper.LinkToRemote($!t2.Title, "$siteRoot/forum/viewfolder.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='Id=$t2.Id&layout=false'", "loading=javascript:waitPointer('t')", "complete=javascript:defaultPointer('t')"))</td>
             <td></td>
             <td>
                 #if ($t.Forum.Admins.HasUser($session.User) == true)
-				        $AjaxHelper.LinkToRemote($l10n.EDIT, "$siteRoot/forum/editfolder.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='Id=$t2.Id&layout=false'", "loading=javascript:waitPointer('t')", "complete=javascript:defaultPointer('t')"))
-				        $AjaxHelper.LinkToRemote($l10n.DELETE, "$siteRoot/forum/deletefolder.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='Id=$t2.Id&layout=false'", "loading=javascript:waitPointer('t')", "complete=javascript:defaultPointer('t')"))
+				        $AjaxHelper.LinkToRemote($l10n.EDIT, "$siteRoot/forum/editfolder.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='Id=$t2.Id&layout=false'", "loading=javascript:waitPointer('t')", "complete=javascript:defaultPointer('t')"))
+				        $AjaxHelper.LinkToRemote($l10n.DELETE, "$siteRoot/forum/deletefolder.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='Id=$t2.Id&layout=false'", "loading=javascript:waitPointer('t')", "complete=javascript:defaultPointer('t')"))
                 #end
             </td>
 			</tr>
@@ -34,9 +43,11 @@
 	#end
 </table>
 
-<br><br>
+<!--<div id="newtheme">
 #if (($t.Forum.Admins.HasUser($session.User) == true) || ($context.Session.isRoot))
-    $AjaxHelper.LinkToRemote("$l10n.CREATE_NEW_THEME", "$siteRoot/forum/createfolder.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='idForum=$forum.Id&idFolderParent=0&layout=false'", "loading=javascript:waitPointer('t')", "complete=javascript:defaultPointer('t')"))
+    $AjaxHelper.LinkToRemote("$l10n.CREATE_NEW_THEME", "$siteRoot/forum/createfolder.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='idForum=$forum.Id&idFolderParent=0&layout=false'", "loading=javascript:waitPointer('t')", "complete=javascript:defaultPointer('t')"))
 #end
+</div>-->
+</div>
 <br>
 

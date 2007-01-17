@@ -1,11 +1,19 @@
-<table>
+<table class="newtheme">
   <tr>
-    <td><strong>$l10n.TITLE</strong></td>
+    <td style="text-align:center"><strong>$l10n.TITLE</strong></td>
     <td>$FormHelper.TextField("folder.Title")</td>
   </tr>
   <tr>
-    <td><strong>$l10n.DESCRIPTION</strong></td>
+    <td style="text-align:center"><strong>$l10n.DESCRIPTION</strong></td>
     <td>$FormHelper.TextArea("folder.Description", $DictHelper.CreateDict("cols='70'", "rows='8'"))</td>
+  </tr>
+  <tr>
+    <td><strong>$l10n.MODERATORS_GROUP</strong></td>
+    <td>
+      $HtmlHelper.Select('folder.MODERATORS.Id')
+        $HtmlHelper.CreateOptionsFromArray($groups, "Name", "Id", $!folder.MODERATORS.Id)
+      $HtmlHelper.EndSelect()
+    </td>
   </tr>
 </table>
 

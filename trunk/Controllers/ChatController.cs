@@ -1,7 +1,7 @@
 // Authors:
 //    Héctor Rojas  <hectorrojas@shidix.com>
 //    Carlos Ble  <carlosble@shidix.com>
-//    Alberto Morales <amd77@shidix.com>
+//    Alberto Morales <amd77@gulic.org>
 //
 // Copyright 2006 Shidix Technologies - http://www.shidix.com
 //
@@ -31,7 +31,6 @@ namespace CastlePortal
     [Layout ("general")]
     [Helper (typeof (MenuHelper))]
     [Helper (typeof (StringHelper))]
-    [Helper (typeof (ExtraHelper))]
     [Helper (typeof (ChatHelper))]
     [Rescue("generalerror")]
     [Resource( "l10n", "l10n" )]

@@ -29,7 +29,6 @@ namespace CastlePortal
 [Layout ("general")]
 [Helper (typeof (MenuHelper))]
 [Helper (typeof (StringHelper))]
-[Helper (typeof (ExtraHelper))]
 [Rescue("generalerror")]
 [Resource( "l10n", "l10n" )]
 [LocalizationFilter( RequestStore.Cookie, Constants.LOCALE_COOKIE )]

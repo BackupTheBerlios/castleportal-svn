@@ -1,50 +1,85 @@
 #macro(tree $message)
 	#foreach ($m in $message.MessagesChildren)
-		$ForumHelper.Shift($m.Level)<strong>$m.Title</strong><br>
-		$ForumHelper.Shift($m.Level)$m.Owner.Name  $m.Date<br>
-		$ForumHelper.Shift($m.Level)$m.Body<br>
-
+<div id="hilo">
+	<table class="hilo">
+		<tr>
+			<th colspan="2">$ForumHelper.Shift($m.Level)<strong>$m.Title</strong></th>
+		</tr>
+		<tr>	
+			<td class="tdf" style="width:30%">Autor
+			</td>
+			<td class="tdf" style="width:70%">Mensaje
+			</td>
+		</tr>
+		<tr>
+			<td>$ForumHelper.Shift($m.Level)$m.Owner.Name  $m.Date</td>
+			<td>$ForumHelper.Shift($m.Level)$m.Body</td>
+		</tr>
+	</table>
+<br>
 		$ForumHelper.Shift($m.Level)
-		$AjaxHelper.LinkToRemote("$l10n.REPLY", "$siteRoot/forum/createmessage.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='idFolderParent=0&idMessageParent=$m.Id&layout=false'", "loading=javascript:waitPointer('m')", "complete=javascript:defaultPointer('m')"))
+<div id="actions_foro">
+		$AjaxHelper.LinkToRemote("$l10n.REPLY", "$siteRoot/forum/createmessage.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='idFolderParent=0&idMessageParent=$m.Id&layout=false'", "loading=javascript:waitPointer('m')", "complete=javascript:defaultPointer('m')"))
       #if (($session.User.Id = $m.Owner.Id) || ($context.Session.isRoot))
-		  $AjaxHelper.LinkToRemote("$l10n.EDIT", "$siteRoot/forum/editmessage.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='Id=$m.Id&layout=false'", "loading=javascript:waitPointer('m')", "complete=javascript:defaultPointer('m')"))
+		  $AjaxHelper.LinkToRemote("$l10n.EDIT", "$siteRoot/forum/editmessage.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='Id=$m.Id&layout=false'", "loading=javascript:waitPointer('m')", "complete=javascript:defaultPointer('m')"))
       #end
       #if (($folder.Moderators.HasUser($session.User) == true) || ($folder.Forum.Admins.HasUser($session.User)) || ($context.Session.isRoot))
-		  $AjaxHelper.LinkToRemote("$l10n.DELETE", "$siteRoot/forum/deletemessage.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='Id=$m.Id&layout=false'", "loading=javascript:waitPointer('m')", "complete=javascript:defaultPointer('m')"))
+		  $AjaxHelper.LinkToRemote("$l10n.DELETE", "$siteRoot/forum/deletemessage.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='Id=$m.Id&layout=false'", "loading=javascript:waitPointer('m')", "complete=javascript:defaultPointer('m')"))
       #end
+</div>
+</div>
 
 ##		<a href="createmessage.$EXTENSION?idFolderParent=0&idMessageParent=$m.Id">Responder</a>
 ##		<a href="editmessage.$EXTENSION?Id=$m.Id">Editar</a>
-		<br>
 		#tree($m)
 	#end
 #end
 
-$ForumHelper.Shift($message.Level)<strong>$message.Title</strong><br>
-$ForumHelper.Shift($message.Level)$message.Owner.Name  $message.Date<br>
-$ForumHelper.Shift($message.Level)$message.Body<br>
+<div id="hilo">
+	<table class="hilo">
+		<tr>
+			<th colspan="2">$ForumHelper.Shift($message.Level)<strong>$message.Title</strong></th>
+		</tr>
+		<tr>
+			<td class="tdf" style="width:30%">Autor
+			</td>
+			<td class="tdf" style="width:70%">Mensaje
+			</td>
+		</tr>
+		<tr>
+			<td>$ForumHelper.Shift($message.Level)$message.Owner.Name  $message.Date</td>
+			<td>$ForumHelper.Shift($message.Level)$message.Body</td>
+		</tr>
+	</table>
+</div>
+	$ForumHelper.Shift($message.Level)
+<br>
+<div id="actions_foro">
+	$AjaxHelper.LinkToRemote("$l10n.REPLY", "$siteRoot/forum/createmessage.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='idFolderParent=0&idMessageParent=$message.Id&layout=false'", "loading=javascript:waitPointer('message')", "complete=javascript:defaultPointer('message')"))
 
-$ForumHelper.Shift($message.Level)
-$AjaxHelper.LinkToRemote("$l10n.REPLY", "$siteRoot/forum/createmessage.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='idFolderParent=0&idMessageParent=$message.Id&layout=false'", "loading=javascript:waitPointer('message')", "complete=javascript:defaultPointer('message')"))
 #if (($session.User.Id = $m.Owner.Id) || ($context.Session.isRoot))
-    $AjaxHelper.LinkToRemote("$l10n.EDIT", "$siteRoot/forum/editmessage.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='id=$message.Id&layout=false'", "loading=javascript:waitPointer('message')", "complete=javascript:defaultPointer('message')"))
+    $AjaxHelper.LinkToRemote("$l10n.EDIT", "$siteRoot/forum/editmessage.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='id=$message.Id&layout=false'", "loading=javascript:waitPointer('message')", "complete=javascript:defaultPointer('message')"))
 #end
+
 #if (($folder.Moderators.HasUser($session.User) == true) || ($folder.Forum.Admins.HasUser($session.User)) || ($context.Session.isRoot))
-    $AjaxHelper.LinkToRemote("$l10n.DELETE", "$siteRoot/forum/deletemessage.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='id=$message.Id&layout=false'", "loading=javascript:waitPointer('message')", "complete=javascript:defaultPointer('message')"))
+    $AjaxHelper.LinkToRemote("$l10n.DELETE", "$siteRoot/forum/deletemessage.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='id=$message.Id&layout=false'", "loading=javascript:waitPointer('message')", "complete=javascript:defaultPointer('message')"))
+</div>
 #end
 
 <br><br>
 ##<a href="createmessage.$EXTENSION?idFolderParent=0&idMessageParent=$message.Id">Responder</a>
 ##<a href="editmessage.$EXTENSION?Id=$message.Id">Editar</a>
 
-<br>
+<div id="responses">
 #tree($message)
+</div>
 
 #if ($message.ForumFolder.Forum)
     #set ($idForum = $message.ForumFolder.Forum.Id)
 #else
     #set ($idForum = $message.ForumFolder.Parent.Forum.Id)
 #end
-$AjaxHelper.LinkToRemote("$l10n.RETURN_FORUM", "$siteRoot/forum/viewforum.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='id=$idForum&layout=false'", "loading=javascript:waitPointer('message')", "complete=javascript:defaultPointer('message')"))
-$AjaxHelper.LinkToRemote("$l10n.RETURN_THEME", "$siteRoot/forum/viewfolder.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='id=$message.ForumFolder.Id&layout=false'", "loading=javascript:waitPointer('message')", "complete=javascript:defaultPointer('message')"))
-
+<div id="actions_foro">
+	$AjaxHelper.LinkToRemote("$l10n.RETURN_FORUM", "$siteRoot/forum/viewforum.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='id=$idForum&layout=false'", "loading=javascript:waitPointer('message')", "complete=javascript:defaultPointer('message')"))
+	$AjaxHelper.LinkToRemote("$l10n.RETURN_THEME", "$siteRoot/forum/viewfolder.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='id=$message.ForumFolder.Id&layout=false'", "loading=javascript:waitPointer('message')", "complete=javascript:defaultPointer('message')"))
+</div>

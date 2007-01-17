@@ -1,4 +1,4 @@
-<table>
+<table class="newtheme">
   <tr>
     <td><strong>$l10n.TITLE</strong></td>
     <td>$FormHelper.TextField("message.Title")</td>

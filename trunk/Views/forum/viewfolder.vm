@@ -1,25 +1,26 @@
-<h4>$l10n.INDEX_THEME $!folder.Title</h4>
+<div id="generalforum">
+<div id="indiceforo">$l10n.INDEX_THEME $!folder.Title</div>
 
 #if ($folder.FoldersChildren.Count > 0)
 	#foreach ($f in $folder.FoldersChildren)
-		$AjaxHelper.LinkToRemote($!f.Title, "$siteRoot/forum/viewfolder.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='Id=$f.Id&layout=false'", "loading=javascript:waitPointer('f')", "complete=javascript:defaultPointer('f')"))<br>
+		$AjaxHelper.LinkToRemote($!f.Title, "$siteRoot/forum/viewfolder.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='Id=$f.Id&layout=false'", "loading=javascript:waitPointer('f')", "complete=javascript:defaultPointer('f')"))<br>
 	#end
 #else
-    <table>
+    <table class="show_list_foros" style="width:100%">
 	#foreach ($m in $folder.ForumMessages)
         <tr>
-                <td>$AjaxHelper.LinkToRemote($!m.Title, "$siteRoot/forum/viewthread.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='Id=$m.Id&layout=false'", "loading=javascript:waitPointer('m')", "complete=javascript:defaultPointer('m')"))</td>
-                <td>
+       			 <td style="background-color:#efefef; width:85%">$AjaxHelper.LinkToRemote($!m.Title, "$siteRoot/forum/viewthread.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='Id=$m.Id&layout=false'", "loading=javascript:waitPointer('m')", "complete=javascript:defaultPointer('m')"))</td>
+                <td style="background-color:#efefef; width:15%">
                     #if (($folder.Moderators.HasUser($session.User) == true) || ($folder.Forum.Admins.HasUser($session.User)) || ($context.Session.isRoot))
-                        $AjaxHelper.LinkToRemote($l10n.DELETE, "$siteRoot/forum/deletemessage.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='Id=$m.Id&layout=false'", "loading=javascript:waitPointer('m')", "complete=javascript:defaultPointer('m')"))
+                        $AjaxHelper.LinkToRemote("<img src='$siteRoot/Public/images/eliminar.gif' title='Eliminar' alt='ec'>&nbsp;Eliminar", "$siteRoot/forum/deletemessage.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='Id=$m.Id&layout=false'", "loading=javascript:waitPointer('m')", "complete=javascript:defaultPointer('m')"))
                     #end
                 </td>
         </tr>
 	#end
     </table>
-
     <br>
-
-    $AjaxHelper.LinkToRemote("$l10n.CREATE_NEW_THREAD", "$siteRoot/forum/createmessage.$EXTENSION", $DictHelper.CreateDict("update=contenido", "with='idFolderParent=$folder.Id&idMessageParent=0&layout=false'", "loading=javascript:waitPointer('m')", "complete=javascript:defaultPointer('m')"))
+<div id="newhilo">
+    $AjaxHelper.LinkToRemote("$l10n.CREATE_NEW_THREAD", "$siteRoot/forum/createmessage.$EXTENSION", $DictHelper.CreateDict("update=$maindiv", "with='idFolderParent=$folder.Id&idMessageParent=0&layout=false'", "loading=javascript:waitPointer('m')", "complete=javascript:defaultPointer('m')"))
 #end
-
+</div>
+</div>

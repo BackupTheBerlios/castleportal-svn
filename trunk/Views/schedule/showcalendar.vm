@@ -1,0 +1,70 @@
+<!--<div id="body">-->
+	<table width="100%">
+	<tr>
+		<td>
+			<table class="calendar">
+				<tr>
+					<td class="calendarHeader">  
+						<a href="$siteRoot/schedule/showcalendar.$EXTENSION?year=$ScheduleHelper.GetPrevYear($selectedYear,$selectedMonth)&month=$ScheduleHelper.GetPrevMonth($selectedMonth)"><img src="$siteRoot/Public/images/prev.gif"/></a>
+					</td>
+					<td colspan="5" class="calendarHeader"><b>$ScheduleHelper.GetMonth($selectedMonth) - $selectedYear</b></td>
+					<td class="calendarHeader">
+						<a href="$siteRoot/schedule/showcalendar.$EXTENSION?year=$ScheduleHelper.GetNextYear($selectedYear,$selectedMonth)&month=$ScheduleHelper.GetNextMonth($selectedMonth)"><img src="$siteRoot/Public/images/next.gif"/></a>
+					</td>
+				</tr>
+				<tr>
+					<td class="calendarDays">Lu</td>
+					<td class="calendarDays">Ma</td>
+					<td class="calendarDays">Mi</td>
+					<td class="calendarDays">Ju</td>
+					<td class="calendarDays">Vi</td>
+					<td class="calendarDays">Sa</td>
+					<td class="calendarDays">Do</td>
+				</tr>
+				#foreach ($week in $monthMatrix)
+				<tr>
+					#foreach ($day in $week)
+						#if ($day != "")
+							$ScheduleHelper.DrawDay($day, $selectedYear, $selectedMonth, $dayEvents, 'calendarToday', 'calendarEvent', 'calendarEvents','showday.$EXTENSION?')
+						#else
+							<td class="calendarNoDay">&nbsp;</td>
+						#end
+					#end
+				</tr>
+				#end
+			</table>
+		</td>
+		<td>
+        <div class="detalleDia" id="dia">
+            #parse("schedule/showday.vm")
+        </div>
+		</td>
+	</tr>
+</table>
+	Dia actual<br>
+	Un evento<br>
+	Mas de un evento<br>
+	#if ($events)
+		<span class="seccion">Listado de próximos eventos</span>
+##<a href="$siteRoot/schedule/createevent.$EXTENSION" target="dia"><img src="$siteRoot/Public/images/filenew.png"/></a>&nbsp;
+$AjaxHelper.LinkToRemote("<img src='$siteRoot/Public/images/filenew.png'/>", "$siteRoot/schedule/createevent.$EXTENSION", $DictHelper.CreateDict("update=dia", "with='layout=false'", "loading=javascript:waitPointer('schedule')", "complete=javascript:defaultPointer('schedule')"))
+##<a href="$siteRoot/schedule/showschedule.$EXTENSION" target="dia"><img src="$siteRoot/Public/images/listar.png"/></a>
+$AjaxHelper.LinkToRemote("<img src='$siteRoot/Public/images/listar.png'/>", "$siteRoot/schedule/showschedule.$EXTENSION", $DictHelper.CreateDict("update=dia", "with='layout=false'", "loading=javascript:waitPointer('schedule')", "complete=javascript:defaultPointer('schedule')"))
+ 		<table class="listadoEventos">
+			<tr><th>Inicio</th><th>Descripción</th></tr>
+				#foreach($e in $events)
+					#if ($velocityCount % 2 == 0)
+					<tr class="odd">
+					#else
+					<tr class="even">
+					#end
+						<td>$e.StartDate</td><td>$!e.Description</td>
+					</tr>
+				#end
+		</table>
+	#else
+		<span class="seccion">No hay eventos próximos </span><a href="$siteRoot/schedule/createevent.$EXTENSION" target="dia"><img src="$siteRoot/Public/images/filenew.png"/></a>&nbsp;
+##<a href="$siteRoot/schedule/showschedule.$EXTENSION" target="dia"><img src="$siteRoot/Public/images/listar.png"/></a>
+$AjaxHelper.LinkToRemote("<img src='$siteRoot/Public/images/listar.png'/>", "$siteRoot/schedule/showschedule.$EXTENSION", $DictHelper.CreateDict("update=dia", "with='layout=false'", "loading=javascript:waitPointer('schedule')", "complete=javascript:defaultPointer('schedule')"))
+	#end
+<!--</div>-->

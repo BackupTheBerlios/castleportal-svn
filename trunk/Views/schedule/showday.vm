@@ -1,0 +1,18 @@
+<html>
+<head>
+	<link rel="stylesheet" href="$siteRoot/Public/estilos/style.css" type="text/css"></link>
+</head>
+<body>
+	<div class="encabezadoDia">
+		<h1>Dia $day</h1>
+	</div>
+	<table class="listado">
+		#if ($eventsInDay)
+			<th>Hora</th><th>Evento</th><th>Descripci&oacute;n</th><th>Detalle</th>
+			$ScheduleHelper.ShowDay($quarters, $times)
+		#else
+			No hay eventos	
+		#end
+	</table>
+</body>
+</html>

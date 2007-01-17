@@ -1,0 +1,9 @@
+Hora
+<select name="hourStartDate" onchange="toggleModify('modifycheck')">
+	$ScheduleHelper.WriteOptionsHour()
+</select>
+Minuto
+<select name="minuteStartDate" onchange="toggleModify('modifycheck')">
+	$ScheduleHelper.WriteOptionsMinute()
+</select>
+

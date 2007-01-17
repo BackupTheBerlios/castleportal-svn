@@ -1,0 +1,10 @@
+<div id="contents">
+	   Evento: $!event.Name  <br>
+		Comienzo: $!event.StartDate <br>
+		Fin: $!event.EndDate <br>
+		Descripcion: $!event.Description <br>
+		Enlace: $!event.Link <br> <br>
+
+		<a href="deleteevent.EXTENSION?Id=$event.Id" target="_parent">Borrar evento<a><br>
+		<a href="modifyevent.EXTENSION?Id=$event.Id" target="_self">Modificar evento<a>
+</div>

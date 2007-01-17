@@ -74,12 +74,14 @@ public class HttpApp : System.Web.HttpApplication
             typeof(ForumFolder) ,
             typeof(ForumMessage) ,
             typeof(Group) , 
+            typeof(Language),
             typeof(Menu) , 
+            typeof(MenuTranslation),
             typeof(Role) , 
+            typeof(Schedule) , 
+            typeof(ScheduledEvent) , 
             typeof(Template) , 
             typeof(Type) , 
-            typeof(Language),
-            typeof(MenuTranslation),
             typeof(TypeTranslation),
             typeof(User)
         );

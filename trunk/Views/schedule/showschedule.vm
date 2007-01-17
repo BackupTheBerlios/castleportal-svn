@@ -1,0 +1,22 @@
+<div id="contents">
+Listado de eventos de la agenda de $Context.Session.User.Name :
+<br>
+#foreach ($event in $user.Schedule.Events)
+	   Evento: $!event.Name  <br>
+		Comienzo: $!event.StartDate <br>
+		Fin: $!event.EndDate <br>
+		Descripcion: $!event.Description <br>
+		Enlace: $!event.Link <br> <br>
+#end
+
+#foreach ($s in $user.Schedule.SharedSchedules)
+	#foreach ($event in $s)
+	   Evento: $!event.Name  <br>
+		Comienzo: $!event.StartDate <br>
+		Fin: $!event.EndDate <br>
+		Descripcion: $!event.Description <br>
+		Enlace: $!event.Link <br> <br>
+	#end
+#end
+</div>
+

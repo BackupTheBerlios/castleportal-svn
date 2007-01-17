@@ -1,0 +1,49 @@
+<script language="JavaScript" src="${siteRoot}/Public/tigra_calendar/calendar1.js"></script>
+<script language="JavaScript" src="${siteRoot}/Public/tigra_calendar/calendar2.js"></script>
+<script lang="javascript" src="/Public/javascript/scripts.js" type="text/javascript"></script>
+
+<div id="contents">
+	<!--<input type="hidden" name="Id" value="$Context.Session.User.Id">-->
+	Hay solapamiento con otro/s evento. Estos son los eventos solapados:  <br>
+	<table class="listadoEventos">
+		<tr><th>Inicio</th><th>Descripción</th></tr>
+			#foreach($e in $events)
+				#if ($velocityCount % 2 == 0)
+				<tr class="odd">
+				#else
+				<tr class="even">
+				#end
+					<td>$e.StartDate</td><td>$e.Description</td>
+				</tr>
+			#end
+	</table>
+	<br>
+	Por favor, modifique los datos el evento o confirme de nuevo que desea crearlo enviando otra 
+   vez el formulario: <br>
+<table class="formContainer">
+$AjaxHelper.BuildFormRemoteTag("$siteRoot/schedule/checkoverlap.$EXTENSION", $DictHelper.CreateDict( "update=tree", "with=Form.serialize(this)", "loading=javascript:waitPointer('schedule')", "complete=javascript:defaultPointer('schedule'); setGreaterHeight('$leftdiv', '$maindiv');") )
+##<form action="$siteRoot/schedule/checkoverlap.$EXTENSION" name="newEvent" target="_parent">
+	<input type="hidden" name="Id" value="$Context.Session.User.Id">
+	<input type="hidden" name="Event.Id" value="$idevent">
+
+	#parse("schedule/eventform.vm")
+	<tr><td>  
+		<input type="hidden" id="modifycheck" name="modifycheck" value="0">
+	</td></tr>
+</table>
+</form>
+
+<script lang="javascript">
+	splitDateTime();
+</script>
+
+<script language="JavaScript">
+	var calStartDate = new calendar1(document.forms['newEvent'].elements['Event.StartDate']);
+	calStartDate.year_scroll = false;
+	calStartDate.time_comp = true;
+	var calEndDate = new calendar1(document.forms['newEvent'].elements['Event.EndDate']);
+	calEndDate.year_scroll = false;
+	calEndDate.time_comp = true;
+</script>
+</div>
+

@@ -1,0 +1,43 @@
+	<tr>
+		<td class="formLabel">Nombre:</td>
+   	<td class="formInput"><input type="text" name="Event.Name" value="$!event.Name"
+         onchange="toggleModify('modifycheck')"></td>
+	</tr>
+	<tr>
+		<td class="formLabel">Fecha de inicio:</td>
+		<td class="formInput">
+			<input type="text" name="Event.StartDate" value="$!event.StartDate" readonly onchange="toggleModify('modifycheck')">
+			<a href="javascript:calStartDate.popup();">
+				<img 
+					src="${siteRoot}/Public/tigra_calendar/img/cal.gif" 
+					border="0" 
+					alt="Pulse para seleccionar la fecha" />
+			</a>
+			#parse("schedule/selecthourminutestartdate.vm")
+		</td>
+	</tr>
+	<tr>
+		<td class="formLabel">Fecha de fin:</td>
+		<td class="formInput">
+			<input type="text" name="Event.EndDate" value="$!event.EndDate" readonly onchange="toggleModify('modifycheck')">
+			<a href="javascript:calEndDate.popup();">
+				<img 
+					src="${siteRoot}/Public/tigra_calendar/img/cal.gif" 
+					border="0" 
+					alt="Pulse para seleccionar la fecha" />
+			</a>
+			#parse("schedule/selecthourminuteenddate.vm")
+		</td>
+	</tr>
+	<tr>
+		<td class="formLabel">Descripci&oacute;n:</td>
+		<td class="formInput"><input type="text" name="Event.Description" value="$!event.Description"  onchange="toggleModify('modifycheck')"></td>
+	</tr>
+	<tr>
+		<td class="formLabel">Enlace:</td>
+		<td class="formInput"><input type="text" name="Event.Link" value="$!event.Link"  onchange="toggleModify('modifycheck')"></td>
+	</tr>
+	<tr>
+		<td class="formInputSubmit" colspan="2"><input type="submit" value="Enviar" onClick='createDateTime()'> </td>
+	</tr>
+

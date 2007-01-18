@@ -5,6 +5,7 @@
 		Descripcion: $!event.Description <br>
 		Enlace: $!event.Link <br> <br>
 
-		<a href="deleteevent.EXTENSION?Id=$event.Id" target="_parent">Borrar evento<a><br>
-		<a href="modifyevent.EXTENSION?Id=$event.Id" target="_self">Modificar evento<a>
+		<a href="deleteevent.$EXTENSION?Id=$event.Id" target="_parent">Borrar evento<a><br>
+		##<a href="modifyevent.$EXTENSION?Id=$event.Id" target="_self">Modificar evento<a>
+		$AjaxHelper.LinkToRemote($l10n.EDIT, "$siteRoot/schedule/editevent.$EXTENSION", $DictHelper.CreateDict("update=dia", "with='Id=$event.Id&layout=false'", "loading=javascript:waitPointer('schedule')", "complete=javascript:defaultPointer('schedule')"))
 </div>

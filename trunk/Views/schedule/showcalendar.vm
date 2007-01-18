@@ -26,6 +26,8 @@
 					#foreach ($day in $week)
 						#if ($day != "")
 							$ScheduleHelper.DrawDay($day, $selectedYear, $selectedMonth, $dayEvents, 'calendarToday', 'calendarEvent', 'calendarEvents','showday.$EXTENSION?')
+								$AjaxHelper.LinkToRemote("$day", "$siteRoot/schedule/showday.$EXTENSION", $DictHelper.CreateDict("update=dia", "with='dateTime=$day/$selectedMonth/$selectedYear'", "loading=javascript:waitPointer('schedule')", "complete=javascript:defaultPointer('schedule')"))
+                     $ScheduleHelper.EndDrawDay()
 						#else
 							<td class="calendarNoDay">&nbsp;</td>
 						#end
@@ -35,7 +37,7 @@
 			</table>
 		</td>
 		<td>
-        <div class="detalleDia" id="dia">
+        <div class="detalleDia" id="dia" style="Overflow:scroll;width:100%;height:250px">
             #parse("schedule/showday.vm")
         </div>
 		</td>
@@ -46,10 +48,10 @@
 	Mas de un evento<br>
 	#if ($events)
 		<span class="seccion">Listado de próximos eventos</span>
-##<a href="$siteRoot/schedule/createevent.$EXTENSION" target="dia"><img src="$siteRoot/Public/images/filenew.png"/></a>&nbsp;
-$AjaxHelper.LinkToRemote("<img src='$siteRoot/Public/images/filenew.png'/>", "$siteRoot/schedule/createevent.$EXTENSION", $DictHelper.CreateDict("update=dia", "with='layout=false'", "loading=javascript:waitPointer('schedule')", "complete=javascript:defaultPointer('schedule')"))
-##<a href="$siteRoot/schedule/showschedule.$EXTENSION" target="dia"><img src="$siteRoot/Public/images/listar.png"/></a>
-$AjaxHelper.LinkToRemote("<img src='$siteRoot/Public/images/listar.png'/>", "$siteRoot/schedule/showschedule.$EXTENSION", $DictHelper.CreateDict("update=dia", "with='layout=false'", "loading=javascript:waitPointer('schedule')", "complete=javascript:defaultPointer('schedule')"))
+
+      $AjaxHelper.LinkToRemote("<img src='$siteRoot/Public/images/filenew.png'/>", "$siteRoot/schedule/createevent.$EXTENSION", $DictHelper.CreateDict("update=dia", "with='layout=false'", "loading=javascript:waitPointer('schedule')", "complete=javascript:defaultPointer('schedule')"))
+      $AjaxHelper.LinkToRemote("<img src='$siteRoot/Public/images/listar.png'/>", "$siteRoot/schedule/showschedule.$EXTENSION", $DictHelper.CreateDict("update=dia", "with='layout=false'", "loading=javascript:waitPointer('schedule')", "complete=javascript:defaultPointer('schedule')"))
+
  		<table class="listadoEventos">
 			<tr><th>Inicio</th><th>Descripción</th></tr>
 				#foreach($e in $events)

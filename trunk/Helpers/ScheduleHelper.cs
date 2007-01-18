@@ -1,7 +1,7 @@
 // Authors:
 //    Carlos Ble <carlosble@shidix.com>
-//    Hector Rojas <hectorrojas@shidix.com>
 //    Alberto Morales <amd77@gulic.org>
+//    Hector Rojas <hectorrojas@shidix.com>
 //
 // Copyright 2006 Shidix Technologies - http://www.shidix.com
 //
@@ -119,16 +119,25 @@ public class ScheduleHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
             div += "<td class='" + calEvents + "'>";
         else
             div += "<td>";
-        div += "<a href=\"javascript:;\"  onclick=\"javascript:frames['dia'].location.href = '"+ action+"dateTime="+day+"/"+month+"/"+year+"';\">";
+        /*div += "<a href=\"javascript:;\"  onclick=\"javascript:frames['dia'].location.href = '"+ action+"dateTime="+day+"/"+month+"/"+year+"';\">";
         div += day;
         div += "</a>";
-        div += "</td>";
+*/
+
+//        div += "</td>";
         return div;
         //}
     }
 
-#if GPC
-    public string ShowDay(ArrayList quarters, ArrayList times)
+    public string EndDrawDay()
+    {
+        string div = "";
+        div += "</td>";
+
+        return div;
+    }
+
+    public string ShowDay(ArrayList quarters, ArrayList times, string action, string update)
     {
         string ret= "";
         string color = "yellow";
@@ -149,8 +158,9 @@ public class ScheduleHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
                             ret += events[0].Description;
 
                             ret += "</td><td class='eventLink'>";
-                            ret += "<a href=\"showdetail.html?Id=" + events[0].Id + "\">";
-                            ret += "Ver mas</a>";
+//                            ret += "<a href=\"" + action + "?Id=" + events[0].Id + "\">";
+//                            ret += "Ver mas</a>";
+                            ret += CreateAjaxLink(action, update, events[0].Id);
                             ret += "</td></tr>";
                         }
                         else if (events.Length > 1)
@@ -171,8 +181,9 @@ public class ScheduleHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
                             ret += "</td><td class='eventLink'>";
                             for (int j = 0; j < events.Length; j++)
                             {
-                                ret += "<br><a href=\"showdetail.html?Id=" + events[j].Id + "\">";
-                                ret += "Ver mas</a>";
+                                //ret += "<br><a href=\"" + action + "?Id=" + events[j].Id + "\">";
+                                //ret += "Ver mas</a>";
+                                ret += CreateAjaxLink(action, update, events[0].Id);
                             }
                             ret += "</td>";
                             ret += "</tr>";
@@ -189,6 +200,17 @@ public class ScheduleHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
             }
         return ret;
     }
+
+    private string CreateAjaxLink(string action, string update, int id)
+    {
+        string link = "<a href=\"javascript:void(0);\" onclick=\"new Ajax.Updater('" + update + "', ";
+        link += "'" + action + "'";
+        link += ", {asynchronous:true, evalScripts:true, parameters:'layout=false&Id=" + id.ToString() + "'}); return false;\">";
+        link += "Ver mas</a>";
+
+        return link;
+    }
+
     public string WriteOptionsMinute()
     {
         string ret = "";
@@ -214,7 +236,6 @@ public class ScheduleHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 
         return ret;
     }
-#endif
 
     public string getTypeOfDay (int day, int year, int month)
     {

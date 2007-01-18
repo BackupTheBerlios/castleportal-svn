@@ -144,7 +144,7 @@ namespace CastlePortal
                 if (events.Length > 0)
                     PropertyBag["eventsInDay"] = events.Length;
             }
-//            LayoutName = null;
+            LayoutName = null;
         }
 
         public void ShowCalendar(int year, int month)
@@ -344,10 +344,12 @@ namespace CastlePortal
             RedirectToAction("showcalendar");
         }
 
-        public void ModifyEvent([ARFetch ("Id", Create = false)]ScheduledEvent sdle)
+        public void EditEvent([ARFetch ("Id", Create = false)]ScheduledEvent sdle)
         {
             PropertyBag["idevent"] = sdle.Id;
             PropertyBag["Event"] = sdle;
+            PropertyBag["startdate"] = sdle.StartDate.Day.ToString() + "/" + sdle.StartDate.Month.ToString() + "/" + sdle.StartDate.Year.ToString();
+            PropertyBag["enddate"] = sdle.EndDate.Day.ToString() + "/" + sdle.EndDate.Month.ToString() + "/" + sdle.EndDate.Year.ToString();
 
             LayoutName = null;
         }
@@ -358,13 +360,11 @@ namespace CastlePortal
         /// </summary>
         public void CheckOverlap([ARFetch ("Id", Create = false)] User user, 
                                     [DataBind ("Event")] ScheduledEvent sdle,
-                                    int modifycheck)
+                                    int modifycheck, int hourStartDate, int minuteStartDate, int hourEndDate, int minuteEndDate)
         {
             ScheduledEvent[] events = ScheduledEvent.GetEventsByDateTime(Schedule.FindByUser(user), sdle.StartDate, sdle.Id);
 //                foreach (Schedule s in user.Schedule.SharedSchedules)
 //                    events = AddScheduledEvent(events, ScheduledEvent.GetEventsByDateTime(s, sdle.StartDate, sdle.Id));
-System.Console.WriteLine("C0 {0}", events.Length);
-System.Console.WriteLine("C01 {0}", sdle.StartDate);
 
             if (events.Length > 0) // Overlap
             {

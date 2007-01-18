@@ -30,6 +30,13 @@ function reloadMessage(updateDiv, method, idchat, idmsg)
 /* *****************************************************
 	Javascript for scheduled
 */
+function callCal(obj)
+{
+   var cal = new calendar1(obj);
+   cal.year_scroll = false;
+   cal.time_comp = true;
+	cal.popup()
+}
 
 function createDateTime()
 {
@@ -63,24 +70,39 @@ function splitDateTime()
 {
 	var event_StartDate = document.getElementsByName("Event.StartDate")[0];
 	var datetime = event_StartDate.value;
-alert(datetime);
-	var temp = datetime.split(" ");
-	var time = temp[1].split(":");
-	var hourStartDate = document.getElementsByName("hourStartDate")[0];
-	var minuteStartDate = document.getElementsByName("minuteStartDate")[0];
-	event_StartDate.value = temp[0];
-	hourStartDate.value = time[0];
-	minuteStartDate.value = time[1];
+	if (datetime)
+	{
+		var temp = datetime.split(" ");
+		var time = temp[1].split(":");
+		var hourStartDate = document.getElementsByName("hourStartDate")[0];
+		var minuteStartDate = document.getElementsByName("minuteStartDate")[0];
+		event_StartDate.value = temp[0];
+		hourStartDate.value = time[0];
+		minuteStartDate.value = time[1];
+	}
 
 	var event_EndDate = document.getElementsByName("Event.EndDate")[0];
 	datetime = event_EndDate.value;
-	temp = datetime.split(" ");
-	time = temp[1].split(":");
-	var hourEndDate = document.getElementsByName("hourEndDate")[0];
-	var minuteEndDate = document.getElementsByName("minuteEndDate")[0];
-	event_EndDate.value = temp[0];
-	hourEndDate.value = time[0];
-	minuteEndDate.value = time[1];
+	if (datetime)
+	{
+		temp = datetime.split(" ");
+		time = temp[1].split(":");
+		var hourEndDate = document.getElementsByName("hourEndDate")[0];
+		var minuteEndDate = document.getElementsByName("minuteEndDate")[0];
+		event_EndDate.value = temp[0];
+		hourEndDate.value = time[0];
+		minuteEndDate.value = time[1];
+	}
+}
+
+function toggleModify(id)
+{
+   field = document.getElementById(id)
+   if (field)
+   {
+      if (field.value)
+         field.value = "1";
+   }
 }
 
 /* *****************************************************

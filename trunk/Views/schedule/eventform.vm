@@ -1,3 +1,4 @@
+<table class="formContainer">
 	<tr>
 		<td class="formLabel">Nombre:</td>
    	<td class="formInput"><input type="text" name="Event.Name" value="$!event.Name"
@@ -6,8 +7,8 @@
 	<tr>
 		<td class="formLabel">Fecha de inicio:</td>
 		<td class="formInput">
-			<input type="text" name="Event.StartDate" value="$!event.StartDate" readonly onchange="toggleModify('modifycheck')">
-			<a href="javascript:calStartDate.popup();">
+			<input type="text" name="Event.StartDate" value="$!startdate" readonly onchange="toggleModify('modifycheck')">
+			<a href="javascript:callCal(document.forms['newEvent'].elements['Event.StartDate']);">
 				<img 
 					src="${siteRoot}/Public/tigra_calendar/img/cal.gif" 
 					border="0" 
@@ -19,8 +20,8 @@
 	<tr>
 		<td class="formLabel">Fecha de fin:</td>
 		<td class="formInput">
-			<input type="text" name="Event.EndDate" value="$!event.EndDate" readonly onchange="toggleModify('modifycheck')">
-			<a href="javascript:calEndDate.popup();">
+			<input type="text" name="Event.EndDate" value="$!enddate" readonly onchange="toggleModify('modifycheck')">
+			<a href="javascript:callCal(document.forms['newEvent'].elements['Event.EndDate']);">
 				<img 
 					src="${siteRoot}/Public/tigra_calendar/img/cal.gif" 
 					border="0" 
@@ -40,4 +41,5 @@
 	<tr>
 		<td class="formInputSubmit" colspan="2"><input type="submit" value="Enviar" onClick='createDateTime()'> </td>
 	</tr>
+</table>
 

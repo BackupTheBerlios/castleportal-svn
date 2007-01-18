@@ -1,35 +1,12 @@
-<script language="JavaScript" src="${siteRoot}/Public/tigra_calendar/calendar1.js"></script>
-<script language="JavaScript" src="${siteRoot}/Public/tigra_calendar/calendar2.js"></script>
-
 <div id="contents">
-<h4>Creacion de un evento:</h4>
-<table class="formContainer">
-##$AjaxHelper.BuildFormRemoteTag("$siteRoot/schedule/checkoverlap.$EXTENSION", $DictHelper.CreateDict( "update=tree", "with=Form.serialize(this)", "loading=javascript:waitPointer('schedule')", "complete=javascript:defaultPointer('schedule'); setGreaterHeight('$leftdiv', '$maindiv');") )
-<form action="$siteRoot/schedule/checkoverlap.$EXTENSION" name="newEvent" target="_parent">
-	<input type="hidden" name="Id" value="$Context.Session.User.Id">
-	<input type="hidden" name="Event.Id" value="$idevent">
-
-	#parse("schedule/eventform.vm")
-	<tr><td>  
+	<h4>Creacion de un evento:</h4>
+	##$AjaxHelper.BuildFormRemoteTag("$siteRoot/schedule/checkoverlap.$EXTENSION", $DictHelper.CreateDict( "update=tree", "with=Form.serialize(this)", "loading=javascript:waitPointer('schedule')", "complete=javascript:defaultPointer('schedule'); setGreaterHeight('$leftdiv', '$maindiv');") )
+	<form action="$siteRoot/schedule/checkoverlap.$EXTENSION" name="newEvent">
+		<input type="hidden" name="Id" value="$Context.Session.User.Id">
+		<input type="hidden" name="Event.Id" value="$idevent">
 		<input type="hidden" id="modifycheck" name="modifycheck" value="0">
-	</td></tr>
-</table>
-</form>
 
-##<script lang="javascript">
-##	splitDateTime();
-##</script>
-
-<script language="JavaScript">
-alert('AAA1');
-	var calStartDate = new calendar1(document.forms['newEvent'].elements['Event.StartDate']);
-alert('AAA2');
-	calStartDate.year_scroll = false;
-	calStartDate.time_comp = true;
-	var calEndDate = new calendar1(document.forms['newEvent'].elements['Event.EndDate']);
-	calEndDate.year_scroll = false;
-	calEndDate.time_comp = true;
-</script>
-</table>
+   	#parse("schedule/eventform.vm")
+	</form>
 </div>
 

@@ -9,10 +9,11 @@
 	<table class="listado">
 		#if ($eventsInDay)
 			<th>Hora</th><th>Evento</th><th>Descripci&oacute;n</th><th>Detalle</th>
-			$ScheduleHelper.ShowDay($quarters, $times)
+			$ScheduleHelper.ShowDay($quarters, $times, "showdetail.$EXTENSION", "dia")
 		#else
 			No hay eventos	
 		#end
 	</table>
 </body>
 </html>
+

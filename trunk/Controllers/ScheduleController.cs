@@ -104,6 +104,22 @@ namespace CastlePortal
             RedirectToAction("showcalendar", parameters);
         }
 
+        public void ShowCalendar(int year, int month)
+        {
+            User user = (User)Context.Session["User"];
+            if (user != null)
+            {
+                CheckPermissions(Schedule.FindByUser(user));
+                Schedule s = Schedule.FindByUser(user);
+                if ((s) && (s != null))
+                	  Calendar(year, month, s);
+                else
+                    throw new Unauthorized();
+            }
+            else
+                throw new Unauthorized();
+        }
+
         public void ShowDay(string dateTime)
         {
             User user = (User)Context.Session["User"];
@@ -142,15 +158,9 @@ namespace CastlePortal
             LayoutName = null;
         }
 
-        private void Calendar(int year, int month)
+        private void Calendar(int year, int month, Schedule s)
         {
-            User user = (User)Context.Session["User"];
-            if (user != null)
-                CheckPermissions(Schedule.FindByUser(user));
-            else
-                throw new Unauthorized();
-
-            ScheduledEvent[] sdles = ScheduledEvent.GetEventsInMonth(Schedule.FindByUser(user), year, month);
+            ScheduledEvent[] sdles = ScheduledEvent.GetEventsInMonth(s, year, month);
             int[] dayEvents = CountDayEvents(sdles, year, month);
 
 /*            foreach (Schedule s in user.Schedule.SharedSchedules)
@@ -169,27 +179,19 @@ namespace CastlePortal
             PropertyBag["selectedYear"] = year;
             PropertyBag["monthMatrix"] = monthMatrix;
             PropertyBag["dayEvents"] = dayEvents;
-            if (user != null)
+            ScheduledEvent[] events = ScheduledEvent.GetNextOrderedEvents(s, DateTime.Now);
+//          foreach (Schedule s in user.Schedule.SharedSchedules)
+//               events = AddScheduledEvent(events, ScheduledEvent.GetNextOrderedEvents(s, DateTime.Now));
+
+            if (events.Length > 5)
             {
-                ScheduledEvent[] events = ScheduledEvent.GetNextOrderedEvents(Schedule.FindByUser(user), DateTime.Now);
-//                foreach (Schedule s in user.Schedule.SharedSchedules)
-//                    events = AddScheduledEvent(events, ScheduledEvent.GetNextOrderedEvents(s, DateTime.Now));
-
-                if (events.Length > 5)
-                {
-                    ScheduledEvent[] sdlesTemp = new ScheduledEvent[5];
-                    Array.Copy(events, sdlesTemp, 5);
-                    events = sdlesTemp;
-                }
-
-                PropertyBag["events"] = events;
-                PropertyBag["today"] = DateTime.Now.ToShortDateString();
+                 ScheduledEvent[] sdlesTemp = new ScheduledEvent[5];
+                 Array.Copy(events, sdlesTemp, 5);
+                 events = sdlesTemp;
             }
-        }
 
-        public void ShowCalendar(int year, int month)
-        {
-            Calendar(year, month);
+            PropertyBag["events"] = events;
+            PropertyBag["today"] = DateTime.Now.ToShortDateString();
         }
 
         // Build month matrix. Rows are weeks, columns are days
@@ -229,7 +231,11 @@ namespace CastlePortal
             return monthMatrix;
         }
 
-        public void CreateSchedule([ARFetch ("Id", Create = false)] User user)
+        public void CreateSchedule()
+        {
+        }
+
+        public void SaveSchedule([ARFetch ("Id", Create = false)] User user)
         {
             if (user != null)
             {
@@ -266,7 +272,6 @@ namespace CastlePortal
         // CreateEvent by clicking on date 
         public void CreateEvent([ARFetch ("Id", Create = false)] User user, string datetime)
         {
-            // TODO: Search for other event in same datetime and alert user
             PropertyBag["user"]  = user;
             PropertyBag["start"] = datetime;
 
@@ -359,20 +364,18 @@ namespace CastlePortal
                 }
                 else
                 {
-                    System.Console.WriteLine("CC2");
                     SaveEvent(sdle); // Form confirmed. Save data
                     DateTime dt = DateTime.Now;
-                    Calendar(dt.Year, dt.Month);
+                    Calendar(dt.Year, dt.Month, Schedule.FindByUser(user));
                     RenderView("showday");
                     LayoutName = null;
                 }
             }
             else
             {
-                System.Console.WriteLine("CC3");
                 SaveEvent(sdle); // There are not overlap. Save data
                 DateTime dt = DateTime.Now;
-                Calendar(dt.Year, dt.Month);
+                Calendar(dt.Year, dt.Month, Schedule.FindByUser(user));
                 RenderView("showday");
                 LayoutName = null;
             }
@@ -467,7 +470,6 @@ namespace CastlePortal
                 sdlesReturn[i] = sdlesTemp[i];
 
             return sdlesReturn;
-
         }
     }
 }

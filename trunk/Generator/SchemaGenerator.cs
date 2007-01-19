@@ -59,6 +59,7 @@ public class SchemaGenerator
     private static Hashtable types = new Hashtable();
     private static Hashtable users = new Hashtable();
     private static Hashtable languages = new Hashtable();
+//    private static Hashtable schedules = new Hashtable();
 
     private static string NodeGetString(XmlNode node, string name)
     {
@@ -149,7 +150,33 @@ public class SchemaGenerator
         }
         return null;
     }
+/*
+    private static string ReadSchedule(XmlNode node)
+    {
+        if (node.Name == "Schedule")
+        {
+            string user = NodeGetString(node, "user");
+            string group = NodeGetString(node, "group");
 
+            System.Console.WriteLine ("Schedule: " + user + " " + group);
+            Schedule s = null;
+            if (User.FindByName)
+            {
+                s = new Schedule(u);
+                s.Save();
+                schedules[name] = s;
+            }
+            else if (Group.FindByName)
+            {
+                s = new Schedule(g);
+                s.Save();
+                schedules[group] = s;
+            }
+        }
+
+        return null;
+    }
+*/
     private static string ReadLanguage(XmlNode node)
     {
         if (node.Name == "Language")
@@ -579,6 +606,9 @@ public class SchemaGenerator
                 break;
             case "Languages":
                 ReadLanguage(node);
+                break;
+            case "Schedules":
+                ReadSchedule(node);
                 break;
             }
         }

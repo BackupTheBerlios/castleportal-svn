@@ -34,13 +34,24 @@ namespace CastlePortal
 
         // BelongsTo
         private User _Owner;
+        private Group _GroupOwner;
 
         // HasMany 
         private IList _SharedSchedules;
         private IList _SharingMeSchedules;
         private IList _Events;                                // All events
         
-        public Schedule () { }
+        public Schedule() { }
+
+        public Schedule(User user)
+        {
+            _Owner = user;	
+        }
+
+        public Schedule(Group group)
+        {
+            _GroupOwner = group;	
+        }
 
         [PrimaryKey]
         public int Id
@@ -54,6 +65,13 @@ namespace CastlePortal
         {
             get { return _Owner; }
             set { _Owner = value; }
+        }
+
+        [BelongsTo]
+        public Group GroupOwner
+        {
+            get { return _GroupOwner; }
+            set { _GroupOwner = value; }
         }
 
 #if CACHE

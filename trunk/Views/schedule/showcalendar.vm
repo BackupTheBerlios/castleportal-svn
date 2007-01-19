@@ -37,7 +37,7 @@
 			</table>
 		</td>
 		<td>
-        <div class="detalleDia" id="dia" style="Overflow:scroll;width:100%;height:250px">
+        <div class="detalleDia" name="dia" id="dia" style="Overflow:scroll;width:150%;height:250px">
             #parse("schedule/showday.vm")
         </div>
 		</td>

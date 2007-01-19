@@ -1,8 +1,8 @@
 <div id="contents">
 	<h4>Creacion de un evento:</h4>
-	##$AjaxHelper.BuildFormRemoteTag("$siteRoot/schedule/checkoverlap.$EXTENSION", $DictHelper.CreateDict( "update=tree", "with=Form.serialize(this)", "loading=javascript:waitPointer('schedule')", "complete=javascript:defaultPointer('schedule'); setGreaterHeight('$leftdiv', '$maindiv');") )
-	<form action="$siteRoot/schedule/checkoverlap.$EXTENSION" name="newEvent">
-		<input type="hidden" name="Id" value="$Context.Session.User.Id">
+<form onsubmit="new Ajax.Updater('dia', '/schedule/checkoverlap.$EXTENSION', {onLoading:function(request) { javascript:waitPointer('schedule') } , onComplete:function(request) { javascript:defaultPointer('schedule'); setGreaterHeight('lateral', 'central'); } , asynchronous:true, evalScripts:true, parameters:Form.serialize(this)}); return false;" enctype="multipart/form-data" name="newEvent">
+##	$AjaxHelper.BuildFormRemoteTag("$siteRoot/schedule/checkoverlap.$EXTENSION", $DictHelper.CreateDict( "update=dia", "with=Form.serialize(this)", "loading=javascript:waitPointer('schedule')", "complete=javascript:defaultPointer('schedule'); setGreaterHeight('$leftdiv', '$maindiv');") )
+##	<form action="$siteRoot/schedule/checkoverlap.$EXTENSION" name="newEvent">
 		<input type="hidden" name="Event.Id" value="$idevent">
 		<input type="hidden" id="modifycheck" name="modifycheck" value="0">
 

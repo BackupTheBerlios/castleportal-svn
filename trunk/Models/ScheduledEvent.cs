@@ -116,19 +116,23 @@ namespace CastlePortal
                 return null;
         }
 
-        public static ScheduledEvent[] GetEventsByDateTime(Schedule sdle, DateTime dt, int idSdle)
+        public static ScheduledEvent[] GetEventsOverlap(Schedule s, ScheduledEvent sdle)
         {
             SimpleQuery q = new SimpleQuery(typeof(ScheduledEvent), @"
                 from ScheduledEvent S
                 where S.Schedule = ?
-                and S.StartDate <= ?
-                and S.EndDate >= ?
+                and ((S.StartDate <= ? and S.EndDate >= ?)
+                or (S.StartDate <= ? and S.EndDate >= ?)
+                or (S.StartDate >= ? and S.EndDate <= ?))
                 and S.Id != ?
-                order by S.StartDate", sdle, dt, dt, idSdle);
+                order by S.StartDate", s, sdle.StartDate, sdle.StartDate, sdle.EndDate, sdle.EndDate, sdle.StartDate, sdle.EndDate, sdle.Id);
+//                order by S.StartDate", s, sdle.StartDate, sdle.StartDate, sdle.Id);
 
             return (ScheduledEvent[]) ExecuteQuery(q);
         }
-        
+ //                and S.StartDate <= ?
+ //               and S.EndDate >= ?
+       
         public static ScheduledEvent[] GetOrderedEvents(Schedule sdle)
         {
             SimpleQuery q = new SimpleQuery(typeof(ScheduledEvent), @"

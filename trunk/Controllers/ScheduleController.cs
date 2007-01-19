@@ -44,6 +44,13 @@ namespace CastlePortal
     [DefaultAction("Redir")]
     public class ScheduleController : ARSmartDispatcherController
     {
+        static int DAYS_IN_WEEK = 7;
+        static int QUARTER = 15;
+        static int QUARTERS_IN_DAY = 24 * 4;
+        static int SUNDAY = 6;
+        static int MAX_DAYS_IN_MONTH = 31;
+
+
 /*        private void CheckSuperUser()
         {
             LayoutName = null;
@@ -88,27 +95,15 @@ namespace CastlePortal
             RedirectToAction("index");
         }
 
-        public void index ()
+        public void Index ()
         {
-            RedirectToAction("showcalendar");
+            DateTime dt = DateTime.Now;
+            Hashtable parameters = new Hashtable();
+            parameters["year"] = dt.Year;
+            parameters["month"] = dt.Month;
+            RedirectToAction("showcalendar", parameters);
         }
 
-        //static int MAX_WEEKS_IN_MONTH = 6;
-        static int DAYS_IN_WEEK = 7;
-        static int QUARTER = 15;
-        static int QUARTERS_IN_DAY = 24 * 4;
-        static int SUNDAY = 6;
-        static int MAX_DAYS_IN_MONTH = 31;
-        //private ILog log = ((HttpApp) HttpContext.Current.ApplicationInstance).log;
-        /*private static readonly Castle.Services.Logging.ILogger log = 
-                  Shidix.PublicAPI.LogFactory.Create(
-                            System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-*/
-        public ScheduleController()
-        {
-                  
-        }
-        
         public void ShowDay(string dateTime)
         {
             User user = (User)Context.Session["User"];
@@ -147,20 +142,15 @@ namespace CastlePortal
             LayoutName = null;
         }
 
-        public void ShowCalendar(int year, int month)
+        private void Calendar(int year, int month)
         {
             User user = (User)Context.Session["User"];
             if (user != null)
                 CheckPermissions(Schedule.FindByUser(user));
-            //int daysInMonth = System.DateTime.DaysInMonth(year, month);
-
-          //Shidix.PublicAPI.Logger("Mostrando calendar");
-
-//            ShareSchedules(user, User.Find(75));  // Usado solo una vez para compartir la agenda
+            else
+                throw new Unauthorized();
 
             ScheduledEvent[] sdles = ScheduledEvent.GetEventsInMonth(Schedule.FindByUser(user), year, month);
-            foreach (ScheduledEvent s in sdles)
-                System.Console.WriteLine("Evento  : {0} {1} {2}", s.Name, s.StartDate, s.EndDate);
             int[] dayEvents = CountDayEvents(sdles, year, month);
 
 /*            foreach (Schedule s in user.Schedule.SharedSchedules)
@@ -181,7 +171,6 @@ namespace CastlePortal
             PropertyBag["dayEvents"] = dayEvents;
             if (user != null)
             {
-                //Shidix.PublicAPI.Logger(DateTime.Now.ToShortDateString());
                 ScheduledEvent[] events = ScheduledEvent.GetNextOrderedEvents(Schedule.FindByUser(user), DateTime.Now);
 //                foreach (Schedule s in user.Schedule.SharedSchedules)
 //                    events = AddScheduledEvent(events, ScheduledEvent.GetNextOrderedEvents(s, DateTime.Now));
@@ -198,14 +187,9 @@ namespace CastlePortal
             }
         }
 
-        public void ShowCalendar()
+        public void ShowCalendar(int year, int month)
         {
-            DateTime dt = DateTime.Now;
-            this.ShowCalendar(dt.Year, dt.Month);
-            /*IList monthMatrix = BuildMonth(dt.Year, dt.Month);
-            PropertyBag["selectedMonth"] = dt.Month;
-            PropertyBag["selectedYear"] = dt.Year;
-            PropertyBag["monthMatrix"] = monthMatrix;*/
+            Calendar(year, month);
         }
 
         // Build month matrix. Rows are weeks, columns are days
@@ -303,9 +287,7 @@ namespace CastlePortal
             }
         }
 
-//        public void SaveEvent([ARFetch ("Id", Create = false)] User user, 
-//                                     [DataBind ("Event")] ScheduledEvent ev)
-        public void SaveEvent(ScheduledEvent ev)
+        private void SaveEvent(ScheduledEvent ev)
         {
             User user = (User)Context.Session["User"];
             ev.Schedule = Schedule.FindByUser(user);
@@ -323,9 +305,6 @@ namespace CastlePortal
             else
                 ev.Create();
             user.Update();
-            PropertyBag["user"] = user;
-            LayoutName = null;
-            RedirectToAction("showcalendar");
         }
 
         public void UpdateEvent([ARDataBind ("Event")] ScheduledEvent ev)
@@ -358,41 +337,45 @@ namespace CastlePortal
         /// if there are overlap between different events request confirmation or
         /// modifify data to save event, else continue and save the event.
         /// </summary>
-        public void CheckOverlap([ARFetch ("Id", Create = false)] User user, 
-                                    [DataBind ("Event")] ScheduledEvent sdle,
-                                    int modifycheck, int hourStartDate, int minuteStartDate, int hourEndDate, int minuteEndDate)
+        public void CheckOverlap([DataBind ("Event")] ScheduledEvent sdle, int modifycheck)
         {
-            ScheduledEvent[] events = ScheduledEvent.GetEventsByDateTime(Schedule.FindByUser(user), sdle.StartDate, sdle.Id);
+            User user = (User)Context.Session["User"];
+
+            ScheduledEvent[] events = ScheduledEvent.GetEventsOverlap(Schedule.FindByUser(user), sdle);
 //                foreach (Schedule s in user.Schedule.SharedSchedules)
 //                    events = AddScheduledEvent(events, ScheduledEvent.GetEventsByDateTime(s, sdle.StartDate, sdle.Id));
 
             if (events.Length > 0) // Overlap
             {
-System.Console.WriteLine("C1");
                 if (modifycheck == 1) // First change. Request confirmation. Show form again 
                 {
-System.Console.WriteLine("C2");
-                    PropertyBag["overlaps"] = events.Length;
                     PropertyBag["event"] = sdle;
                     PropertyBag["events"] = events;
                     PropertyBag["idevent"] = sdle.Id;
-                    PropertyBag["target"] = "_parent";
+                    PropertyBag["startdate"] = sdle.StartDate.Day.ToString() + "/" + sdle.StartDate.Month.ToString() + "/" + sdle.StartDate.Year.ToString();
+                    PropertyBag["enddate"] = sdle.EndDate.Day.ToString() + "/" + sdle.EndDate.Month.ToString() + "/" + sdle.EndDate.Year.ToString();
+
                     LayoutName = null;
                 }
                 else
                 {
-System.Console.WriteLine("C3");
-                    PropertyBag["target"] = "_parent";
+                    System.Console.WriteLine("CC2");
                     SaveEvent(sdle); // Form confirmed. Save data
+                    DateTime dt = DateTime.Now;
+                    Calendar(dt.Year, dt.Month);
+                    RenderView("showday");
+                    LayoutName = null;
                 }
             }
             else
             {
-System.Console.WriteLine("C4");
-                PropertyBag["target"] = "_parent";
+                System.Console.WriteLine("CC3");
                 SaveEvent(sdle); // There are not overlap. Save data
+                DateTime dt = DateTime.Now;
+                Calendar(dt.Year, dt.Month);
+                RenderView("showday");
+                LayoutName = null;
             }
-System.Console.WriteLine("C5");
         }
 
         public void ShareSchedules(Schedule sche1, Schedule sche2)

@@ -77,7 +77,7 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
         }
         //Console.WriteLine("--- 2");
         Hashtable menusAcl = Controller.Context.Session[Constants.MENUS_ACLS] as Hashtable;
-        if ((menusAcl == null) && (!currentCategory.AnonRole.Can(Permission.Read)))
+        if ((menusAcl == null) && (currentCategory != null) && (!currentCategory.AnonRole.Can(Permission.Read)))
         {
             return String.Empty;
         }

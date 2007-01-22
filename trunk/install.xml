@@ -28,4 +28,11 @@
 			<Group nombre="Admins" />
 		</User>
 	</Users>
+
+    <Schedules>
+        <Schedule user="test" />
+        <Schedule user="root" />
+        <Schedule group="Admins" />
+    </Schedules>
+
 </xml>

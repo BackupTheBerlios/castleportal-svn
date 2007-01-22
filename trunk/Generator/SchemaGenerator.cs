@@ -59,7 +59,7 @@ public class SchemaGenerator
     private static Hashtable types = new Hashtable();
     private static Hashtable users = new Hashtable();
     private static Hashtable languages = new Hashtable();
-//    private static Hashtable schedules = new Hashtable();
+    private static Hashtable schedules = new Hashtable();
 
     private static string NodeGetString(XmlNode node, string name)
     {
@@ -150,7 +150,7 @@ public class SchemaGenerator
         }
         return null;
     }
-/*
+
     private static string ReadSchedule(XmlNode node)
     {
         if (node.Name == "Schedule")
@@ -160,14 +160,16 @@ public class SchemaGenerator
 
             System.Console.WriteLine ("Schedule: " + user + " " + group);
             Schedule s = null;
-            if (User.FindByName)
+            if ((user != null) && (user.Length > 0))
             {
+                User u = User.FindByExactName(user);
                 s = new Schedule(u);
                 s.Save();
-                schedules[name] = s;
+                schedules[user] = s;
             }
-            else if (Group.FindByName)
+            else if ((group != null) && (group.Length > 0))
             {
+                Group g = Group.FindByExactName(group);
                 s = new Schedule(g);
                 s.Save();
                 schedules[group] = s;
@@ -176,7 +178,7 @@ public class SchemaGenerator
 
         return null;
     }
-*/
+
     private static string ReadLanguage(XmlNode node)
     {
         if (node.Name == "Language")
@@ -555,7 +557,7 @@ public class SchemaGenerator
     {
         string[] elements = { "Configs", "ConfigCombos", "Roles", "Groups",
                               "Includes", "Users", "Fields", "Templates", "Acls",
-                              "Categories", "Menus", "Help", "BaseTypes", "Languages"
+                              "Categories", "Menus", "Help", "BaseTypes", "Languages", "Schedules"
                             };
 
         foreach (string element in elements)

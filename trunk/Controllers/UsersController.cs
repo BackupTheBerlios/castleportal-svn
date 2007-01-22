@@ -183,8 +183,7 @@ public class UsersController:ARSmartDispatcherController
 
         if (schedule)
         {
-            Schedule s = new Schedule();
-            s.Owner = u;
+            Schedule s = new Schedule(u);
             s.Save();
         }
 

@@ -111,7 +111,7 @@ namespace CastlePortal
             {
                 CheckPermissions(Schedule.FindByUser(user));
                 Schedule s = Schedule.FindByUser(user);
-                if ((s) && (s != null))
+                if (s != null)
                 	  Calendar(year, month, s);
                 else
                     throw new Unauthorized();

@@ -150,6 +150,11 @@ public class User : ActiveRecordValidationBase, System.Security.Principal.IPrinc
         return (User) ActiveRecordBase.FindByPrimaryKey( typeof(User), id );
     }
 
+    public new static User FindByExactName(string name)
+    {
+        return (User) ActiveRecordBase.FindOne( typeof(User), Expression.Eq("Name", name));
+    }
+
     public static User FindByUsernameAndPasswd(string username, string passwd)
     {
         string hashedPassword = Hash(passwd);

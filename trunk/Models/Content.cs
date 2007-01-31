@@ -95,6 +95,14 @@ public class Content : ActiveRecordBase
         set { _dataHash = value; }
     }
 
+    public bool ExistsField(string fieldName)
+    {
+        if (DataHash.Contains(fieldName))
+            return true;
+        else
+            return false;
+    }
+
     public string GetValueByFieldName(string fieldName)
     {
         if (DataHash.Contains(fieldName)) 

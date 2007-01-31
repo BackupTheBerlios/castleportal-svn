@@ -396,54 +396,9 @@ public class Category : Container
         return category;
     }
 
-    public ArrayList GetContentsToFrontpage(Category category)
+    public static Category FindByCode(string code)
     {
-        ArrayList contents = new ArrayList();
-        if (category != null)
-        {
-            foreach (Content content in category.ContentList)
-            {
-                if (content.Frontpage)
-                    contents.Add(content);
-            }
-
-            foreach (Category c in category.Children)
-            {
-                ArrayList tmp = GetContentsToFrontpage(c);
-                if ((tmp != null) && (tmp.Count > 0))
-                {
-                    foreach (Content aux in tmp)
-                        contents.Add(aux);
-                }
-            }
-        }
-
-        return contents;    
-    }
-
-    public ArrayList GetContentsToSectionFrontpage(Category category)
-    {
-        ArrayList contents = new ArrayList();
-        if (category != null)
-        {
-            foreach (Content content in category.ContentList)
-            {
-                if (content.SectionFrontpage)
-                    contents.Add(content);
-            }
-
-            foreach (Category c in category.Children)
-            {
-                ArrayList tmp = GetContentsToSectionFrontpage(c);
-                if ((tmp != null) && (tmp.Count > 0))
-                {
-                    foreach (Content aux in tmp)
-                        contents.Add(aux);
-                }
-            }
-        }
-
-        return contents;    
+        return (Category)FindOne(typeof(Category), Expression.Eq("Code", code));
     }
 }
 }

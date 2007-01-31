@@ -521,7 +521,7 @@ public class SchemaGenerator
                 if (url == "")
                 {
                     if (code != "")
-                        category = Category.FindByCode(code)
+                        category = Category.FindByCode(code);
                     else
                         category = (Category) GetObject(categorystring, categories, node, "category");
                 }

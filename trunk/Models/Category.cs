@@ -1,6 +1,7 @@
 // Authors:
 //    Alberto Morales <amd77@gulic.org>
 //    Carlos Ble <carlosble@shidix.com>
+//    Hector Rojas <hectorrojas@shidix.com>
 //
 // Copyright 2006 Shidix Technologies - http://www.shidix.com
 //
@@ -43,6 +44,7 @@ public class Category : Container
     private System.DateTime _CreationDate;
     private System.DateTime _ModificationDate;
     private string _Description;
+    private string _Code;
     private string _Information;
 
     private Category _Parent;
@@ -191,6 +193,13 @@ public class Category : Container
     {
         get { return _Description; }
         set { _Description = value; }
+    }
+
+    [Property]
+    public string Code
+    {
+        get { return _Code; }
+        set { _Code = value; }
     }
 
     [Property(Length=10000)]
@@ -387,5 +396,54 @@ public class Category : Container
         return category;
     }
 
+    public ArrayList GetContentsToFrontpage(Category category)
+    {
+        ArrayList contents = new ArrayList();
+        if (category != null)
+        {
+            foreach (Content content in category.ContentList)
+            {
+                if (content.Frontpage)
+                    contents.Add(content);
+            }
+
+            foreach (Category c in category.Children)
+            {
+                ArrayList tmp = GetContentsToFrontpage(c);
+                if ((tmp != null) && (tmp.Count > 0))
+                {
+                    foreach (Content aux in tmp)
+                        contents.Add(aux);
+                }
+            }
+        }
+
+        return contents;    
+    }
+
+    public ArrayList GetContentsToSectionFrontpage(Category category)
+    {
+        ArrayList contents = new ArrayList();
+        if (category != null)
+        {
+            foreach (Content content in category.ContentList)
+            {
+                if (content.SectionFrontpage)
+                    contents.Add(content);
+            }
+
+            foreach (Category c in category.Children)
+            {
+                ArrayList tmp = GetContentsToSectionFrontpage(c);
+                if ((tmp != null) && (tmp.Count > 0))
+                {
+                    foreach (Content aux in tmp)
+                        contents.Add(aux);
+                }
+            }
+        }
+
+        return contents;    
+    }
 }
 }

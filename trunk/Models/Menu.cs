@@ -1,6 +1,7 @@
 // Authors:
 //    Alberto Morales <amd77@gulic.org>
 //    Carlos Ble <carlosble@shidix.com>
+//    Hector Rojas <hectorrojas@shidix.com>
 //
 // Copyright 2006 Shidix Technologies - http://www.shidix.com
 //
@@ -38,6 +39,7 @@ public class Menu : ActiveRecordBase
     private int _Id;
     private string _Name;
     private string _Description;
+    private string _Code;
     private int _Ordering;
     private string _Url; 
     private int _Show;
@@ -48,11 +50,12 @@ public class Menu : ActiveRecordBase
 
     public Menu() {}
 
-    public Menu(string __Name, string __Description, int __Ordering, 
+    public Menu(string __Name, string __Description, string __Code, int __Ordering, 
                 string __Url, Menu __Parent, Category __Category, int __Show)
     {
         _Name = __Name;
         _Description = __Description;
+        _Code = __Code; 
         _Ordering = __Ordering;
         _Url = __Url;
         _Show= __Show;
@@ -121,6 +124,13 @@ public class Menu : ActiveRecordBase
     {
         get { return _Description; }
         set { _Description = value; }
+    }
+
+    [Property]
+    public string Code
+    {
+        get { return _Code; }
+        set { _Code = value; }
     }
 
     [Property]
@@ -335,6 +345,28 @@ public class Menu : ActiveRecordBase
             return ((MenuTranslation)translations[0]).Translation;
         else
             return Description; // Constants.NO_TRANSLATION_FOUND;
+    }
+
+    public int GetLevel()
+    {
+        Menu menu = this;
+
+        int level = 0;
+        for (Menu m = menu; m.Parent != null; m = m.Parent)
+            level++;
+
+        return level;
+    }
+
+    public Menu GetMenuByLevel(int level)
+    {
+        Menu parent = this;
+        int i = this.GetLevel();
+
+        for (int j = i; j >= level; j--)
+            parent = parent.Parent;
+
+        return parent;
     }
 }
 }

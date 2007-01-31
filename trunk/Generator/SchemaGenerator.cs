@@ -455,6 +455,7 @@ public class SchemaGenerator
         {
             string name = NodeGetString(node, "name");
             string visiblename = NodeGetString(node, "visiblename");
+            string code = NodeGetString(node, "code");
             Category parent = (Category) NodeGetObject(node, "category", categories);
             Template t = (Template) NodeGetObject(node, "template", templates);
             Role r = (Role) NodeGetObject(node, "role", roles);
@@ -467,6 +468,7 @@ public class SchemaGenerator
                 name = visiblename;
             c.Name = name;
             c.Description = visiblename;
+            c.Code = code;
             c.Parent = parent;
             c.Template = t;
             c.AnonRole = r;
@@ -503,6 +505,7 @@ public class SchemaGenerator
                     description = name;
                 if (name == "" && description != "")
                     name = description;
+                string code = NodeGetString(node, "code");
 
                 Menu parent = (Menu)NodeGetObject(node, "parent", menus);
                 string orderString = NodeGetString(node, "order");
@@ -516,11 +519,16 @@ public class SchemaGenerator
 
                 Category category = null;
                 if (url == "")
-                    category = (Category) GetObject(categorystring, categories, node, "category");
+                {
+                    if (code != "")
+                        category = Category.FindByCode(code)
+                    else
+                        category = (Category) GetObject(categorystring, categories, node, "category");
+                }
 
                 System.Console.WriteLine ("Menu: "+ name);
                 int show = 0;
-                Menu m = new Menu(name, description, ordering, url, parent, category, show);
+                Menu m = new Menu(name, description, code, ordering, url, parent, category, show);
                 m.Save();
                 menus[name] = m;
 
@@ -555,9 +563,9 @@ public class SchemaGenerator
 
     private static void CreateAllBase(XmlDocument doc, string path)
     {
-        string[] elements = { "Configs", "ConfigCombos", "Roles", "Groups",
+        string[] elements = { "BaseTypes", "Configs", "ConfigCombos", "Roles", "Groups",
                               "Includes", "Users", "Fields", "Templates", "Acls",
-                              "Categories", "Menus", "Help", "BaseTypes", "Languages", "Schedules"
+                              "Categories", "Menus", "Help", "Languages", "Schedules"
                             };
 
         foreach (string element in elements)
@@ -567,6 +575,9 @@ public class SchemaGenerator
             foreach (XmlNode node in nodebase.ChildNodes)
             switch (element)
             {
+            case "BaseTypes":
+                ReadType(node);
+                break;
             case "Configs":
                 ReadConfig(node);
                 break;
@@ -602,9 +613,6 @@ public class SchemaGenerator
                 break;
             case "Help":
                 ReadHelp(node);
-                break;
-            case "BaseTypes":
-                ReadType(node);
                 break;
             case "Languages":
                 ReadLanguage(node);

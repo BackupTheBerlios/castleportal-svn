@@ -9,6 +9,11 @@
 	<p> <strong>$l10n.LISTING_TEMPLATE: </strong> <input name="tlist" value="$!template.TList" class="formText" /></p>
 	<p> <strong>$l10n.VIEWING_TEMPLATE: </strong> <input name="tview" value="$!template.TView" class="formText" /></p>
 	<p> <strong>$l10n.EDITING_TEMPLATE: </strong> <input name="tedit" value="$!template.TEdit" class="formText" /></p>
+    #if ($template.Public)
+		<p> <strong>$l10n.PUBLISH_TEMPLATE: </strong> <input name="tpub" type="checkbox" class="formText" checked/></p>
+    #else
+		<p> <strong>$l10n.PUBLISH_TEMPLATE: </strong> <input name="tpub" type="checkbox" class="formText"/></p>
+    #end
 	<p> <strong>$l10n.FIELDS: </strong><br/>
 		<select name="fields[]" id="fields" style="width:200px;" size="10" multiple>
 			###if ($fields) $HtmlHelper.CreateOptionsFromArray($fields, "Description", "Id") #end

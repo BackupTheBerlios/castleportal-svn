@@ -1,6 +1,7 @@
 // Authors:
 //    Alberto Morales <amd77@gulic.org>
 //    Carlos Ble <carlosble@shidix.com>
+//    Beatriz Garcia <beagarci@shidix.com>
 //
 // Copyright 2006 Shidix Technologies - http://www.shidix.com
 //
@@ -1218,7 +1219,7 @@ public class PortalController:ARSmartDispatcherController
     }
 
     public void SaveTemplate(int id, string name, string description, 
-            string tlist, string tview, string tedit, string sFields, string sFieldsEdit)
+            string tlist, string tview, string tedit, string sFields, string sFieldsEdit, bool tpub)
     {
         Commons.CheckSuperUser(Session);
         Template template;
@@ -1229,6 +1230,7 @@ public class PortalController:ARSmartDispatcherController
 
         template.Name = name;
         template.Description = description;
+        template.Public = tpub;
 
         string filelist = Constants.DEFAULT_LIST_TEMPLATE;
         string fileview = Constants.DEFAULT_VIEW_TEMPLATE;
@@ -1251,9 +1253,10 @@ public class PortalController:ARSmartDispatcherController
         template.TView = fileview;
         template.TEdit = fileedit;
         template.Fields = new ArrayList();
-        template.Save();
 
         AddFieldsTemplates(template, sFieldsEdit, sFields);
+
+        template.Save();
         RedirectToAction(Constants.TEMPLATES);
     }
 

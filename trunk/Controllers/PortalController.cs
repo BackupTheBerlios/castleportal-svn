@@ -1254,9 +1254,10 @@ public class PortalController:ARSmartDispatcherController
         template.TEdit = fileedit;
         template.Fields = new ArrayList();
 
-        AddFieldsTemplates(template, sFieldsEdit, sFields);
-
         template.Save();
+        AddFieldsTemplates(template, sFieldsEdit, sFields);
+        template.Save();
+
         RedirectToAction(Constants.TEMPLATES);
     }
 

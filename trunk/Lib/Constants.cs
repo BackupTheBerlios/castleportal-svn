@@ -80,7 +80,11 @@ public static class Constants
     public const string MEDIA_FOLDER = "MEDIA_FOLDER" ;
     public const string MENU = "menu";
     public const string MENUS_ACLS = "aclmenu";
-    
+
+    public const string MENU_TRANSLATION_LANG = "lang";
+    public const string MENU_TRANSLATION_CODE = "code";
+    public const string MENU_TRANSLATION = "translation";
+ 
     public const string NAMESPACE = "CastlePortal";
     public const string NO_TRANSLATION_FOUND = "No translation found";
 

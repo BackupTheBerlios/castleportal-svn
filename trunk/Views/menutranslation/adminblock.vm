@@ -14,6 +14,6 @@
 	#end
 #end
 #if ($session.aclmenu.get_Item($parent).get_Item($PermissionCreate))
-<a href="$siteRoot/menu/edit.$EXTENSION?id=$parent&parent=1">$l10n.ADD</a>
+	<a href="$siteRoot/menutranslation/edit.$EXTENSION?id=$parent&parent=1">$l10n.ADD</a>
 #end
 

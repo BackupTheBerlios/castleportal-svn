@@ -198,6 +198,20 @@ public class Menu : ActiveRecordBase
             return null;
     }
 
+    public static Menu FindByCode(string code)
+    {
+        SimpleQuery q = new SimpleQuery(typeof(Menu), @"
+            from Menu M
+            where M.Code = ?", code);
+
+        Menu[] menus = (Menu[])ExecuteQuery(q);
+
+        if ((menus != null) && (menus.Length > 0))
+            return menus[0];
+        else
+            return null;
+    }
+
     public static Menu FindByShow()
     {
         return (Menu) FindOne( typeof(Menu), Expression.Eq("Show", 1));

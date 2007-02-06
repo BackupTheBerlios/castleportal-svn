@@ -103,6 +103,16 @@ public class MenuTranslation : ActiveRecordBase
 
     public static MenuTranslation FindByMenuAndLang(Menu menu, string lang)
     {
+        SimpleQuery q = new SimpleQuery(typeof(MenuTranslation), @"
+            from MenuTranslation T
+            where
+                T.Menu = ? and
+                T.Language = ?", menu, lang);
+
+        MenuTranslation[] translations = (MenuTranslation[])ExecuteQuery(q);
+        if (translations.Length > 0)
+            return translations[0];
+        else
             return null;
     }
 

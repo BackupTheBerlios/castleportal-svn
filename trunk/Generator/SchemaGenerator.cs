@@ -1,5 +1,6 @@
 // Authors:
 //    Alberto Morales <amd77@gulic.org>
+//    Hector Rojas <hectorrojas@shidix.com>
 //
 // Copyright 2006 Shidix Technologies - http://www.shidix.com
 //
@@ -60,6 +61,7 @@ public class SchemaGenerator
     private static Hashtable users = new Hashtable();
     private static Hashtable languages = new Hashtable();
     private static Hashtable schedules = new Hashtable();
+    private static Hashtable menustranslations = new Hashtable();
 
     private static string NodeGetString(XmlNode node, string name)
     {
@@ -505,7 +507,7 @@ public class SchemaGenerator
                     description = name;
                 if (name == "" && description != "")
                     name = description;
-                string code = NodeGetString(node, "code");
+                string code = NodeGetString(node, "idcategory");
 
                 Menu parent = (Menu)NodeGetObject(node, "parent", menus);
                 string orderString = NodeGetString(node, "order");
@@ -544,6 +546,30 @@ public class SchemaGenerator
         }
     }
 
+    private static string ReadMenuTranslation(XmlNode node)
+    {
+        try
+        {
+            if (node.Name == "MenuTranslation")
+            {
+                string lang = NodeGetString(node, Constants.MENU_TRANSLATION_LANG);
+                string translation = NodeGetString(node, Constants.MENU_TRANSLATION);
+                string code = NodeGetString(node, Constants.MENU_TRANSLATION_CODE);
+                Language l = Language.FindByName(lang);
+                Menu menu = Menu.FindByCode(code);
+                MenuTranslation m = new MenuTranslation(l, menu, translation);
+                m.Save();
+                menustranslations[lang] = m;
+                System.Console.WriteLine ("Menu Translation: "+ translation);
+            }
+            return null;
+        }
+        catch(System.FormatException)
+        {
+            return "No se pudo leeer columna ordering";
+        }
+    }
+
 
     /************************ CREATES *************************/
 
@@ -565,7 +591,7 @@ public class SchemaGenerator
     {
         string[] elements = { "BaseTypes", "Configs", "ConfigCombos", "Roles", "Groups",
                               "Includes", "Users", "Fields", "Templates", "Acls",
-                              "Categories", "Menus", "Help", "Languages", "Schedules"
+                              "Categories", "Menus", "Help", "Languages", "Schedules", "MenusTranslations"
                             };
 
         foreach (string element in elements)
@@ -619,6 +645,9 @@ public class SchemaGenerator
                 break;
             case "Schedules":
                 ReadSchedule(node);
+                break;
+            case "MenusTranslations":
+                ReadMenuTranslation(node);
                 break;
             }
         }

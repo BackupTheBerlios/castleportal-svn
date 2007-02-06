@@ -118,16 +118,26 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
             {
             //Console.WriteLine("--- 5");
                 div += "<DIV class=" + divName +">";
+
+                MenuTranslation mt = MenuTranslation.FindByMenuAndLang(menu, Language.FindByName(currentLanguage));
+                string description;
+                if (mt != null)
+                    description = mt.Translation;
+                else
+                    description = menu.Description;
+
                 if ((currentCategory != null) && (menu.CategoryId == currentCategory.Id))
                 {
                     //div += "<SPAN>" + menu.FindTranslation(currentLanguage) + "</SPAN>"; FIXME: Big performance penalty
-                    div += "<SPAN>" + menu.Description + "</SPAN>";
+                    //div += "<SPAN>" + menu.Description + "</SPAN>";
+                    div += "<SPAN>" + description + "</SPAN>";
                 }
                 else
                 {
                     div += "<A href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
                     div += " title=\"" + menu.Name +"\">"+ menu.Description; // menu.FindTranslation(currentLanguage); FIXME Big performance penalty
                     div += "</A>";
+                    div += " title=\"" + menu.Name +"\">"+ description;
                 }
                 div += "</DIV>";
             }

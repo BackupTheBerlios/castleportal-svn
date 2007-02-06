@@ -87,7 +87,7 @@ public class MenuController:Castle.MonoRail.ActiveRecordSupport.ARSmartDispatche
             {
                 if (menu == null)
                     menu = new Menu();
-                PropertyBag["menu"] = menu;
+                PropertyBag["menuitem"] = menu;
                 PropertyBag["parent"] = menu.Parent;
                 PropertyBag["categories"] = Category.FindAll ();
             }

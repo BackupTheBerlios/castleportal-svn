@@ -109,9 +109,6 @@
 	      <tr>
                 <td width="15%">$l10n.PASSWORD:</td><td><input name="user.UserPassword" type="password" value="" /></td>
               </tr>
-	      <tr>
-                <td width="15%">$l10n.CREATE_SCHEDULE?:</td><td><input id="schedule" name="schedule" type="checkbox" /></td>
-			</tr>
 			<tr>
 		<td width="5%"><input type="submit" name="crea" value="$l10n.CREATE" /></td>
 	      </tr>

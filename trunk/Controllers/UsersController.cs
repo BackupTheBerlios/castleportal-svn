@@ -174,18 +174,12 @@ public class UsersController:ARSmartDispatcherController
         }
     }
 
-    public void UserCreate ([DataBind ("user")] User user, bool schedule)
+    public void UserCreate ([DataBind ("user")] User user)
     {
         Commons.CheckSuperUser(Session);
         User u = new User(user.Name, user.UserPassword);
         u.Save();
         Flash["aviso"] = "Creado usuario";
-
-        if (schedule)
-        {
-            Schedule s = new Schedule(u);
-            s.Save();
-        }
 
         RedirectToAction ("usersedit");
     }

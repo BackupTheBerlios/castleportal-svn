@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections;
+using System.Text.RegularExpressions;
 
 namespace CastlePortal
 {
@@ -34,6 +35,28 @@ public class ExtraHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
         }
         return range;
     }
+
+    public string CategoryDescription(Category category, string lang)
+    {
+        if (category != null)
+        {
+            if ((lang != null) && (lang.Length > 0))
+            {
+                Language language = Language.FindByName(lang);
+                CategoryTranslation ct = CategoryTranslation.FindByCategoryAndLang(category, language);
+
+                if (ct == null)
+                    return category.Description;
+                else
+                    return ct.Translation;
+            }
+            else
+                return category.Description;
+        }
+        else
+            return String.Empty;
+    }
+
 /*
     public string GetMonth(int month)
     {
@@ -229,5 +252,33 @@ public class ExtraHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
         return c;
         //}
     }
+
+    public string RemoveHtmlTagsContextualSearch(string htmlString, int length, string key)
+    {
+        Regex regex = new Regex("</?[^>]*>", RegexOptions.IgnoreCase | RegexOptions.Multiline);
+        htmlString = regex.Replace(htmlString, string.Empty);
+
+        int i = htmlString.IndexOf(key);
+        int startIndex = i - length / 2;
+        if (startIndex < 0)
+            startIndex = 0;
+        if (startIndex + length > htmlString.Length)
+            length = htmlString.Length - startIndex;
+
+        char[] htmlCharArray = htmlString.ToCharArray();
+
+        while ((startIndex > 0) && (htmlCharArray[startIndex] != ' '))
+        {
+            startIndex--;
+            length++;
+        }
+        while ((startIndex + length < htmlString.Length) && (htmlCharArray[startIndex + length] != ' '))
+            length++;
+
+        string htmlSubstring = htmlString.Substring(startIndex, length);
+
+        return htmlSubstring;
+    }
+
 }
 }

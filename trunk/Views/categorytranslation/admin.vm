@@ -1,0 +1,6 @@
+
+#set ($caller ="admin.vm")
+
+<div id="menu$parent" class="" style="margin-left:100px;" >
+	#parse("categorytranslation/adminblock.vm")
+</div>

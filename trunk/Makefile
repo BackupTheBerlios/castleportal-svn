@@ -5,6 +5,7 @@ CFLAGS+=-define:DEBUG
 CFLAGS+=-define:NHLOGS
 CFLAGS+=-define:CHAT
 OUT=bin/castleportal.dll
+OUT2=bin/castleportal.dll
 include Makefile.config.orig
 include Makefile.config
 -include Makefile.project
@@ -20,6 +21,12 @@ all: $(OUT)
 
 $(OUT): $(MODELS) $(CONTROLLERS) $(HELPERS) $(WEBSERVICES) $(LIBRARIES) $(FILTERS) $(RAIZ) 
 	$(CC) -target:library $(CFLAGS)  $(RESOURCES) -r:bin/NLog.dll -r:bin/log4net $^ -out:$@
+
+previous: $(MODELS) $(CONTROLLERS) $(HELPERS) $(WEBSERVICES) $(LIBRARIES) $(FILTERS) $(RAIZ)
+	$(CC) -target:library $(CFLAGS)  $(RESOURCES) -r:bin/NLog.dll -r:bin/log4net $^ -out:$(OUT) -d:PREVIOUS
+	@sleep 1
+	@touch Lib/HttpApp.cs
+	@echo "Compile now with make"
 
 #AR: 
 #	sh activeRecord.sh $(wildcard $(MODELS))

@@ -76,10 +76,10 @@ namespace CastlePortal
 
 #if CACHE
         [HasAndBelongsToMany(typeof(Schedule), Table="schedule_schedule", 
-                             ColumnRef="sharing", ColumnKey="shared", Cache=CacheEnum.ReadWrite)]
+                             ColumnRef="sharing", ColumnKey="shared", Cache=CacheEnum.ReadWrite, Lazy=true)]
 #else
         [HasAndBelongsToMany(typeof(Schedule), Table="schedule_schedule", 
-                             ColumnRef="sharing", ColumnKey="shared")]
+                             ColumnRef="sharing", ColumnKey="shared", Lazy=true)]
 #endif
         public IList SharedSchedules
         {
@@ -89,10 +89,10 @@ namespace CastlePortal
         
 #if CACHE
         [HasAndBelongsToMany(typeof(Schedule), Table="schedule_schedule", 
-                             ColumnRef="shared", ColumnKey="sharing", Cache=CacheEnum.ReadWrite)]
+                             ColumnRef="shared", ColumnKey="sharing", Cache=CacheEnum.ReadWrite, Lazy=true)]
 #else
         [HasAndBelongsToMany(typeof(Schedule), Table="schedule_schedule", 
-                             ColumnRef="shared", ColumnKey="sharing")]
+                             ColumnRef="shared", ColumnKey="sharing", Lazy=true)]
 #endif
         public IList SharingMeSchedules
         {
@@ -109,9 +109,9 @@ namespace CastlePortal
         }*/
 
 #if CACHE
-        [HasMany(typeof(ScheduledEvent), Cache=CacheEnum.ReadWrite)]
+        [HasMany(typeof(ScheduledEvent), Cache=CacheEnum.ReadWrite, Lazy=true)]
 #else
-        [HasMany(typeof(ScheduledEvent))]
+        [HasMany(typeof(ScheduledEvent), Lazy=true)]
 #endif
         public IList Events
         {

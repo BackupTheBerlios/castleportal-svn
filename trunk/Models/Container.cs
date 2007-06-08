@@ -93,9 +93,9 @@ public class Container : ActiveRecordBase
 
     
 #if CACHE
-    [HasAndBelongsToMany(typeof(Acl), RelationType.Set, Table="containeracl", ColumnRef="acl_id", ColumnKey="container_id", Cache=CacheEnum.ReadWrite)]
+    [HasAndBelongsToMany(typeof(Acl), RelationType.Set, Table="containeracl", ColumnRef="acl_id", ColumnKey="container_id", Cache=CacheEnum.ReadWrite, Lazy=true)]
 #else
-    [HasAndBelongsToMany(typeof(Acl), RelationType.Set, Table="containeracl", ColumnRef="acl_id", ColumnKey="container_id")]
+    [HasAndBelongsToMany(typeof(Acl), RelationType.Set, Table="containeracl", ColumnRef="acl_id", ColumnKey="container_id", Lazy=true)]
 #endif
     public ISet AclSet
     {

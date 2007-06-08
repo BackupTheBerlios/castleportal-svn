@@ -101,9 +101,9 @@ public class Template: ActiveRecordBase
     }
 
 #if CACHE
-    [HasMany(typeof(FieldTemplate), Where="orderlist > 0", OrderBy="orderlist", Cache=CacheEnum.ReadWrite)]
+    [HasMany(typeof(FieldTemplate), Where="orderlist > 0", OrderBy="orderlist", Cache=CacheEnum.ReadWrite, Lazy=true)]
 #else
-    [HasMany(typeof(FieldTemplate), Where="orderlist > 0", OrderBy="orderlist")]
+    [HasMany(typeof(FieldTemplate), Where="orderlist > 0", OrderBy="orderlist", Lazy=true)]
 #endif
     public IList ListingVisibleFields
     {
@@ -112,9 +112,9 @@ public class Template: ActiveRecordBase
     }
 
 #if CACHE
-    [HasMany(typeof(FieldTemplate), Where="orderedit > 0", OrderBy="orderedit", Cache=CacheEnum.ReadWrite)]
+    [HasMany(typeof(FieldTemplate), Where="orderedit > 0", OrderBy="orderedit", Cache=CacheEnum.ReadWrite, Lazy=true)]
 #else
-    [HasMany(typeof(FieldTemplate), Where="orderedit > 0", OrderBy="orderedit")]
+    [HasMany(typeof(FieldTemplate), Where="orderedit > 0", OrderBy="orderedit", Lazy=true)]
 #endif
     public IList Fields
     {

@@ -123,17 +123,44 @@ public class UsersController:ARSmartDispatcherController
         else
             PropertyBag["users"] = User.FindByName(uindex);
 
+        Group[] groups;
         if ((gindex == "") || (gindex == null))
-            PropertyBag["allgroups"] = Group.FindAll();
+        {
+            groups = Group.FindAll();
+            PropertyBag["allgroups"] = groups;
+        }
         else
-            PropertyBag["allgroups"] = Group.FindByName(gindex);
+        {
+            groups = Group.FindByName(gindex);
+            PropertyBag["allgroups"] = groups;
+        }
+
         if (uid != 0)
         {
             User user = User.Find(uid);
             user.NotGroups();
             PropertyBag["user"] = user;
             PropertyBag["groups"] = user.Groups;
-            ArrayList allwithout = new ArrayList((Group[])PropertyBag["allgroups"]);
+
+            ArrayList allwithout = new ArrayList();
+            bool exist = false;
+            foreach (Group g in groups)
+            {
+                exist = false;
+                foreach (Group g2 in user.Groups)
+                {
+                    if (g.Id == g2.Id)
+                       exist = true;
+                }
+
+                if (!exist)
+                    allwithout.Add(g);
+            }
+
+            PropertyBag["allusers"] = allwithout;
+        }
+
+/*            ArrayList allwithout = new ArrayList((Group[])PropertyBag["allgroups"]);
             foreach (Group g in user.Groups)
             //if (allwithout.Contains(u))  NO RULA porque las instancias no coinciden
             //	allwithout.Remove(u);
@@ -142,13 +169,12 @@ public class UsersController:ARSmartDispatcherController
             foreach (Group i in allwithout)
             if (g.Name == i.Name)
                 i.Name = "";
-            PropertyBag["allgroups"] = allwithout;
-        }
+*/
 
         PropertyBag["gindex"] = gindex;
         PropertyBag["uindex"] = uindex;
         PropertyBag["gid"] = gid;
-        PropertyBag["roles"] = Role.FindAll ();
+        PropertyBag["roles"] = Role.FindAll();
         LayoutName = null;
     }
 

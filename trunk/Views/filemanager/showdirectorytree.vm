@@ -1,0 +1,31 @@
+#foreach ($dir in $directories)
+
+##	#if($session.aclmenu.get_Item($form.Id).get_Item($PermissionRead)) Si tengo permiso
+	<div id="list">
+		  <img src='${siteRoot}/Public/images/plus.gif' id="img$dir" onclick="javascript:reloadSubDirectoryTree('$dir', 'menu$dir', 'showdirectorytree.$EXTENSION', '${siteRoot}')"/>
+		  $subdirs.get_Item($directories.IndexOf($dir)) 
+		  ## si permiso de borrado
+		  ## $FileManagerHelper.DeleteDirectoryLink($dir,"${siteRoot}/Public/images/borrar.png","0","$siteRoot/FileManager/deletedirectory.$EXTENSION?name=$dir")
+		  $FileManagerHelper.DeleteDirectoryLink($dir,"${siteRoot}/Public/images/publish_x.png","0","$siteRoot/filemanager/deletedirectory.$EXTENSION?name=$dir")
+		  <div id="menu$dir" style="padding-left: 50px;"></div> 
+	</div>
+#end
+<br>
+#foreach ($file in $files)
+	<div id="list2">
+		$filesrelativepath.get_Item($files.IndexOf($file)) 
+			## si permiso de borrado
+			## <a href="$siteRoot/filemanager/deletefile.$EXTENSION?name=$file"><img src="${siteRoot}/Public/images/borrar.png" border="0"/></a>
+			<a href="$siteRoot/filemanager/deletefile.$EXTENSION?name=$file"><img src="${siteRoot}/Public/images/publish_x.png" border="0"/></a>
+	</div>
+#end
+<br>
+<div id="newobjects">
+      ## si tiene permiso para anyadir
+      Nueva carpeta 
+			<a href="$siteRoot/filemanager/additem.$EXTENSION?parent=$parent&kind=directory"><img src="${siteRoot}/Public/images/newcategory.gif" border="0"/></a>
+			<br>
+			Nuevo fichero 
+			<a href="$siteRoot/filemanager/additem.$EXTENSION?parent=$parent&kind=file"><img src="${siteRoot}/Public/images/newcontent.gif" border="0"/></a>
+</div>
+<br>

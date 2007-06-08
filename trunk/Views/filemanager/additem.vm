@@ -1,0 +1,11 @@
+<form action="$siteRoot/filemanager/save.$EXTENSION" enctype="multipart/form-data" method="post">
+    #if ($kind == "directory")
+		    <p><strong>$l10n.DIRECTORY:</strong> <input name="directory" type="text" value="$!menuitem.Name" /></p>
+		#else
+        <p><strong>$l10n.FILE:</strong> <input type="file" name="file" size="40"/></p>
+		#end
+		<p><strong>$l10n.PARENT:</strong> $parent <input type="hidden" name="parent" value="$parent" />
+		<input type="hidden" name="kind" value=$kind />
+		</p>
+		<input type="submit" name="modifica" value="$l10n.SAVE" />
+</form>

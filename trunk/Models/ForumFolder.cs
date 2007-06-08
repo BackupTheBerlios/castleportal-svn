@@ -90,9 +90,9 @@ namespace CastlePortal
         }
 
 #if CACHE
-        [HasMany(typeof(ForumFolder), OrderBy="Date", Cache=CacheEnum.ReadWrite)]
+        [HasMany(typeof(ForumFolder), OrderBy="Date", Cache=CacheEnum.ReadWrite, Lazy=true)]
 #else
-        [HasMany(typeof(ForumFolder), OrderBy="Date")]
+        [HasMany(typeof(ForumFolder), OrderBy="Date", Lazy=true)]
 #endif
         public IList FoldersChildren
         {
@@ -101,9 +101,9 @@ namespace CastlePortal
         }
 
 #if CACHE
-        [HasMany(typeof(ForumMessage), OrderBy="Date", Cache=CacheEnum.ReadWrite)]
+        [HasMany(typeof(ForumMessage), OrderBy="Date", Cache=CacheEnum.ReadWrite, Lazy=true)]
 #else
-        [HasMany(typeof(ForumMessage), OrderBy="Date")]
+        [HasMany(typeof(ForumMessage), OrderBy="Date", Lazy=true)]
 #endif
         public IList ForumMessages
         {

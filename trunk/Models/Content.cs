@@ -85,9 +85,9 @@ public class Content : ActiveRecordBase
     }
 
 #if CACHE
-    [HasMany(typeof(DataModel), Index="FieldName" ,IndexType="string", Cache=CacheEnum.ReadWrite)]
+    [HasMany(typeof(DataModel), Index="FieldName" ,IndexType="string", Cache=CacheEnum.ReadWrite, Lazy=true)]
 #else
-    [HasMany(typeof(DataModel), Index="FieldName" ,IndexType="string")]
+    [HasMany(typeof(DataModel), Index="FieldName" ,IndexType="string", Lazy=true)]
 #endif
     public IDictionary DataHash
     {

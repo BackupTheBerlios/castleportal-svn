@@ -19,6 +19,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Web;
 using System.Configuration;
 using Castle.ActiveRecord;
 using Castle.ActiveRecord.Framework;
@@ -106,6 +107,9 @@ public class HttpApp : System.Web.HttpApplication
 
     protected void Application_BeginRequest(Object sender, EventArgs e)
     {
+#if !PREVIOUS
+        HttpContext.Current.Items.Add( "nh.sessionscope", new SessionScope() );
+#endif
         try
         {
             if (!dbExist)
@@ -132,6 +136,20 @@ public class HttpApp : System.Web.HttpApplication
 
     protected void Application_EndRequest(Object sender, EventArgs e)
     {
+#if !PREVIOUS
+        try
+        {
+            SessionScope scope = HttpContext.Current.Items["nh.sessionscope"] as SessionScope;
+            if (scope != null)
+            {
+                scope.Dispose();
+            }
+        }
+        catch(Exception ex)
+        {
+            HttpContext.Current.Trace.Warn( "Error", "EndRequest: " + ex.Message, ex );
+        }
+#endif
     }
 
     protected void Application_AuthenticateRequest(Object sender, EventArgs e)

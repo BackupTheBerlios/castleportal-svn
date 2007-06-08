@@ -53,6 +53,7 @@ public static class Constants
     
     public const string FIELD = "field";
     public const string FIELDS = "fields";
+    public const string FILE_FOLDER = "FILE_FOLDER";
     public const string FRONTPAGE = "FRONTPAGE";
 
     public const string HEADER = "header";

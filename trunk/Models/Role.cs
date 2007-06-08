@@ -112,9 +112,9 @@ public class Role : ActiveRecordBase
     }
 
 #if CACHE
-    [HasAndBelongsToMany(typeof(Group), RelationType.Set, Table="group_role", ColumnRef="group_id", ColumnKey="role_id", Cache=CacheEnum.ReadWrite)]
+    [HasAndBelongsToMany(typeof(Group), RelationType.Set, Table="group_role", ColumnRef="group_id", ColumnKey="role_id", Cache=CacheEnum.ReadWrite, Lazy=true)]
 #else
-    [HasAndBelongsToMany(typeof(Group), RelationType.Set, Table="group_role", ColumnRef="group_id", ColumnKey="role_id")]
+    [HasAndBelongsToMany(typeof(Group), RelationType.Set, Table="group_role", ColumnRef="group_id", ColumnKey="role_id", Lazy=true)]
 #endif
     public ISet Groups
     {

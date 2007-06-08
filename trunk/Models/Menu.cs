@@ -88,9 +88,9 @@ public class Menu : ActiveRecordBase
     }
 
 #if CACHE
-    [HasMany(typeof(Menu), OrderBy="ordering", Cache=CacheEnum.ReadWrite, Cascade=ManyRelationCascadeEnum.All)]
+    [HasMany(typeof(Menu), OrderBy="ordering", Cache=CacheEnum.ReadWrite, Cascade=ManyRelationCascadeEnum.All, Lazy=true)]
 #else
-    [HasMany(typeof(Menu), OrderBy="ordering", Cascade=ManyRelationCascadeEnum.All)]
+    [HasMany(typeof(Menu), OrderBy="ordering", Cascade=ManyRelationCascadeEnum.All, Lazy=true)]
 #endif
     public IList Children
     {

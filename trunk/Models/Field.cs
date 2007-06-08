@@ -67,9 +67,9 @@ public class Field : ActiveRecordBase
     }
 
 #if CACHE
-    [HasAndBelongsToMany(typeof(Template), Table="fields_template", ColumnRef="template_id", ColumnKey="field_id", Cache=CacheEnum.ReadWrite )]
+    [HasAndBelongsToMany(typeof(Template), Table="fields_template", ColumnRef="template_id", ColumnKey="field_id", Cache=CacheEnum.ReadWrite, Lazy=true)]
 #else
-    [HasAndBelongsToMany(typeof(Template), Table="fields_template", ColumnRef="template_id", ColumnKey="field_id")]
+    [HasAndBelongsToMany(typeof(Template), Table="fields_template", ColumnRef="template_id", ColumnKey="field_id", Lazy=true)]
 #endif
     public IList TemplateList
     {

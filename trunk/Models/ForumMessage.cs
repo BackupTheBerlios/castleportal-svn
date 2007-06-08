@@ -97,9 +97,9 @@ namespace CastlePortal
         }
 
 #if CACHE
-        [HasMany(typeof(ForumMessage), OrderBy="Date", Cache=CacheEnum.ReadWrite)]
+        [HasMany(typeof(ForumMessage), OrderBy="Date", Cache=CacheEnum.ReadWrite, Lazy=true)]
 #else
-        [HasMany(typeof(ForumMessage), OrderBy="Date")]
+        [HasMany(typeof(ForumMessage), OrderBy="Date", Lazy=true)]
 #endif
         public IList MessagesChildren
         {

@@ -90,25 +90,39 @@ public class GroupsController:ARSmartDispatcherController
         else
             PropertyBag["groups"] = Group.FindByName(gindex);
 
+        User[] allusers;
         if ((uindex == "") || (uindex == null))
-            PropertyBag["allusers"] = User.FindAll();
+        {
+            allusers = User.FindAll();
+            PropertyBag["allusers"] = allusers;
+        }
         //PropertyBag["allusers"] = User.FindAllWithoutRoot();
         else
-            PropertyBag["allusers"] = User.FindByName(uindex);
+        {
+            allusers = User.FindAll();
+            PropertyBag["allusers"] = allusers;
+        }
         if (gid != 0)
         {
             Group group = Group.Find(gid);
             PropertyBag["group"] = group;
             PropertyBag["users"] = group.Users;
-            ArrayList allwithout = new ArrayList((User[])PropertyBag["allusers"]);
-            foreach (User u in group.Users)
-            //if (allwithout.Contains(u))  NO RULA porque las instancias no coinciden
-            //	allwithout.Remove(u);
-            //	Por eso hace falta este otro bucle, aunque la mejor solucion seria usar :
-            //	BinarySearch (object value, IComparer comparer) del ArrayList
-            foreach (User i in allwithout)
-            if (u.Name == i.Name)
-                i.Name = "";
+
+            ArrayList allwithout = new ArrayList();
+            bool exist = false;
+            foreach (User u in allusers)
+            {
+                exist = false;
+                foreach (User u2 in group.Users)
+                {
+                    if (u.Id == u2.Id)
+                       exist = true;
+                }
+
+                if (!exist)
+                    allwithout.Add(u);
+            }
+
             PropertyBag["allusers"] = allwithout;
         }
 

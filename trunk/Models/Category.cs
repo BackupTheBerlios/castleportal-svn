@@ -78,9 +78,9 @@ public class Category : Container
     }
 
 #if CACHE
-    [HasMany(typeof(Category), Cache=CacheEnum.ReadWrite)]
+    [HasMany(typeof(Category), Cache=CacheEnum.ReadWrite, Lazy=true)]
 #else
-    [HasMany(typeof(Category))]
+    [HasMany(typeof(Category), Lazy=true)]
 #endif
     public IList Children
     {
@@ -89,9 +89,9 @@ public class Category : Container
     }
 
 #if CACHE
-    [HasMany(typeof(Content), OrderBy="creationdate asc", Cache=CacheEnum.ReadWrite)]
+    [HasMany(typeof(Content), OrderBy="creationdate asc", Cache=CacheEnum.ReadWrite, Lazy=true)]
 #else
-    [HasMany(typeof(Content), OrderBy="creationdate asc")]
+    [HasMany(typeof(Content), OrderBy="creationdate asc", Lazy=true)]
 #endif
     public IList ContentList
     {
@@ -163,9 +163,9 @@ public class Category : Container
     }
 
 #if CACHE
-    [HasMany(typeof(Content), OrderBy="creationdate desc", Cache=CacheEnum.ReadWrite)]
+    [HasMany(typeof(Content), OrderBy="creationdate desc", Cache=CacheEnum.ReadWrite, Lazy=true)]
 #else
-    [HasMany(typeof(Content), OrderBy="creationdate desc")]
+    [HasMany(typeof(Content), OrderBy="creationdate desc", Lazy=true)]
 #endif
     public IList ContentListSortedByReverseDate
     {

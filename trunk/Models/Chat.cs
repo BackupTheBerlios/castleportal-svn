@@ -41,9 +41,9 @@ namespace CastlePortal
             set { _id = value; }
         }
 #if CACHE
-        [HasMany(typeof(ChatMessage), Cache=CacheEnum.ReadWrite)]
+        [HasMany(typeof(ChatMessage), Cache=CacheEnum.ReadWrite, Lazy=true)]
 #else
-        [HasMany(typeof(ChatMessage))]
+        [HasMany(typeof(ChatMessage), Lazy=true)]
 #endif
         public IList Messages
         {

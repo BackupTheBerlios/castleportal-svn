@@ -11,9 +11,10 @@ $TemplateVarsTester.IsNotNull($dataModel, "dataModel", "reference.vm", "$caller"
 $TemplateVarsTester.IsNotNull($field, "field", "reference.vm", "$caller")
 
 	<select name="$field.Field.Name" class="formText" >
-	#foreach ($cont in $field.Field.ReferenceContentList)
+	#foreach ($cont in $field.Field.ReferenceRowList)
 		<option value="$cont.Id" #if ($cont.Id == $content.Id) selected #end >
-                     $cont.GetValueByFieldName("title")</option>
+			$cont.GetValueByFieldName("title")
+		</option>
 	#end
 	</select>
 #else

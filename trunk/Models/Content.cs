@@ -112,8 +112,8 @@ public class Content : ActiveRecordBase
         }
         else 
         {
-            //return "";
-            throw new NotFoundException("GetValueByFieldName:" + fieldName);
+            return "";
+//            throw new NotFoundException("GetValueByFieldName:" + fieldName);
         }
     }
 

@@ -57,14 +57,14 @@
       <DIV id="lateral">
         #parse("/layouts/language_selector.vm")
         <hr>
-	<DIV id="search">
-                <FORM method="get" action="$siteRoot/portal/search.$EXTENSION">
-                    $l10n.SEARCH: <INPUT name="key" type="text" class="buscar">
-                    <NOSCRIPT>
-                            <INPUT type="submit" value="buscar">
-                    </NOSCRIPT>
-                </FORM>
-        </DIV>
+		<DIV id="search">
+			<FORM method="get" action="$siteRoot/portal/search.$EXTENSION">
+				$l10n.SEARCH: <INPUT name="key" type="text" class="buscar">
+				<NOSCRIPT>
+					<INPUT type="submit" value="buscar">
+				</NOSCRIPT>
+			</FORM>
+		</DIV>
         <hr>
 	<DIV id="menuleft">
 	        $MenuHelper.BuildTree("left", $category, "$lang", "menuitemdiv")

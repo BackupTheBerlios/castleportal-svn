@@ -1,7 +1,7 @@
 $TemplateVarsTester.IsNotNull($category, "category", "defaultList.vm", "$caller")
 #set ($caller = "defaultList.vm")
 
-<H2>$category.Name </H2>
+<H2>$ExtraHelper.CategoryDescription($category, $lang)</H2>
 <TABLE>
   <TR>
     #foreach ($field in $category.Template.ListingVisibleFields)

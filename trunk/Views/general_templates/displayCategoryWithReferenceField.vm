@@ -1,7 +1,7 @@
 $TemplateVarsTester.IsNotNull($category, "category", "displayCategoryWithReferenceField.vm", "$caller")
 #set ($caller ="displayCategoryWithReferenceField.vm")
 
-<H1>$category.Description</H1>
+<H1>$ExtraHelper.CategoryDescription($category, $lang)</H1>
 #set($fieldlist = $category.Template.ListingVisibleFields)
 #if ($fieldlist.Count > 0)
 

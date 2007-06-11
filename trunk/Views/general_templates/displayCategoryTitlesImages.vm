@@ -1,7 +1,7 @@
 $TemplateVarsTester.IsNotNull($category, "category", "displayCategoryTitlesImages.vm", "$caller")
 #set ($caller = "displayCategoryTitlesImages.vm")
 <H1>
-  $category.Description
+  $ExtraHelper.CategoryDescription($category, $lang)
 </H1>
 #foreach ($content in $category.ContentList)
    <P style="clear: right">

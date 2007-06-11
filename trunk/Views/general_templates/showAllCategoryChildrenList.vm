@@ -1,8 +1,8 @@
 $TemplateVarsTester.IsNotNull($category, "category", "showAllCategoryChildrenList.vm", "$caller")
-<H1>$category.Description</H1>
+<H1>$ExtraHelper.CategoryDescription($category, $lang)</H1>
 #set($parent = $category)
 <UL>
   #foreach ($category in $parent.Children)
-      <LI><A href="$category.ToUrl($siteRoot)">$category.Description</A></LI>
+      <LI><A href="$category.ToUrl($siteRoot)">$ExtraHelper.CategoryDescription($category, $lang)</A></LI>
   #end
 </UL>

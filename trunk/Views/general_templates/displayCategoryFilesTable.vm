@@ -4,7 +4,7 @@ $TemplateVarsTester.IsNotNull($category, "category", "displayCategoryFilesTable.
 <TABLE bgcolor="#cccccc" border="0" cellpadding="0" cellspacing="1" height="50" width="431">
   <TR> 
     <TD colspan="2" class="title" align="center">
-      $category.Description
+      $ExtraHelper.CategoryDescription($category, $lang)
     </TD>
   </TR>
   

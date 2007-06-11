@@ -1,7 +1,7 @@
 $TemplateVarsTester.IsNotNull($category, "category", "displayCategoryFilesBlog.vm", "$caller")
 #set ($caller ="displayCategoryFilesBlog.vm")
 <H1>
-  $category.Description
+	$ExtraHelper.CategoryDescription($category, $lang)
 </H1>
 #if ($category.ContentList)
 

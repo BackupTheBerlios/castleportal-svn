@@ -502,10 +502,13 @@ public class PortalController:ARSmartDispatcherController
 
 
 
-    public void SetLanguage(string language)
+    public void SetLanguage(string language, int id)
     {
-        Response.CreateCookie(Constants.LOCALE_COOKIE, language );
-        RedirectToAction("index");
+        Response.CreateCookie(Constants.LOCALE_COOKIE, language);
+        Hashtable parameters = new Hashtable();
+        parameters["Id"] = id;
+        parameters["layout"] = true;
+        RedirectToAction("viewcategory", parameters);
     }
 
     public void Redir()

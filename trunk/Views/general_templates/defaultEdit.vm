@@ -10,7 +10,7 @@ $TemplateVarsTester.IsNotNull($category, "category", "defaultEdit.vm", "$caller"
         #else 
            $l10n.ADDING_CONTENT_TO 
         #end 
-        $category.Description
+        $ExtraHelper.CategoryDescription($category, $lang)
     </TH>
   </TR>
   

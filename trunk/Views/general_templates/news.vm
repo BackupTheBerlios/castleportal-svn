@@ -12,7 +12,7 @@
   #else
     <DIV>
   #end
-      <H2>$category.Description</H2>
+      <H2>$ExtraHelper.CategoryDescription($category, $lang)</H2>
       <UL>
         #foreach ($content in $contents)
            #if ($content.Lang.Name == $lang)

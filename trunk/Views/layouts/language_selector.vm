@@ -2,7 +2,8 @@
 
 <div id="languages">
 <form method="post" action="$siteRoot/portal/setlanguage.$EXTENSION" name="language_selector">
-    $l10n.LANGUAGE: <select name="language" onchange="submit()" class="languages">
+	$l10n.LANGUAGE:
+	<select name="language" onchange="submit()" class="languages">
             #foreach ($language in $all_linguas)
                 #if ($lang == $language.Name)
                     <option value="$language.Name" SELECTED> $language.EnglishName </option>
@@ -11,7 +12,8 @@
                 #end
             #end                
 ##$HtmlHelper.CreateOptionsFromArray($all_linguas, "EnglishName", "Name", $language)
-    </select>
+		$HtmlHelper.InputText("id", "$category.Id")
+	</select>
 </form>
 </div>
 ##end

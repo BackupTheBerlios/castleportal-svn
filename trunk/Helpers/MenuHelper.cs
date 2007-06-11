@@ -1,6 +1,7 @@
 // Authors:
 //    Carlos Ble <carlosble@shidix.com>
 //    Alberto Morales <amd77@gulic.org>
+//    Héctor Rojas González <hectorrojas@shidix.com>
 //
 // Copyright 2006 Shidix Technologies - http://www.shidix.com
 //
@@ -22,358 +23,403 @@ using Castle.MonoRail.Framework;
 
 namespace CastlePortal
 {
+
 public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 {
-    static ConfigManager config = ConfigManager.GetInstance();
 
-    private bool CanRead(int menuid, ref IDictionary acl)
-    {
-        IDictionary a = (IDictionary) acl[menuid];
+	/**********************************************************************************/
+	public abstract class TreeAbstract
+	{
+		protected Menu			_givenMenu;
+		protected Menu			_actualMenu;
+		protected Category	_currentCategory;
+		protected User			_user;
+		protected int			_depthLimit;
+		protected int			_numChilds;
+		protected int			_actualDepth = 1;
+		protected string		_separator = String.Empty;
+		protected string		_styleClass = String.Empty;
+		protected string		_language = String.Empty;
 
-        // no es una category => se ve.
-        if (a == null)
-            return true;
+/*
+		public TreeAbstract (Menu givenMenu, Category currentCategory, Menu actualMenu) {
+			_givenMenu = givenMenu;
+			_currentCategory = currentCategory;
+			_actualMenu = actualMenu;
 
-        // miramos si se ve o no
-        if ((bool) a[Permission.Read])
-            return true;
-        else
-            return false;
-    }
+			System.Console.WriteLine ("escribo desde la clase" + this);
+		}
+*/
 
-    public Menu GetMenu(string s)
-    {
-        return Menu.FindByName(s);
-    }
+//		public abstract string BuildTree (string language, int depthLimit, string styleClass);
+		public abstract string Header ();
+		public abstract string Divider ();
+		public abstract string Footer ();
+		public abstract string PrintItem (Menu menu, string item);
+		public abstract string PrintSelectedItem (Menu menu, string item);
 
-    public Category GetCategory (string s)
-    {
-        return Category.FindByName(s);
-    }
+		public Menu givenMenu {
+			get {return _givenMenu;}
+			set {_givenMenu = value;}
+		}
+		public Menu actualMenu {
+			get {return _actualMenu;}
+			set {_actualMenu = value;}
+		}
+		public Category currentCategory {
+			get {return _currentCategory;}
+			set {_currentCategory = value;}
+		}
+		public User user {
+			get {return _user;}
+			set {_user = value;}
+		}
+		public int depthLimit {
+			get {return _depthLimit;}
+			set {_depthLimit = value;}
+		}
+		public int actualDepth {
+			get {return _actualDepth;}
+			set {_actualDepth = value;}
+		}
+		public string styleClass {
+			get {return _styleClass;}
+			set {_styleClass = value;}
+		}
+		public string separator {
+			get {return _separator;}
+			set {_separator = value;}
+		}
+		public string language {
+			get {return _language;}
+			set {_language = value;}
+		}
+		public int numChilds {
+			get {return _numChilds;}
+			set {_numChilds = value;}
+		}
 
-    /*
-     *--------------------------------------------------------------------------------------------
-     * 							FUNCIONES SIN AJAX
-     *--------------------------------------------------------------------------------------------	
-     */
+		protected bool CanBuildTree () {
+			if (this.givenMenu == null)
+				return false;
 
-    //-----------------------------------------------------------------------------------------------
-    // 							ARBOLES DE MENU
-    //-----------------------------------------------------------------------------------------------
+			if (!this.currentCategory.AnonRole.Can(Permission.Read))
+				return false;
 
-    /// <summary>
-    /// Replaces the old BuildTree velocity macro
-    /// </summary>
-    public string BuildTree (string menuName, Category currentCategory,
-                             string currentLanguage, string divName)
-    {
-        string div = String.Empty;
-        //Category currentCategory = Category.Find(int.Parse(currentCategoryId));
-        //Console.WriteLine("------- :" + menuName +","+ currentCategory.Name);
-        Menu givenMenu = Menu.FindByName(menuName);
-        if (givenMenu == null)
-        {
-            return String.Empty;
-        }
-        //Console.WriteLine("--- 2");
-        Hashtable menusAcl = Controller.Context.Session[Constants.MENUS_ACLS] as Hashtable;
-        if ((menusAcl == null) && (currentCategory != null) && (!currentCategory.AnonRole.Can(Permission.Read)))
-        {
-            return String.Empty;
-        }
-        //Console.WriteLine("--- 3");
-        if (givenMenu.Children == null)
-        {
-            return String.Empty;
-        }
-        //Console.WriteLine("--- 4");
-        foreach (Menu menu in givenMenu.Children)
-        {
-            bool hasPermission = false;
-            if (menusAcl == null)   // perhaps anonymous user
-            {
-                //if (givenMenu.GetCategory().AnonRole.Can(Permission.Read)) // FIXME: extremely performance penalty
+			if ((this.givenMenu.Children == null) || (this.givenMenu.Children.Count <= 0))
+				return false;
+
+			return true;
+		}
+	
+		protected string GetDescription (Menu menu)
+		{
+			MenuTranslation mt = MenuTranslation.FindByMenuAndLang(menu, Language.FindByName(this.language));
+			string description;
+
+			if (mt != null)
+				description = mt.Translation;
+			else
+				description = menu.Description;
+
+			return description;
+		}
+
+		protected bool CheckMenuAccess () {
+			bool hasPermission = false;
+
+			Hashtable menuPermissionsHash;
+			if (this.givenMenu.CategoryId > 0)
+			{
+            Category category = Category.Find(this.givenMenu.CategoryId);
+            menuPermissionsHash = category.GetPermissionsHash(this.user);
+			}
+			else
+        		menuPermissionsHash = Commons.GetPermissionsBaseHash(true);
+
+			if (menuPermissionsHash != null)
+			{
+            // Permissions check: (is working fine)
+            Object permission = menuPermissionsHash[Permission.Read];
+            if ((permission != null) && ((bool)permission))
                 hasPermission = true;
-            }
-            else
-            {
-                Hashtable menuPermissionsHash = menusAcl[menu.Id] as Hashtable;
-                if (menuPermissionsHash != null)
-                {
-                    // Permissions check: (is working fine)
-                    Object permission = menuPermissionsHash[Permission.Read];
-                    if (permission == null)
-                    {
-                        return String.Empty;
-                    }
-                    bool readPermission = (bool) permission;
-                    if (!readPermission)
-                    {
-                        return String.Empty;
-                    }
-                    hasPermission = true;
-                }
-            }
-            if (hasPermission)
-            {
-            //Console.WriteLine("--- 5");
-                div += "<DIV class=" + divName +">";
+			}
 
-                MenuTranslation mt = MenuTranslation.FindByMenuAndLang(menu, Language.FindByName(currentLanguage));
-                string description;
-                if (mt != null)
-                    description = mt.Translation;
-                else
-                    description = menu.Description;
+			return hasPermission;
+		}
 
-                if ((currentCategory != null) && (menu.CategoryId == currentCategory.Id))
-                {
-                    //div += "<SPAN>" + menu.FindTranslation(currentLanguage) + "</SPAN>"; FIXME: Big performance penalty
-                    //div += "<SPAN>" + menu.Description + "</SPAN>";
-                    div += "<SPAN>" + description + "</SPAN>";
-                }
-                else
-                {
-                    div += "<A href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
-                    div += " title=\"" + menu.Name +"\">"+ menu.Description; // menu.FindTranslation(currentLanguage); FIXME Big performance penalty
-                    div += "</A>";
-                    div += " title=\"" + menu.Name +"\">"+ description;
-                }
-                div += "</DIV>";
-            }
-            //Console.WriteLine("--- 6");
-        }
-        return div;
-    }
+		protected bool Selected (Menu menu)
+		{
+			bool isAntecessor = false;
+	
+			if ((menu != null) && (this.actualMenu != null)) 
+			{
+				for (Menu m = this.actualMenu; m.Parent != null; m = m.Parent)
+				{
+					if (m.Id == menu.Id) 
+					{
+						isAntecessor = true;
+						break;
+					}
+				}
+			}
 
+			if (((this.currentCategory != null) && (menu.CategoryId == this.currentCategory.Id)) || (isAntecessor == true))
+				return true;
+			return false;
+		}
 
-    /*
-     *  Construye el arbol completo
-     */
-    public string BuildTree (string s, string div, IDictionary acl)
-    {
-        Menu m = Menu.FindByName(s);
-        if (m == null)
-            return "Lo siento, no existe el menu "+s;
+		public string BuildTree(string language, int depthLimit, string styleClass)
+		{
+			if (depthLimit > 0)
+			{
+				if (!CanBuildTree())
+					return String.Empty;
 
-        Menu [] mm = Menu.FindAll();
-        return BuildTree(m, ref mm, div, ref acl);
-    }
+				this.depthLimit = depthLimit;
+				this.language = language;
+				this.styleClass = styleClass;
+				this.numChilds = this.givenMenu.Children.Count;
 
-    /*
-     *  Construye el primer nivel de un arbol 
-     */
-    public string BuildTree (string s, string div, string separator, IDictionary acl)
-    {
-        Menu m = Menu.FindByName(s);
-        if (m == null)
-            return "Lo siento, no existe el menu "+s;
+				string tree = Header();
+				tree += Divider();
 
-        Menu [] mm = Menu.FindByParent(m.Id);
-        return BuildTree(m, ref mm, div, separator, ref acl);
-    }
+				foreach (Menu menu in givenMenu.Children)
+				{
+					if (CheckMenuAccess())
+					{
+						if (Selected(menu))
+						{
+							tree += PrintSelectedItem(menu, GetDescription(menu));
+							tree += BuildSubTree (menu);
+						}
+						else
+							tree += PrintItem(menu, GetDescription(menu));
+					}
+					
+					tree += Divider();
+				}
+				tree += Footer();
+				return tree;
+			} else
+				return String.Empty;
+		}
 
-    /*
-     *  Construye el arbol completo
-     */
-    public string BuildTree (Menu x, ref Menu [] mm, string div, ref IDictionary acl)
-    {
-        string html = "";
-        if (x == null)
-            return "Lo siento, no hay menus aún.";
+		public string BuildSubTree (Menu menu)
+		{
+			this.actualDepth++;
+			if (this.actualDepth <= this.depthLimit) {
+				if (menu.Children.Count > 0)
+				{
+					String subtree = String.Empty;
+					foreach (Menu m in menu.Children) 
+					{
+						if (Selected(m))
+						{
+							subtree += PrintSelectedItem (m, GetDescription(m));
+							subtree += BuildSubTree(m);
+						}
+						else
+							subtree += PrintItem (m, GetDescription(m));
+					}
+					this.actualDepth--;
+					return subtree;
+				}
+			}
+			
+			this.actualDepth--;
+			return String.Empty;
+		}
+	}
 
-        //if (!CanRead(x.Id, ref acl)) return "No tienes permiso";
+	/**********************************************************************************/
+	/**********************************************************************************/
+	public class TreeLeft: TreeAbstract
+	{
 
-        foreach (Menu m in mm)
-        {
-            if (!CanRead(m.Id, ref acl))
-                continue;
+		public TreeLeft (Menu givenMenu, Category currentCategory, Menu actualMenu, User user) {
+			_givenMenu = givenMenu;
+			_currentCategory = currentCategory;
+			_actualMenu = actualMenu;
+			_user = user;
+		}
 
-            if (m.Parent != null && m.Parent.Id == x.Id)
-            {
-                html += "<div class='"+div+"'>";
-                html += "<a href='/menu/red.html?id="+m.Id+"' title='" + m.Name +"'>" + m.Name + "</a>";
-                html += BuildSubTree(m, ref mm, div, ref acl);
-                html += "</div>";
-            }
-        }
+		public TreeLeft (string menuName, Category currentCategory, Menu actualMenu, User user) {
+			_givenMenu = Menu.FindByName (menuName);
+			_currentCategory = currentCategory;
+			_actualMenu = actualMenu;
+			_user = user;
+		}
+
+		public override string Header() {return "<ul class=\"" + this.styleClass + "_ul_" + this.actualDepth + "\">";}
+		public override string Footer() {return "</ul>";}
+		public override string Divider()
+		{
+			if (this.numChilds > 0)
+			{
+				this.numChilds--;
+				return "<li class=\"" + this.styleClass + "_li_" + this.actualDepth + "\">" + this.separator + "</li>";
+			}
+			return String.Empty;
+		}
+
+		public override string PrintItem (Menu menu, string item)
+		{
+        string html = String.Empty;
+
+        html += "<li class=\"" + this.styleClass + "_li_" + this.actualDepth + "\">";
+        html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
+        html += " title=\"" + menu.Name +"\">" + item;
+        html += "</a>";
+        html += "</li>";
         return html;
-    }
+		}
 
-    /*
-     *  Construye el primer nivel de un arbol 
-     */
-    public string BuildTree (Menu x, ref Menu [] mm, string div, string separator, ref IDictionary acl)
-    {
-        string html = "";
-        if (x == null)
-            return "Lo siento, no hay menus aún.";
+		public override string PrintSelectedItem (Menu menu, string item)
+		{
+        string html = String.Empty;
 
-        //if (!CanRead(x.Id, ref acl)) return "No tienes permiso";
-
-        //System.Console.Write("BuildTree(): entrando, ");
-        //PublicAPI.Show((Hashtable) acl);
-
-        foreach (Menu m in mm)
-        {
-            //System.Console.Write(m.Name+ " ("+m.Id+") ");
-            if (!CanRead(m.Id, ref acl))
-            {
-                //System.Console.Write("NO, ");
-                continue;
-            }
-            else
-            {
-                //System.Console.Write("SI, ");
-            }
-
-
-            if (m.Parent != null && m.Parent.Id == x.Id)
-            {
-                html += "<div class='"+div+"'>";
-                html += "<a href='/menu/red.html?id="+m.Id+"' title='" + m.Name +"'>" + m.Name + "</a>";
-                html += separator;
-                html += "</div>";
-            }
-        }
-        //System.Console.WriteLine("saliendo");
+        html += "<li class=\"" + this.styleClass + "_li_current_" + this.actualDepth + "\">";
+        html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
+        html += " title=\"" + menu.Name +"\">" + item;
+        html += "</a>";
+        html += "</li>";
         return html;
-    }
+		}
 
-    public string BuildSubTree (string s, string div, IDictionary acl)
-    {
-        Menu m = Menu.FindByName(s);
-        if (m == null)
-            return "Lo siento, no existe el menu "+s;
+	}
 
-        //if (!CanRead(m.Id, ref acl)) return "No tienes permiso";
+	/**********************************************************************************/
+	/**********************************************************************************/
+	public class Tree: TreeAbstract
+	{
+		public Tree (Menu givenMenu, Category currentCategory, Menu actualMenu, User user) {
+			_givenMenu = givenMenu;
+			_currentCategory = currentCategory;
+			_actualMenu = actualMenu;
+			_user = user;
+		}
 
-        Menu [] menus = Menu.FindByParent(m.Id);
-        Menu auxMenu = null;
-        foreach (Menu menu in menus)
-        if (menu.Show == 1)
-        {
-            auxMenu = menu;
-            break;
-        }
-        Menu [] mm = Menu.FindAll();
-        return BuildSubTree(auxMenu, ref mm, div, ref acl);
-    }
+		public Tree (string menuName, Category currentCategory, Menu actualMenu, User user) {
+			_givenMenu = Menu.FindByName (menuName);
+			_currentCategory = currentCategory;
+			_actualMenu = actualMenu;
+			_user = user;
+		}
 
-    private string BuildSubTree (Menu x, ref Menu [] mm, string div, ref IDictionary acl)
-    {
-        string html = "";
-        if (x == null)
-            return html;
+		//public override string BuildTree(string language, int depthLimit, string styleClass) {return String.Empty;}
+		public override string Header() {return "<ul class=\"" + this.styleClass + "_ul_" + "\">";}
+		public override string Divider() {return "<li class=\"" + this.styleClass + "_li_" + "\">" + this.separator + "</li>";}
+		public override string Footer() {return "</ul>";}
 
-        //if (!CanRead(x.Id, ref acl)) return "No tienes permiso";
+		public override string PrintItem (Menu menu, string item)
+		{
+        string html = String.Empty;
 
-        foreach (Menu m in mm)
-        {
-            if (!CanRead(m.Id, ref acl))
-                continue;
-
-            if (m.Parent != null && m.Parent.Id == x.Id && x.Show == 1)
-            {
-                html += "<div class='"+div+"' style='padding-left:20px'>";
-                html += "<a href='/menu/red.html?id="+m.Id+"' title='" + m.Name +"'>" + m.Name + "</a>";
-                html += BuildSubTree (m, ref mm, div, ref acl);
-                html += "</div>";
-            }
-        }
+        html += "<li class=\"" + this.styleClass + "_li_" + this.actualDepth + "\">";
+        html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
+        html += " title=\"" + menu.Name +"\">"+ item;
+        html += "</a>";
+        html += "</li>";
         return html;
-    }
+		}
 
-    /*
-     *-------------------------------------------------------------------------------------------------------
-     * 								FUNCIONES CON AJAX
-     *-------------------------------------------------------------------------------------------------------	
-     */
-    public string BuildMenu (string currentName)
-    {
-        Menu current = Menu.FindByName(currentName);
-        if (current == null)
-            return "Lo siento, no existe el menu "+currentName;
+		public override string PrintSelectedItem (Menu menu, string item)
+		{
+        string html = String.Empty;
 
-        string html = "";
-        Menu[] menus = Menu.FindByParent(current.Id);
-        foreach (Menu m in menus)
-        if (m.Parent != null)
-            if (m.Parent.Id == current.Id)
-            {
-                html += "<div class=\"list\">";
-                html += "<img src='/Public/images/plus.gif' id=\"img"+m.Id+"\" onclick=\"javascript:reloadSubmenu("+m.Id+", 'submenu"+m.Id+"', '/menu/submenu.html', '')\"/>";
-                html += "<a href='javascript:void(0)' onclick='javascript:reloadContent(\"content\",\""+m.Url+"\")'>"+m.Name+"</a>";
-                html += "<div id=\"submenu"+m.Id+"\" style=\"padding-left: 50px;\"></div></div>";
-            }
+        html += "<li class=\"" + this.styleClass + "_li_current_" + this.actualDepth + "\">";
+        html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
+        html += " title=\"" + menu.Name +"\">"+ item;
+        html += "</a>";
+        html += "</li>";
         return html;
-    }
+		}
 
-    public string BuildMenu (string currentName, string div, bool vertical, string separator)
-    {
-        Menu current = Menu.FindByName(currentName);
-        if (current == null)
-            return "Lo siento, no existe el menu "+currentName;
+	}
 
-        string html = "";
-        Menu[] menus = Menu.FindByParent(current.Id);
-        foreach (Menu m in menus)
-        if (m.Parent != null)
-            if (m.Parent.Id == current.Id)
-            {
-                //html += "<div id=\"MyMenu"+m.Id+"\">";
-                html += "<a href='javascript:void(0)' onclick='javascript:reloadMenu("+m.Id+", \""+div+"\", \"http://localhost:8080/menu/submenu.html\")'>" + m.Name + "</a>";
-                if (vertical)
-                    html += "<br/>";
-                else
-                    html += separator;
-                //html += "</div>";
-            }
+	/**********************************************************************************/
+	/**********************************************************************************/
+	public class TreeTable: TreeAbstract
+	{
+		public TreeTable (Menu givenMenu, Category currentCategory, Menu actualMenu, User user) {
+			_givenMenu = givenMenu;
+			_currentCategory = currentCategory;
+			_actualMenu = actualMenu;
+			_user = user;
+		}
+
+		public TreeTable (string menuName, Category currentCategory, Menu actualMenu, User user) {
+			_givenMenu = Menu.FindByName (menuName);
+			_currentCategory = currentCategory;
+			_actualMenu = actualMenu;
+			_user = user;
+		}
+
+		//public override string BuildTree(string language, int depthLimit, string styleClass) {return String.Empty;}
+		public override string Header() {return "<table class=\"" + this.styleClass + "_table_" + "\"> <tr valign=\"center\">";}
+		public override string Divider() {return "<td class=\"" + this.styleClass + "_td_" + "\">" + this.separator + "</td>";}
+		public override string Footer() {return "</tr> </table>";}
+
+		public override string PrintItem (Menu menu, string item)
+		{
+        string html = String.Empty;
+
+        html += "<td class=\"" + this.styleClass + "_td_" + this.actualDepth + "\">";
+        html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
+        html += " title=\"" + menu.Name +"\">"+ item;
+        html += "</a>";
+        html += "</td>";
         return html;
-    }
+		}
 
-    public string BuildCategoryMenu (string currentName)
-    {
-        Category current = Category.FindByName(currentName);
-        if (current == null)
-            return "Lo siento, no existe el menu "+currentName;
-
-        string html = "";
-        Category[] categories = Category.FindByParent(current.Id);
-        //System.Console.WriteLine ("LLEGO"+current.Id);
-        foreach (Category c in categories)
-        if (c.Parent != null)
-            if (c.Parent.Id == current.Id)
-            {
-                html += "<div class=\"list\">";
-                html += "<img src='/Public/images/plus.gif' id=\"img"+c.Id+"\" onclick=\"javascript:reloadSubmenu("+c.Id+", 'subcategory"+c.Id+"', '/portal/subcategory.html', '')\"/>";
-                html += "<a href='javascript:void(0)' onclick='javascript:reloadContent(\"content\",\""+c.ToUrl()+"\")'>"+c.Name+"</a>";
-                html += "<div id=\"subcategory"+c.Id+"\" style=\"padding-left: 50px;\"></div></div>";
-            }
+		public override string PrintSelectedItem (Menu menu, string item)
+		{
+        string html = String.Empty;
+        html += "<td class=\"" + this.styleClass + "_td_current_" + this.actualDepth + "\">";
+        html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
+        html += " title=\"" + menu.Name +"\">"+ item;
+        html += "</a>";
+        html += "</td>";
         return html;
-    }
+		}
 
-    public string BuildCategoryMenu (string currentName, string div, bool vertical, string separator)
-    {
-        Category current = Category.FindByName(currentName);
-        if (current == null)
-            return "Lo siento, no existe el menu "+currentName;
+	}
 
-        string html = "";
-        Category[] categories = Category.FindByParent(current.Id);
-        foreach (Category c in categories)
-        if (c.Parent != null)
-            if (c.Parent.Id == current.Id)
-            {
-                //html += "<div id=\"MyCategory"+m.Id+"\">";
-                html += "<a href='javascript:void(0)' onclick='javascript:reloadMenu("+c.Id+", \""+div+"\", \"http://localhost:8080/portal/subcategory.html\");reloadContent(\"content\",\""+c.ToUrl()+"\");'>" + c.Name + "</a>";
-                if (vertical)
-                    html += "<br/>";
-                else
-                    html += separator;
-                //html += "</div>";
-            }
-        return html;
-    }
+	//===============================================================================
+
+	static ConfigManager config = ConfigManager.GetInstance();
+
+	//			BuildTreesLefts recauchutados
+	public string BuildTreeLeft (Menu givenMenu, Menu actualMenu,  Category currentCategory, int depth_level, string currentLanguage, string styleClass)
+	{
+      User user = (User) Controller.Context.Session[Constants.USER];
+		TreeLeft tl = new TreeLeft (givenMenu, currentCategory, actualMenu, user);
+
+		return tl.BuildTree(currentLanguage, depth_level, styleClass);
+	}
+	public string BuildTreeLeft (string givenMenu, Menu actualMenu, Category currentCategory, int depth_level, string currentLanguage, string styleClass)
+	{
+      User user = (User) Controller.Context.Session[Constants.USER];
+		TreeLeft tl = new TreeLeft (givenMenu, currentCategory, actualMenu, user);
+
+		return tl.BuildTree(currentLanguage, depth_level, styleClass);
+	}
+	public string BuildTree (Menu givenMenu, Menu actualMenu, Category currentCategory, int depth_level, string currentLanguage, string styleClass)
+	{
+      User user = (User) Controller.Context.Session[Constants.USER];
+		Tree tree = new Tree (givenMenu, currentCategory, actualMenu, user);
+
+		return tree.BuildTree(currentLanguage, depth_level, styleClass);
+	}
+	public string BuildTree (string givenMenu, Menu actualMenu, Category currentCategory, int depth_level, string currentLanguage, string styleClass)
+	{
+      User user = (User) Controller.Context.Session[Constants.USER];
+		Tree tree = new Tree (givenMenu, currentCategory, actualMenu, user);
+
+		return tree.BuildTree(currentLanguage, depth_level, styleClass);
+	}
+	//			BuildTrees recauchutados
+
 }
 }

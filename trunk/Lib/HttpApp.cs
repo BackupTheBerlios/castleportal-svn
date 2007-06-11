@@ -60,6 +60,7 @@ public class HttpApp : System.Web.HttpApplication
         ActiveRecordStarter.Initialize( source , 
             typeof(Acl) , 
             typeof(Category) , 
+            typeof(CategoryTranslation) , 
             typeof(Chat) , 
             typeof(ChatMessage) , 
             typeof(ConfigCombo) , 

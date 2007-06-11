@@ -378,22 +378,22 @@ public class Category : Container
             return null; // Constants.NO_TRANSLATION_FOUND;
     }*/
     
-    public new static Category FindWithContentsByLang(int id, string lang)
+    public new static IList FindWithContentsByLang(int id, string lang, User user)
     {
         Category category = (Category) ActiveRecordBase.FindByPrimaryKey( typeof(Category), id );
-        bool filtered = false;
-        while (!filtered)
+
+        ArrayList contents = new ArrayList();
+        foreach(Content content in category.ContentList)
         {
-            filtered = true;
-            foreach(Content content in category.ContentList)
-                if (content.Lang.Name != lang)
-                {
-                    category.ContentList.Remove(content);   // Danger. Relation must be not remove in database
-                    filtered = false;
-                    break;
-                }
+            if (content.Lang.Name == lang)
+               if (user != null)
+                contents.Add(content);
+               else
+                  if (content.Published)
+                     contents.Add(content);
         }
-        return category;
+
+        return contents;
     }
 
     public static Category FindByCode(string code)

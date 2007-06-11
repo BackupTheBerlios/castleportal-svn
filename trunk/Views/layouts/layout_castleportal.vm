@@ -3,76 +3,71 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
 <HTML>
-  <HEAD>
-    <META http-equiv="Content-Type" content="text/html; charset=utf-8" >
-    <TITLE>$SITE_NAME</TITLE>
+	<HEAD>
+		<META http-equiv="Content-Type" content="text/html; charset=utf-8" >
+		<TITLE>$SITE_NAME</TITLE>
 
-    
-    <!-- tinyMCE -->
-    <SCRIPT language="JavaScript" src="$siteRoot/Public/tinymce/jscripts/tiny_mce/tiny_mce.js" type="text/javascript"></SCRIPT>
-    <SCRIPT language="javascript" type="text/javascript">tinyMCE.init({ mode : "textareas", theme : "advanced", language : "en" });</SCRIPT>
+		<!-- tinyMCE -->
+		<SCRIPT language="JavaScript" src="$siteRoot/Public/tinymce/jscripts/tiny_mce/tiny_mce.js" type="text/javascript"></SCRIPT>
+		<SCRIPT language="javascript" type="text/javascript">tinyMCE.init({ mode : "textareas", theme : "advanced", language : "en" });</SCRIPT>
     
 
-    <!-- scripts de castleportal -->
-    <SCRIPT language="JavaScript" src="$siteRoot/Public/javascript/scripts.js" type="text/javascript"></SCRIPT>
-    <SCRIPT language="JavaScript" src="$siteRoot/Public/javascript/utiles.js" type="text/javascript"></SCRIPT>
-    <SCRIPT language="JavaScript" src="$siteRoot/Public/javascript/styleswitcher.js" type="text/javascript"></SCRIPT>
+		<!-- scripts de castleportal -->
+		<SCRIPT language="JavaScript" src="$siteRoot/Public/javascript/scripts.js" type="text/javascript"></SCRIPT>
+		<SCRIPT language="JavaScript" src="$siteRoot/Public/javascript/utiles.js" type="text/javascript"></SCRIPT>
+		<SCRIPT language="JavaScript" src="$siteRoot/Public/javascript/styleswitcher.js" type="text/javascript"></SCRIPT>
     
-    <!-- scripts de castleproject -->
-    $AjaxHelper.GetJavascriptFunctions()
-    $Effects2Helper.GetJavascriptFunctions()
+		<!-- scripts de castleproject -->
+		$AjaxHelper.GetJavascriptFunctions()
+		$Effects2Helper.GetJavascriptFunctions()
+ 
+		<!-- calendario tigra -->
+		<SCRIPT language="JavaScript" type="text/javascript" src="${siteRoot}/Public/tigra_calendar/calendar1.js"></SCRIPT>
+		<SCRIPT language="JavaScript" type="text/javascript" src="${siteRoot}/Public/tigra_calendar/calendar2.js"></SCRIPT>
  
    
-    <!-- calendario tigra -->
-    <SCRIPT language="JavaScript" type="text/javascript" src="${siteRoot}/Public/tigra_calendar/calendar1.js"></SCRIPT>
-    <SCRIPT language="JavaScript" type="text/javascript" src="${siteRoot}/Public/tigra_calendar/calendar2.js"></SCRIPT>
- 
-   
-    <!-- stylesheets de los portales -->
-    <LINK rel="stylesheet" href="$siteRoot/Public/style/common.css" type="text/css" title="normal">
-    <LINK rel="stylesheet" href="$siteRoot/Public/style/castleportal.css" type="text/css" title="normal">
-    <LINK rel="stylesheet" href="$siteRoot/Public/color/$color/castleportal.css" type="text/css" title="normal">
-    <LINK rel="alternate stylesheet" type="text/css" href="$siteRoot/Public/style/accesible.css" title="accesible">
-  </HEAD>
+		<!-- stylesheets de los portales -->
+		<LINK rel="stylesheet" href="$siteRoot/Public/style/common.css" type="text/css" title="normal">
+		<LINK rel="stylesheet" href="$siteRoot/Public/style/castleportal.css" type="text/css" title="normal">
+		<LINK rel="stylesheet" href="$siteRoot/Public/color/$color/castleportal.css" type="text/css" title="normal">
+		<LINK rel="alternate stylesheet" type="text/css" href="$siteRoot/Public/style/accesible.css" title="accesible">
+	</HEAD>
 
+	<BODY id="body" onload="javascript:setGreaterHeight('$leftdiv', '$maindiv');">
+		<FORM method="post" action="$siteRoot/portal/accesible.$EXTENSION" name="access">
+			#if ($Session.Accesible == "1")
+				<SCRIPT> setActiveStyleSheet('accesible'); </SCRIPT>
+			#else
+				<SCRIPT> setActiveStyleSheet('normal'); </SCRIPT>
+			#end
+			<INPUT type="hidden" name="accesible" id="accesible" value="0"/>
+			<INPUT type="hidden" name="current" id="current" value="$context.Url"/>
+		</FORM>
 
+		<DIV id="contenedor">
+			#parse("/layouts/_subheader.vm")
+			<DIV id="header" style="background-image: url($siteRoot/Public/headers/$header/header${color}.jpg);">
+			</DIV>
 
-  <BODY id="body" onload="javascript:setGreaterHeight('$leftdiv', '$maindiv');">
-    <FORM method="post" action="$siteRoot/portal/accesible.$EXTENSION" name="access">
-      #if ($Session.Accesible == "1")
-        <SCRIPT> setActiveStyleSheet('accesible'); </SCRIPT>
-      #else
-        <SCRIPT> setActiveStyleSheet('normal'); </SCRIPT>
-      #end
-      <INPUT type="hidden" name="accesible" id="accesible" value="0"/>
-      <INPUT type="hidden" name="current" id="current" value="$context.Url"/>
-    </FORM>
-    <DIV id="contenedor">
-      #parse("/layouts/_subheader.vm")
-      <DIV id="header" style="background-image: url($siteRoot/Public/headers/$header/header${color}.jpg);">
-      </DIV>
-      <DIV id="menumain">
-	$MenuHelper.BuildTree("main", $category, "$lang", "menutop")
-      </DIV>
-      <DIV id="lateral">
-        #parse("/layouts/language_selector.vm")
-        <hr>
-		<DIV id="search">
-			<FORM method="get" action="$siteRoot/portal/search.$EXTENSION">
-				$l10n.SEARCH: <INPUT name="key" type="text" class="buscar">
-				<NOSCRIPT>
-					<INPUT type="submit" value="buscar">
-				</NOSCRIPT>
-			</FORM>
-		</DIV>
-        <hr>
-	<DIV id="menuleft">
-	        $MenuHelper.BuildTree("left", $category, "$lang", "menuitemdiv")
-                ##if ($menu)
-                   ##set($mt = $menu.Tree(1))
-                   ##showsubtree($mt)
-                ##end
-	</DIV>
+			<DIV id="menumain">
+				$MenuHelper.BuildTree("main", $menu,  $category, 1, "$lang", "actual")
+			</DIV>
+			<DIV id="lateral">
+				#parse("/layouts/language_selector.vm")
+				<hr>
+				<DIV id="search">
+				<FORM method="get" action="$siteRoot/portal/search.$EXTENSION">
+					$l10n.SEARCH:
+					<INPUT name="key" type="text" class="buscar">
+					<NOSCRIPT>
+						<INPUT type="submit" value="buscar">
+					</NOSCRIPT>
+				</FORM>
+			</DIV>
+			<hr>
+			<DIV id="menuleft">
+				$MenuHelper.BuildTreeLeft("main", $menu,  $category, 999, "$lang", "submenu")
+			</DIV>
         <hr><center>
             #if ($context.Session.User)
                <a href="$siteRoot/login/logout.$EXTENSION"><strong>[Logout]</strong></a> 

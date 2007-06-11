@@ -30,7 +30,7 @@ using System;
 
 namespace CastlePortal
 {
-	
+[Helper (typeof (ExtraHelper))]
 [Helper (typeof (MenuHelper))]
 [Helper (typeof (StringHelper))]
 [Helper (typeof (TemplateVarsTester))]
@@ -1024,46 +1024,43 @@ public class PortalController:ARSmartDispatcherController
             LayoutName = null;
     }
 
-
-    public void ViewCategory (Category category)
+    public void ViewCategory(Category category)
     {
         CheckPermissions(category, Permission.Read);
         PropertyBag[Constants.MENU]  = Menu.FindByCategory(category);
         PropertyBag[Constants.CATEGORY]  = category;
-       
-        //RenderView("viewcategory");
     }
 
-    public void ViewCategory (int id)
+    public void ViewCategory(int id)
     {
-        Category category = Category.FindWithContentsByLang(id, Commons.GetCurrentLang(this));
+        Category category = Category.Find(id);
+        IList contents = Category.FindWithContentsByLang(id, Commons.GetCurrentLang(this), (User)Session[Constants.USER]);
         CheckPermissions(category, Permission.Read);
         PropertyBag[Constants.MENU]  = Menu.FindByCategory(category);
         PropertyBag[Constants.CATEGORY]  = category;
-        //RenderView("viewcategory");
+        PropertyBag[Constants.CONTENTS]  = contents;
     }
 
-    public void ViewCategory (int id, bool layout)
+    public void ViewCategory(int id, bool layout)
     {
-        Category category = Category.FindWithContentsByLang(id, Commons.GetCurrentLang(this));
+        Category category = Category.Find(id);
+        IList contents = Category.FindWithContentsByLang(id, Commons.GetCurrentLang(this), (User)Session[Constants.USER]);
         CheckPermissions(category, Permission.Read, layout);
         PropertyBag[Constants.MENU]  = Menu.FindByCategory(category);
         PropertyBag[Constants.CATEGORY]  = category;
+        PropertyBag[Constants.CONTENTS]  = contents;
         if (!layout)
             LayoutName = null;
-        //RenderView("viewcategory");
     }
 
-    public void ViewCategoryRaw (int id)
+    public void ViewCategoryRaw(int id)
     {
         Category category = Category.Find(id);
         CheckPermissions(category, Permission.Read);
         PropertyBag[Constants.MENU]  = Menu.FindByCategory(category);
         PropertyBag[Constants.CATEGORY]  = category;
         LayoutName = null;
-        //RenderView("viewcategory");
     }
-
 
     public void ViewCategoryTree (int id)
     {

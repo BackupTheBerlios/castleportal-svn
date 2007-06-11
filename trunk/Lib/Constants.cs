@@ -41,6 +41,7 @@ public static class Constants
     public const string COLOR = "color";
     public const string COLORS_AVAILABLE= "colors";
     public const string CONTENT = "content";
+    public const string CONTENTS = "contents";
     public const string CONTENT_NOT_FOUND = "givenContentNotFound";
 
     public const string DEFAULT_LIST_TEMPLATE = "defaultList.vm";

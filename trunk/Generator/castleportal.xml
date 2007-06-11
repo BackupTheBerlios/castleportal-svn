@@ -61,78 +61,55 @@
 </Fields>
 
 <!-- _______________________ TEMPLATES _______________ -->
-
-    <Templates>
-<!-- Without Fields -->
-        <Template nombre="defaultEdit" nombrelargo="Default Edition" fichero="defaultEdit.vm" public="false" />
-
-        <Template nombre="defaultList" nombrelargo="Default List" fichero="defaultList" public="false"/>
-
-        <Template nombre="defaultView" nombrelargo="Default View" fichero="defaultView" public="false"/>
-
-        <Template nombre="displayCategoryHelp" nombrelargo="Display Help Category" fichero="displayCategoryHelp" public="true"/>
-
-        <Template nombre="showAllCategoryChildrenContents" nombrelargo="Show All Category Children Contents" fichero="showAllCategoryChildrenContents" public="true"/>
- 
-        <Template nombre="showAllCategoryChildrenList" nombrelargo="Show All Category Children List" fichero="showAllCategoryChildrenList" public="true"/>
-
-        <Template nombre="showFirstCategoryChild" nombrelargo="Show First Category Child" fichero="showFirstCategoryChild" public="true"/>
-
-        <!--<Template nombre="siteMap" nombrelargo="Site Map" fichero="siteMap" />-->
-
-        <Template nombre="unavailable" nombrelargo="Unavailable" fichero="unavailable" public="true"/>
-
-<!-- With Fields -->
-<!--        <Template nombre="combos" nombrelargo="Combos">
+<Templates>
+	<Template nombre="defaultEdit" nombrelargo="Default Edition" fichero="defaultEdit.vm" public="false" />
+	<Template nombre="defaultList" nombrelargo="Default List" fichero="defaultList" public="false"/>
+	<Template nombre="defaultView" nombrelargo="Default View" fichero="defaultView" public="false"/>
+	<Template nombre="displayCategoryHelp" nombrelargo="Display Help Category" fichero="displayCategoryHelp" public="true"/>
+	<Template nombre="displayCategoryFilesBlog" nombrelargo="Display Files Category Blog" fichero="displayCategoryFilesBlog" public="true">
+		<Field nombre="body" show="1" />
+		<Field nombre="file" show="1" />
+	</Template>
+	<Template nombre="displayCategoryFilesTable" nombrelargo="Display Files Category Table" fichero="displayCategoryFilesTable" public="true">
+		<Field nombre="title" show="1" />
+		<Field nombre="file" show="1" />
+	</Template>
+	<Template nombre="displayCategoryLinksTable" nombrelargo="Display Links Category Table" fichero="displayCategoryLinksTable" public="true">
+		<Field nombre="title" show="1" />
+		<Field nombre="url" show="1" />
+	</Template>
+	<Template nombre="displayCategoryTextsBlog" nombrelargo="Display Texts Category Blog" fichero="displayCategoryTextsBlog" public="true">
+		<Field nombre="body" show="1" />
+	</Template>
+	<Template nombre="displayCategoryTitlesImages" nombrelargo="Display Titles and Images Category" fichero="displayCategoryTitlesImages" public="true">
+		<Field nombre="title" show="1"/>
+		<Field nombre="image" show="1"/>
+	</Template>
+	<Template nombre="displayCategoryTitlesTable" nombrelargo="Display Titles Category Table" fichero="displayCategoryTitlesTable" public="true"> 
+		<Field nombre="title" show="1" />
+	</Template>
+	<Template nombre="displayCategoryTitlesTexts" nombrelargo="Display Title and Body Category" fichero="displayCategoryTitlesTexts" public="true" > 
+		<Field nombre="title" show="1"/>
+		<Field nombre="body" show="1"/>
+	</Template>
+	<Template nombre="displayCategoryWithReferenceField" nombrelargo="Display Category With Reference Field" fichero="displayCategoryWithReferenceField" public="true" /> 
+	<Template nombre="news" nombrelargo="News Board" fichero="news" public="true" > 
+		<Field nombre="title" show="1"/>
+		<Field nombre="body" show="0"/>
+	</Template>
+	<Template nombre="showAllCategoryChildrenContents" nombrelargo="Show All Category Children Contents" fichero="showAllCategoryChildrenContents" public="true" />
+	<Template nombre="showAllCategoryChildrenList" nombrelargo="Show All Category Children List" fichero="showAllCategoryChildrenList" public="true" />
+	<Template nombre="showFirstCategoryChild" nombrelargo="Show First Category Child" fichero="showFirstCategoryChild" public="true" />
+	<!--<Template nombre="siteMap" nombrelargo="Site Map" fichero="siteMap" />-->
+	<Template nombre="unavailable" nombrelargo="Unavailable" fichero="unavailable" public="true" />
+	<!--        <Template nombre="combos" nombrelargo="Combos">
             <Field nombre="name" show="1"/>
             <Field nombre="title" show="1"/>
         </Template>
--->
-        <Template nombre="displayCategoryFilesBlog" nombrelargo="Display Files Category Blog" fichero="displayCategoryFilesBlog" public="true">
-            <Field nombre="body" show="1" />
-            <Field nombre="file" show="1" />
-        </Template>
-
-        <Template nombre="displayCategoryFilesTable" nombrelargo="Display Files Category Table" fichero="displayCategoryFilesTable" public="true">
-            <Field nombre="title" show="1" />
-            <Field nombre="file" show="1" />
-        </Template>
-
-        <Template nombre="displayCategoryLinksTable" nombrelargo="Display Links Category Table" fichero="displayCategoryLinksTable" public="true">
-            <Field nombre="title" show="1" />
-            <Field nombre="url" show="1" />
-        </Template>
-
-        <Template nombre="displayCategoryTextsBlog" nombrelargo="Display Texts Category Blog" fichero="displayCategoryTextsBlog" public="true">
-            <Field nombre="body" show="1" />
-        </Template>
-
-        <Template nombre="displayCategoryTitlesImages" nombrelargo="Display Titles and Images Category" fichero="displayCategoryTitlesImages" public="true">
-            <Field nombre="title" show="1"/>
-            <Field nombre="image" show="1"/>
-        </Template>
-
-        <Template nombre="displayCategoryTitlesTable" nombrelargo="Display Titles Category Table" fichero="displayCategoryTitlesTable" public="true"> 
-            <Field nombre="title" show="1" />
-        </Template>
-
-        <Template nombre="displayCategoryTitlesTexts" nombrelargo="Display Title and Body Category" fichero="displayCategoryTitlesTexts" public="true" > 
-            <Field nombre="title" show="1"/>
-            <Field nombre="body" show="1"/>
-        </Template>
-
-        <Template nombre="displayCategoryWithReferenceField" nombrelargo="Display Category With Reference Field" fichero="displayCategoryWithReferenceField" public="true" > 
-
-        </Template>
-
-        <Template nombre="news" nombrelargo="News Board" fichero="news" public="true" > 
-            <Field nombre="title" show="1"/>
-            <Field nombre="body" show="0"/>
-        </Template>
-    </Templates>
+	-->
+</Templates>
 
 <!-- _______________________ CATEGORIES _______________ -->
-
 <Categories>
 	<Category name="main" template="unavailable" role="ro" code="1" >
 		<Acl nombre="erw"/>
@@ -216,7 +193,6 @@
 		<Acl nombre="afull"/>
 		<Acl nombre="ppu" />
 	</Category>
-
 </Categories>
 
 <!-- _______________________ MENUS _______________ -->

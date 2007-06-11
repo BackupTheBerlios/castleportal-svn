@@ -104,5 +104,22 @@ public class CategoryTranslation : ActiveRecordBase
     {
         return null;
     }
+
+    public static CategoryTranslation[] FindByCategory(Category category)
+    {
+        CategoryTranslation[] translations = (CategoryTranslation[]) ActiveRecordBase.FindAll( typeof(CategoryTranslation),
+                               Expression.Eq("Category", category));
+        if ((translations != null) && (translations.Length > 0))
+            return translations;
+        else
+            return null;
+        
+				/*SimpleQuery q = new SimpleQuery(typeof(CategoryTranslation), @"
+            from CategoryTranslation T
+            where T.Category = ?", category);
+
+        return (CategoryTranslation[]) ExecuteQuery(q);
+				*/
+    }
 }
 }

@@ -9,7 +9,7 @@ $TemplateVarsTester.IsNotNull($category, "category", "defaultList.vm", "$caller"
     #end
     <TH>$l10n.ACTIONS </TH>
   </TR>
-  #foreach ($content in $category.ContentList)
+  #foreach ($content in $contents)
     #set( $oddeven = $velocityCount % 2 )
     <TR class="row$oddeven">
        #foreach ($field in $category.Template.ListingVisibleFields)

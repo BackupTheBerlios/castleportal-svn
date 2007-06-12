@@ -3,7 +3,7 @@ $TemplateVarsTester.IsNotNull($category, "category", "displayCategoryTitlesImage
 <H1>
   $ExtraHelper.CategoryDescription($category, $lang)
 </H1>
-#foreach ($content in $category.ContentList)
+#foreach ($content in $contents)
    <P style="clear: right">
      #set ($file = false)
      #set ($file = $content.GetDataModelByFieldName("image").GetObjectFromValue)

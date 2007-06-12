@@ -3,9 +3,9 @@ $TemplateVarsTester.IsNotNull($category, "category", "displayCategoryFilesBlog.v
 <H1>
 	$ExtraHelper.CategoryDescription($category, $lang)
 </H1>
-#if ($category.ContentList)
+#if ($contents)
 
-#foreach ($content in $category.ContentList)
+#foreach ($content in $contents)
    <P> 
      $content.GetValueByFieldName("body")
      <BR>

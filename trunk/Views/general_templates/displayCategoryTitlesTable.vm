@@ -8,7 +8,7 @@ $TemplateVarsTester.IsNotNull($category, "category", "displayCategoryTitlesTable
     </TD>
   </TR>
   
-  #foreach ($content in $category.ContentList)
+  #foreach ($content in $contents)
      #set( $oddeven = $velocityCount % 2 )
      <TR class="linea1" > 
        <TD align="center">

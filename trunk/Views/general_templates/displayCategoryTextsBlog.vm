@@ -5,7 +5,7 @@ $TemplateVarsTester.IsNotNull($category, "category", "displayCategoryTextsBlog.v
   #parse("$!templatesdir/actionsLinks/editCategory.vm")
 </H1>
   
-#foreach ($content in $category.ContentList)
+#foreach ($content in $contents)
   <P>
     $content.GetValueByFieldName("body")
     #parse("$!templatesdir/actionsLinks/editContent.vm")

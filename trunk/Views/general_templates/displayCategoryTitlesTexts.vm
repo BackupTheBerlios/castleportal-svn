@@ -4,7 +4,7 @@ $TemplateVarsTester.IsNotNull($category, "category", "displayCategoryTitlesTexts
   $ExtraHelper.CategoryDescription($category, $lang)
   #parse("$!templatesdir/actionsLinks/editCategory.vm")
 </H1>
-#foreach ($content in $category.ContentList)
+#foreach ($content in $contents)
    <H2><BR>
      $content.GetValueByFieldName("title")
    </H2>

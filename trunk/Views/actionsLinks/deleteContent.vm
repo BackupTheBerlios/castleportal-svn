@@ -1,5 +1,5 @@
 #if ($category.CanDelete($session.User)) 
 
-$AjaxHelper.LinkToRemote("<img src='$siteRoot/Public/images/deletecontent.gif' title='$l10n.DELETE' alt='bi'>", "$siteRoot/portal/deletecontent.$EXTENSION", $DictHelper.CreateDict("update=$placeholder", "with='id=$content.Id&layout=false'", "loading=javascript:waitPointer('content')", "complete=javascript:defaultPointer('content')"))
+$AjaxHelper.LinkToRemote("<img src='$siteRoot/Public/images/deletecontent.gif' title='$l10n.DELETE' alt='bi'>", "$siteRoot/portal/deletecontent.$EXTENSION", $DictHelper.CreateDict("update=$placeholder", "with='id=$content.Id&layout=false'", "loading=javascript:waitPointer('content')", "complete=javascript:defaultPointer('content')", "condition=confirm('&iquest;$l10n.DELETE?')")))
 
 #end

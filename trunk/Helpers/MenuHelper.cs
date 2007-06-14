@@ -2,6 +2,7 @@
 //    Carlos Ble <carlosble@shidix.com>
 //    Alberto Morales <amd77@gulic.org>
 //    Héctor Rojas González <hectorrojas@shidix.com>
+//    Inocencio del Castillo Suárez <chencho@shidix.com>
 //
 // Copyright 2006 Shidix Technologies - http://www.shidix.com
 //
@@ -27,7 +28,20 @@ namespace CastlePortal
 public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 {
 
-	/**********************************************************************************/
+    public Menu GetMenu(string s)
+    {
+        return Menu.FindByName(s);
+    }
+
+    public Category GetCategory (string s)
+    {
+        return Category.FindByName(s);
+    }
+
+
+	  /*********************************************************************/
+	 /******************			Classes Abstractas			*****************/
+	/*********************************************************************/
 	public abstract class TreeAbstract
 	{
 		protected Menu			_givenMenu;
@@ -41,17 +55,6 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 		protected string		_styleClass = String.Empty;
 		protected string		_language = String.Empty;
 
-/*
-		public TreeAbstract (Menu givenMenu, Category currentCategory, Menu actualMenu) {
-			_givenMenu = givenMenu;
-			_currentCategory = currentCategory;
-			_actualMenu = actualMenu;
-
-			System.Console.WriteLine ("escribo desde la clase" + this);
-		}
-*/
-
-//		public abstract string BuildTree (string language, int depthLimit, string styleClass);
 		public abstract string Header ();
 		public abstract string Divider ();
 		public abstract string Footer ();
@@ -103,7 +106,7 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 			if (this.givenMenu == null)
 				return false;
 
-			if (!this.currentCategory.AnonRole.Can(Permission.Read))
+			if (this.currentCategory == null)
 				return false;
 
 			if ((this.givenMenu.Children == null) || (this.givenMenu.Children.Count <= 0))
@@ -125,24 +128,25 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 			return description;
 		}
 
-		protected bool CheckMenuAccess () {
+		private bool CheckMenuPermission(Menu menu)
+		{
 			bool hasPermission = false;
 
 			Hashtable menuPermissionsHash;
-			if (this.givenMenu.CategoryId > 0)
+			if (menu.CategoryId > 0)
 			{
-            Category category = Category.Find(this.givenMenu.CategoryId);
-            menuPermissionsHash = category.GetPermissionsHash(this.user);
+				Category category = Category.Find(menu.CategoryId);
+				menuPermissionsHash = category.GetPermissionsHash(this.user);
 			}
 			else
-        		menuPermissionsHash = Commons.GetPermissionsBaseHash(true);
+				menuPermissionsHash = Commons.GetPermissionsBaseHash(true);
 
 			if (menuPermissionsHash != null)
 			{
-            // Permissions check: (is working fine)
-            Object permission = menuPermissionsHash[Permission.Read];
-            if ((permission != null) && ((bool)permission))
-                hasPermission = true;
+				// Permissions check: (is working fine)
+				Object permission = menuPermissionsHash[Permission.Read];
+				if ((permission != null) && ((bool)permission))
+					hasPermission = true;
 			}
 
 			return hasPermission;
@@ -182,13 +186,12 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 				this.numChilds = this.givenMenu.Children.Count;
 
 				string tree = Header();
-				tree += Divider();
 
 				foreach (Menu menu in givenMenu.Children)
 				{
-					if (CheckMenuAccess())
+					if (CheckMenuPermission(menu))
 					{
-						if (Selected(menu))
+						if ((Selected(menu)) || (this.actualMenu.Code == "showAllChilds"))
 						{
 							tree += PrintSelectedItem(menu, GetDescription(menu));
 							tree += BuildSubTree (menu);
@@ -205,6 +208,7 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 				return String.Empty;
 		}
 
+
 		public string BuildSubTree (Menu menu)
 		{
 			this.actualDepth++;
@@ -214,7 +218,7 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 					String subtree = String.Empty;
 					foreach (Menu m in menu.Children) 
 					{
-						if (Selected(m))
+						if ((Selected(m)) || (this.actualMenu.Code == "showAllChilds"))
 						{
 							subtree += PrintSelectedItem (m, GetDescription(m));
 							subtree += BuildSubTree(m);
@@ -233,7 +237,51 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 	}
 
 	/**********************************************************************************/
-	/**********************************************************************************/
+	public abstract class SimpleMenuAbstract
+	{
+		protected string	_separator = String.Empty;
+		protected string	_styleClass = String.Empty;
+		protected string	_language = String.Empty;
+
+		public abstract string Header ();
+		public abstract string Divider ();
+		public abstract string Footer ();
+		public abstract string PrintItem (string item);
+
+		public string styleClass {
+			get {return _styleClass;}
+			set {_styleClass = value;}
+		}
+		public string separator {
+			get {return _separator;}
+			set {_separator = value;}
+		}
+		public string language {
+			get {return _language;}
+			set {_language = value;}
+		}
+
+		public string BuildMenu (params string []entries)
+		{
+			if (entries.Length > 0)
+			{
+				string html = Header();
+				foreach (string menuItem in entries)
+				{
+					html += PrintItem(menuItem);
+					html += Divider();
+				}
+					
+				html += Footer();
+				return html;
+			} else
+				return String.Empty;
+		}
+	}
+
+	  /*********************************************************************/
+	 /******************			Classes Herederas			********************/
+	/*********************************************************************/
 	public class TreeLeft: TreeAbstract
 	{
 
@@ -265,26 +313,99 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 
 		public override string PrintItem (Menu menu, string item)
 		{
-        string html = String.Empty;
+			string html = String.Empty;
 
-        html += "<li class=\"" + this.styleClass + "_li_" + this.actualDepth + "\">";
-        html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
-        html += " title=\"" + menu.Name +"\">" + item;
-        html += "</a>";
-        html += "</li>";
-        return html;
+			html += "<li class=\"" + this.styleClass + "_li_" + this.actualDepth + "\">";
+			html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
+			html += " title=\"" + menu.Name +"\">" + item;
+			html += "</a>";
+			html += "</li>";
+			return html;
 		}
 
 		public override string PrintSelectedItem (Menu menu, string item)
 		{
-        string html = String.Empty;
+			string html = String.Empty;
 
-        html += "<li class=\"" + this.styleClass + "_li_current_" + this.actualDepth + "\">";
-        html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
-        html += " title=\"" + menu.Name +"\">" + item;
-        html += "</a>";
-        html += "</li>";
-        return html;
+			html += "<li class=\"" + this.styleClass + "_li_current_" + this.actualDepth + "\">";
+			html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
+			html += " title=\"" + menu.Name +"\">" + item;
+			html += "</a>";
+			html += "</li>";
+			return html;
+		}
+
+	}
+
+	/**********************************************************************************/
+	/**********************************************************************************/
+	public class TreeLeftWithVinyetas: TreeAbstract
+	{
+
+		public TreeLeftWithVinyetas (Menu givenMenu, Category currentCategory, Menu actualMenu, User user) {
+			_givenMenu = givenMenu;
+			_currentCategory = currentCategory;
+			_actualMenu = actualMenu;
+			_user = user;
+		}
+
+		public TreeLeftWithVinyetas (string menuName, Category currentCategory, Menu actualMenu, User user) {
+			_givenMenu = Menu.FindByName (menuName);
+			_currentCategory = currentCategory;
+			_actualMenu = actualMenu;
+			_user = user;
+		}
+
+		public override string Header() {return "<ul class=\"" + this.styleClass + "_ul_" + this.actualDepth + "\">";}
+		public override string Footer() {return "</ul>";}
+		public override string Divider()
+		{
+			if (this.numChilds > 0)
+			{
+				this.numChilds--;
+				return "<li class=\"" + this.styleClass + "_li_" + this.actualDepth + "\">" + this.separator + "</li>";
+			}
+			return String.Empty;
+		}
+
+		public override string PrintItem (Menu menu, string item)
+		{
+			string html = String.Empty;
+
+			html += "<li class=\"" + this.styleClass + "_li_" + this.actualDepth + "\">";
+			html += "<table class=\"" + this.styleClass +"\">";
+			html += "<td class=\"" + this.styleClass + "vinyeta" + this.actualDepth + "\">";
+			if (this.actualDepth != 1)
+				html += ">";						// Viñeta
+			html += "</td>";
+			html += "<td class=\"" + this.styleClass + "texto" + this.actualDepth + "\">";
+			html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
+			html += " title=\"" + menu.Name +"\">" + item;
+			html += "</a>";
+			html += "</td>";
+			html += "</table>";
+			html += "</li>";
+			return html;
+		}
+
+		public override string PrintSelectedItem (Menu menu, string item)
+		{
+			string html = String.Empty;
+
+			html += "<li class=\"" + this.styleClass + "_li_current_" + this.actualDepth + "\">";
+			html += "<table class=\"" + this.styleClass + "\">";
+			html += "<td class=\"" + this.styleClass + "vinyeta" + this.actualDepth + "\">";
+			if (this.actualDepth != 1)
+				html += ">";						// Viñeta
+			html += "</td>";
+			html += "<td class=\"" + this.styleClass + "texto" + this.actualDepth + "\">";
+			html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
+			html += " title=\"" + menu.Name +"\">" + item;
+			html += "</a>";
+			html += "</td>";
+			html += "</table>";
+			html += "</li>";
+			return html;
 		}
 
 	}
@@ -293,13 +414,6 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 	/**********************************************************************************/
 	public class Tree: TreeAbstract
 	{
-		public Tree (Menu givenMenu, Category currentCategory, Menu actualMenu, User user) {
-			_givenMenu = givenMenu;
-			_currentCategory = currentCategory;
-			_actualMenu = actualMenu;
-			_user = user;
-		}
-
 		public Tree (string menuName, Category currentCategory, Menu actualMenu, User user) {
 			_givenMenu = Menu.FindByName (menuName);
 			_currentCategory = currentCategory;
@@ -307,33 +421,32 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 			_user = user;
 		}
 
-		//public override string BuildTree(string language, int depthLimit, string styleClass) {return String.Empty;}
 		public override string Header() {return "<ul class=\"" + this.styleClass + "_ul_" + "\">";}
-		public override string Divider() {return "<li class=\"" + this.styleClass + "_li_" + "\">" + this.separator + "</li>";}
+		public override string Divider() {return String.Empty;}
 		public override string Footer() {return "</ul>";}
 
 		public override string PrintItem (Menu menu, string item)
 		{
-        string html = String.Empty;
+			string html = String.Empty;
 
-        html += "<li class=\"" + this.styleClass + "_li_" + this.actualDepth + "\">";
-        html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
-        html += " title=\"" + menu.Name +"\">"+ item;
-        html += "</a>";
-        html += "</li>";
-        return html;
+			html += "<li class=\"" + this.styleClass + "_li_" + this.actualDepth + "\">";
+			html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
+			html += " title=\"" + menu.Name +"\">"+ item;
+			html += "</a>";
+			html += "</li>";
+			return html;
 		}
 
 		public override string PrintSelectedItem (Menu menu, string item)
 		{
-        string html = String.Empty;
+			string html = String.Empty;
 
-        html += "<li class=\"" + this.styleClass + "_li_current_" + this.actualDepth + "\">";
-        html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
-        html += " title=\"" + menu.Name +"\">"+ item;
-        html += "</a>";
-        html += "</li>";
-        return html;
+			html += "<li class=\"" + this.styleClass + "_li_" + this.actualDepth + "\">";
+			html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
+			html += " title=\"" + menu.Name +"\">"+ item;
+			html += "</a>";
+			html += "</li>";
+			return html;
 		}
 
 	}
@@ -356,34 +469,95 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 			_user = user;
 		}
 
-		//public override string BuildTree(string language, int depthLimit, string styleClass) {return String.Empty;}
 		public override string Header() {return "<table class=\"" + this.styleClass + "_table_" + "\"> <tr valign=\"center\">";}
 		public override string Divider() {return "<td class=\"" + this.styleClass + "_td_" + "\">" + this.separator + "</td>";}
 		public override string Footer() {return "</tr> </table>";}
 
 		public override string PrintItem (Menu menu, string item)
 		{
-        string html = String.Empty;
+			string html = String.Empty;
 
-        html += "<td class=\"" + this.styleClass + "_td_" + this.actualDepth + "\">";
-        html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
-        html += " title=\"" + menu.Name +"\">"+ item;
-        html += "</a>";
-        html += "</td>";
-        return html;
+			html += "<td class=\"" + this.styleClass + "_td_" + this.actualDepth + "\">";
+			html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
+			html += " title=\"" + menu.Name +"\">"+ item;
+			html += "</a>";
+			html += "</td>";
+			return html;
 		}
 
 		public override string PrintSelectedItem (Menu menu, string item)
 		{
-        string html = String.Empty;
-        html += "<td class=\"" + this.styleClass + "_td_current_" + this.actualDepth + "\">";
-        html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
-        html += " title=\"" + menu.Name +"\">"+ item;
-        html += "</a>";
-        html += "</td>";
-        return html;
+			string html = String.Empty;
+			html += "<td class=\"" + this.styleClass + "_td_current_" + this.actualDepth + "\">";
+			html += "<a href=" + menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
+			html += " title=\"" + menu.Name +"\">"+ item;
+			html += "</a>";
+			html += "</td>";
+			return html;
 		}
 
+	}
+
+	/**********************************************************************************/
+	/**********************************************************************************/
+	public class SimpleMenuByMenu: SimpleMenuAbstract
+	{
+		public SimpleMenuByMenu (string style) {
+			_styleClass = style;
+			this.separator = "&nbsp;&nbsp;&nbsp;";
+		}
+
+		public override string Header() {return "";}
+		public override string Divider() {return this.separator;}
+		public override string Footer() {return "";}
+
+		public override string PrintItem (string item)
+		{
+			Menu menu = Menu.FindByName (item);
+			if (menu == null) {
+				System.Console.WriteLine("SimpleMenu no puede crear el enlace porque no existe el menu con nombre '" + item + "'");
+				return String.Empty;
+			}
+			
+			string url = menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
+			string html = String.Empty;
+
+			html += "<a class=\"" + this.styleClass + "\" href=\"" + url + "\">";
+			html += item;
+			html += "</a>";
+			return html;
+		}
+	}
+
+	/**********************************************************************************/
+	/**********************************************************************************/
+	public class SimpleMenuByCategory: SimpleMenuAbstract
+	{
+		public SimpleMenuByCategory (string style) {
+			_styleClass = style;
+			this.separator = "&nbsp;&nbsp;&nbsp;";
+		}
+
+		public override string Header() {return "";}
+		public override string Divider() {return this.separator;}
+		public override string Footer() {return "";}
+
+		public override string PrintItem (string item)
+		{
+			Category cat = Category.FindByName(item); 
+			if (cat == null) {
+				System.Console.WriteLine("SimpleMenu no puede crear el enlace porque no existe la categoría con nombre '" + item + "'");
+				return String.Empty;
+			}
+
+			string url = cat.ToUrl(config.GetValue(Constants.SITE_ROOT));
+			string html = String.Empty;
+
+			html += "<a class=\"" + this.styleClass + "\" href=\"" + url + "\">";
+			html += item;
+			html += "</a>";
+			return html;
+		}
 	}
 
 	//===============================================================================
@@ -393,11 +567,12 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 	//			BuildTreesLefts recauchutados
 	public string BuildTreeLeft (Menu givenMenu, Menu actualMenu,  Category currentCategory, int depth_level, string currentLanguage, string styleClass)
 	{
-      User user = (User) Controller.Context.Session[Constants.USER];
+      User user = (User) Controller.Context.Session[Constants.USER];		
 		TreeLeft tl = new TreeLeft (givenMenu, currentCategory, actualMenu, user);
 
 		return tl.BuildTree(currentLanguage, depth_level, styleClass);
 	}
+
 	public string BuildTreeLeft (string givenMenu, Menu actualMenu, Category currentCategory, int depth_level, string currentLanguage, string styleClass)
 	{
       User user = (User) Controller.Context.Session[Constants.USER];
@@ -405,20 +580,42 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 
 		return tl.BuildTree(currentLanguage, depth_level, styleClass);
 	}
-	public string BuildTree (Menu givenMenu, Menu actualMenu, Category currentCategory, int depth_level, string currentLanguage, string styleClass)
+
+	public string BuildTreeMapaWeb (string givenMenu, Category currentCategory, string currentLanguage, string styleClass)
+	{
+		Menu menu = new Menu("", "", "showAllChilds", 0, "", null, null, 0);
+
+      User user = (User) Controller.Context.Session[Constants.USER];
+		Tree mw = new Tree (givenMenu, currentCategory, menu, user);
+
+		return mw.BuildTree(currentLanguage, 999, styleClass);
+	}
+
+	public string MakeMenu(string givenMenu, Category currentCategory, string currentLanguage, string styleClass)
+	{
+		Menu menu = new Menu(); //("", "", "", 0, "", null, null, 0);
+
+      User user = (User) Controller.Context.Session[Constants.USER];
+		Tree mw = new Tree (givenMenu, currentCategory, menu, user);
+
+		return mw.BuildTree(currentLanguage, 1, styleClass);
+	}
+
+	public string BuildTreeLeftWithVinyetas (string givenMenu, Menu actualMenu, Category currentCategory, int depth_level, string currentLanguage, string styleClass)
 	{
       User user = (User) Controller.Context.Session[Constants.USER];
-		Tree tree = new Tree (givenMenu, currentCategory, actualMenu, user);
+		TreeLeftWithVinyetas wv = new TreeLeftWithVinyetas (givenMenu, currentCategory, actualMenu, user);
 
-		return tree.BuildTree(currentLanguage, depth_level, styleClass);
+		return wv.BuildTree(currentLanguage, depth_level, styleClass);
 	}
-	public string BuildTree (string givenMenu, Menu actualMenu, Category currentCategory, int depth_level, string currentLanguage, string styleClass)
+
+	public string MenuSimple (string style, params string [] items)
 	{
-      User user = (User) Controller.Context.Session[Constants.USER];
-		Tree tree = new Tree (givenMenu, currentCategory, actualMenu, user);
+		SimpleMenuByMenu sm = new SimpleMenuByMenu (style);
 
-		return tree.BuildTree(currentLanguage, depth_level, styleClass);
+		return sm.BuildMenu (items);
 	}
+
 	//			BuildTrees recauchutados
 
 }

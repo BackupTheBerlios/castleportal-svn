@@ -1,0 +1,28 @@
+<div id="todo">
+$TemplateVarsTester.IsNotNull($category, "category", "showChildContent.vm", "$caller")
+#set ($caller = "showChildContent.vm")
+#set($parent = $category)
+
+#set($menuChildren = $menu.Children)
+#if ($menuChildren.Count > 0)
+	#set ($menu1 = $menuChildren.get_Item(0))
+	#foreach ($c in $parent.Children)
+		#if ($c.Id == $menu1.CategoryId)
+			#set ($c1 = $c)
+		#end
+	#end
+#else
+	#set ($c1 = $parent.Children.get_Item(0))
+	#set ($menu1 = $menu)
+#end
+
+#set ($category = $c1)
+#set ($menu = $menu1)
+
+#set ($contents = $category.FindWithContentsByLang($category.Id, $lang, $session.User))
+#parse ("$!templatesdir/general_templates/$category.Template.TList")
+
+#set($category = $parent)
+
+</div>
+

@@ -100,6 +100,7 @@
 	<Template nombre="showAllCategoryChildrenContents" nombrelargo="Show All Category Children Contents" fichero="showAllCategoryChildrenContents" public="true" />
 	<Template nombre="showAllCategoryChildrenList" nombrelargo="Show All Category Children List" fichero="showAllCategoryChildrenList" public="true" />
 	<Template nombre="showFirstCategoryChild" nombrelargo="Show First Category Child" fichero="showFirstCategoryChild" public="true" />
+	<Template nombre="showChildContent" nombrelargo="Show Child Content" fichero="showChildContent" public="true" />
 	<!--<Template nombre="siteMap" nombrelargo="Site Map" fichero="siteMap" />-->
 	<Template nombre="unavailable" nombrelargo="Unavailable" fichero="unavailable" public="true" />
 	<!--        <Template nombre="combos" nombrelargo="Combos">

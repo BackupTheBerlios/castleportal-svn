@@ -56,18 +56,13 @@ public class PortalController:ARSmartDispatcherController
         {
             throw new Unauthorized("Null category!");
         }
-        
-        IDictionary categoriesAcl = (IDictionary) Session[Constants.CATEGORIES_ACLS];
-        if (categoriesAcl != null)  // registered user
+
+        User user = null;
+        if (Session.Contains(Constants.USER))
         {
-            if (!categoriesAcl.Contains(category.Id))
-            {
-                User user = null;
-                if (Session.Contains(Constants.USER)) 
-                    user = (User) Session[Constants.USER];
-                categoriesAcl[category.Id] = category.GetPermissionsHash(user);
-            }
-            IDictionary categoryAcl = (IDictionary) categoriesAcl[category.Id];
+            user = (User) Session[Constants.USER];
+
+            IDictionary categoryAcl = category.GetPermissionsHash(user);
             if (!((bool) categoryAcl[perm]))
                 throw new Unauthorized("");
         }
@@ -84,20 +79,30 @@ public class PortalController:ARSmartDispatcherController
     {
         if ((bool)Session[Constants.IS_ROOT])
             return;
-
         if (!layout)
             LayoutName = null;
-        IDictionary categoriesAcl = (IDictionary) Session[Constants.CATEGORIES_ACLS];
-        if (!categoriesAcl.Contains(category.Id))
+
+        if (category == null)
         {
-            User user = null;
-            if (Session.Contains(Constants.USER)) 
-                user = (User) Session[Constants.USER];
-            categoriesAcl[category.Id] = category.GetPermissionsHash(user);
+            throw new Unauthorized("Null category!");
         }
-        IDictionary categoryAcl = (IDictionary) categoriesAcl[category.Id];
-        if (!((bool) categoryAcl[perm]))
-            throw new Unauthorized("");
+
+        User user = null;
+        if (Session.Contains(Constants.USER))
+        {
+            user = (User) Session[Constants.USER];
+
+            IDictionary categoryAcl = category.GetPermissionsHash(user);
+            if (!((bool) categoryAcl[perm]))
+                throw new Unauthorized("");
+        }
+        else    // anonymous user
+        {
+            if (!category.AnonRole.Can(perm))
+            {
+                throw new Unauthorized("");
+            }
+        }
     }
 
     /*private ArrayList GetModelsListFromFormattedString(string sourceType, string sourceString)

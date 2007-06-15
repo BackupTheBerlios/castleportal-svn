@@ -1378,7 +1378,37 @@ public class PortalController:ARSmartDispatcherController
         }
     }
 */
-   
 
+    public void ListExpired()
+    {
+        DateTime now = System.DateTime.Now;
+        Category[] categories = Category.FindAll();
+
+        IList contents = new ArrayList();
+        foreach (Category category in categories)
+        {
+            foreach (Content content in category.ContentList)
+            {
+                if (content.ExistsField("caducidad"))
+                {
+                    string date = content.GetValueByFieldName("caducidad");
+                    string[] d = date.Split('/');
+                    try
+                    {
+                        DateTime dt = new DateTime(Int32.Parse(d[2]), Int32.Parse(d[1]), Int32.Parse(d[0]));
+                        if (dt < now)
+                            contents.Add(content);
+                    }
+                    catch (Exception e)
+                    {
+                        System.Console.Error.WriteLine(e.Message);
+                    }
+                }
+            }
+        }
+
+        PropertyBag["contents"] = contents;
+    }
 }
 }
+

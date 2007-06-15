@@ -55,6 +55,7 @@
 	<Field nombrecorto="link" nombrelargo="Link" type="link"/>
 	<Field nombrecorto="url" nombrelargo="Url" type="link"/>
 	<Field nombrecorto="date" nombrelargo="Date" type="date"/>
+	<Field nombrecorto="caducidad" nombrelargo="Fecha de caducidad" type="datecalendar"/>
 	<Field nombrecorto="file" nombrelargo="File" type="file"/>
 	<Field nombrecorto="image" nombrelargo="Image" type="file"/>
 	<Field nombrecorto="mail" nombrelargo="Email address" type="mail" />

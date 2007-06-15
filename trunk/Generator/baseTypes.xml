@@ -2,6 +2,7 @@
 	<BaseTypes>
 		<!--  Type nombrecorto="nombrecorto" nombrelargo="nombrelargo -->
 		<Type nombrecorto="date" nombrelargo="Date" />
+		<Type nombrecorto="datecalendar" nombrelargo="Date Calendar" />
 		<Type nombrecorto="file" nombrelargo="Attachment" />
 		<!-- Type nombrecorto="float" nombrelargo="Numero flotante -->
 		<Type nombrecorto="int" nombrelargo="Number" />

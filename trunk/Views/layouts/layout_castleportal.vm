@@ -21,16 +21,20 @@
 		$AjaxHelper.GetJavascriptFunctions()
 		$Effects2Helper.GetJavascriptFunctions()
  
-		<!-- calendario tigra -->
-		<SCRIPT language="JavaScript" type="text/javascript" src="${siteRoot}/Public/tigra_calendar/calendar1.js"></SCRIPT>
-		<SCRIPT language="JavaScript" type="text/javascript" src="${siteRoot}/Public/tigra_calendar/calendar2.js"></SCRIPT>
- 
-   
 		<!-- stylesheets de los portales -->
 		<LINK rel="stylesheet" href="$siteRoot/Public/style/common.css" type="text/css" title="normal">
 		<LINK rel="stylesheet" href="$siteRoot/Public/style/castleportal.css" type="text/css" title="normal">
 		<LINK rel="stylesheet" href="$siteRoot/Public/color/$color/castleportal.css" type="text/css" title="normal">
 		<LINK rel="alternate stylesheet" type="text/css" href="$siteRoot/Public/style/accesible.css" title="accesible">
+
+		<!-- calendar stylesheet -->
+		<link rel="stylesheet" type="text/css" href="$siteRoot/Public/jscalendar-1.0/calendar-win2k-cold-1.css" title="normal" />
+		<!-- main calendar program -->
+		<script type="text/javascript" src="${siteRoot}/Public/jscalendar-1.0/calendar.js"></script>
+		<!-- language for the calendar -->
+		<script type="text/javascript" src="${siteRoot}/Public/jscalendar-1.0/lang/calendar-es.js"></script>
+		<!--the following script defines the Calendar.setup helper function,which makes adding a calendar a matter of 1 or 2 lines of code.-->
+		<script type="text/javascript" src="${siteRoot}/Public/jscalendar-1.0/calendar-setup.js"></script>
 	</HEAD>
 
 	<BODY id="body" onload="javascript:setGreaterHeight('$leftdiv', '$maindiv');">

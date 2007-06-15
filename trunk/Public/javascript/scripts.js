@@ -1,6 +1,23 @@
 ;
 
 /* *****************************************************
+   Javascript for datecalendar
+*/
+
+function cal3(name)
+{
+    Calendar.setup({
+        inputField     :    "f_date_c" + name,     // id of the input field
+        ifFormat       :    "%d/%m/%Y",      // format of the input field
+        showsTime      :    false,            // will display a time selector
+        button         :    "f_trigger_c" + name,  // trigger for the calendar (button ID)
+        align          :    "Tl",           // alignment (defaults to "Bl")
+        singleClick    :    true,
+        firstDay       :    1
+    });
+}
+
+/* *****************************************************
    Javascript for chat
 */
 

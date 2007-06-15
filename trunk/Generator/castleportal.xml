@@ -7,6 +7,7 @@
 	<Role nombrecorto="rw" nombrelargo="Edition" create="true" modify="true" delete="true" publish="false" read="true" />
 	<Role nombrecorto="pu" nombrelargo="Publish" create="false" modify="false" delete="false" publish="true" read="true" />
 	<Role nombrecorto="ro" nombrelargo="Read Only" create="false" modify="false" delete="false" publish="false" read="true" />
+	<Role nombrecorto="pr" nombrelargo="Private" create="false" modify="false" delete="false" publish="false" read="false" />
 </Roles>
 
 <!-- _______________________ ACL _____________________ -->
@@ -207,7 +208,7 @@
 		<Menu nombre="Support" order="5" categorycode="6" code="6" />
 		<Menu nombre="Contribute" order="6" categorycode="7" code="7" />
 		<Menu nombre="Web Links" order="7" categorycode="8" code="8" />
-		<Menu nombre="Site Map" url="portal/showsitemap.aspx" order="8" categorycode="1" code="9" />
+		<Menu nombre="Site Map" url="/portal/showsitemap.aspx" order="8" categorycode="1" code="9" />
 	</Menu>
 
 	<Menu nombre="left" order="2" categorycode="9" code="10" >

@@ -37,6 +37,7 @@ public class ConfigLoadFilter : Castle.MonoRail.Framework.IFilter
             {
                 user = (User) context.Session[Constants.USER];
             }
+/*
             if (context.Session[Constants.CATEGORIES_ACLS] == null)
             {
                 Hashtable aclcat = Category.GetHashesByUser(user);
@@ -44,7 +45,7 @@ public class ConfigLoadFilter : Castle.MonoRail.Framework.IFilter
                 context.Session[Constants.CATEGORIES_ACLS] = aclcat;
                 context.Session[Constants.MENUS_ACLS] = aclmenu;
             }
-
+*/
             // Get config parameters from database
             foreach (ConfigModel configModel in ConfigModel.FindAll())
             {

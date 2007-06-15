@@ -38,6 +38,9 @@ public static class Constants
     public const string CATEGORIES_ACLS = "aclcat";
     public const string CATEGORY_NOT_FOUND = "givenCategoryNotFound";
     public const string CATEGORY = "category";
+    public const string CATEGORY_TRANSLATION_CATEGORYCODE = "code";
+    public const string CATEGORY_TRANSLATION = "translation";
+    public const string CALENDAR_USER = "calendar";
     public const string COLOR = "color";
     public const string COLORS_AVAILABLE= "colors";
     public const string CONTENT = "content";
@@ -53,9 +56,40 @@ public static class Constants
     public const string EXTENSION = "EXTENSION"; 
     
     public const string FIELD = "field";
+    public const string FIELD_FILE = "file";
+    public const string FIELD_IMAGE = "image";
     public const string FIELDS = "fields";
     public const string FILE_FOLDER = "FILE_FOLDER";
     public const string FRONTPAGE = "FRONTPAGE";
+
+    public const string GENERATOR_CATEGORYCODE = "categorycode";
+    public const string GENERATOR_CODE = "code";
+    public const string GENERATOR_COLOR = "color";
+    public const string GENERATOR_BACKGROUNDCOLOR = "backgroundcolor";
+    public const string GENERATOR_COLS = "cols";
+    public const string GENERATOR_COMMENTS = "comments";
+    public const string GENERATOR_CONTENTTYPE = "contenttype";
+    public const string GENERATOR_CREATEDATE = "createdate";
+    public const string GENERATOR_CREATIONDATE = "creationdate";
+    public const string GENERATOR_DIRECTORY = "directory";
+    public const string GENERATOR_DESCRIPTION = "description";
+    public const string GENERATOR_ENDDATE = "enddate";
+    public const string GENERATOR_FIELDCODE = "fieldcode";
+    public const string GENERATOR_FILENAME = "filename";
+    public const string GENERATOR_FRONTPAGE = "frontpage";
+    public const string GENERATOR_ID = "id";
+    public const string GENERATOR_LANG = "lang";
+    public const string GENERATOR_LINK = "link";
+    public const string GENERATOR_NAME = "name";
+    public const string GENERATOR_ORDER = "order";
+    public const string GENERATOR_PUBLISHED = "published";
+    public const string GENERATOR_ROWS = "rows";
+    public const string GENERATOR_SECTIONFRONTPAGE = "sectionfrontpage";
+    public const string GENERATOR_SIZE = "size";
+    public const string GENERATOR_STARTDATE = "startdate";
+    public const string GENERATOR_VALUE = "value";
+    public const string GROUP_CALIDAD_FILE_UPLOADER = "Calidad File Uploaders";
+    public const string GROUP_WULL_FILE_UPLOADER = "WULL File Uploaders";
 
     public const string HEADER = "header";
     public const string HEADERS_AVAILABLE = "headers";
@@ -82,13 +116,14 @@ public static class Constants
     public const string MEDIA_FOLDER = "MEDIA_FOLDER" ;
     public const string MENU = "menu";
     public const string MENUS_ACLS = "aclmenu";
-
+    
     public const string MENU_TRANSLATION_LANG = "lang";
-    public const string MENU_TRANSLATION_CODE = "code";
+    public const string MENU_TRANSLATION_MENUCODE = "code";
     public const string MENU_TRANSLATION = "translation";
- 
+
     public const string NAMESPACE = "CastlePortal";
     public const string NO_TRANSLATION_FOUND = "No translation found";
+    public const string NO_EVENT = "NO_EVENT";
 
     public const string PARENT = "parent";
     public const string PERMISSION_READ = "PermissionRead";
@@ -102,7 +137,8 @@ public static class Constants
     public const string PUBLISHED = "published";
     
     public const string ROLES = "roles";
-   
+
+    public const string SCHEDULE_USER = "schedule";
     public const char   SEPARATOR = ':' ; 
     public const string SITE_NAME = "SITE_NAME";
     public const string SITE_ROOT = "SITE_ROOT";

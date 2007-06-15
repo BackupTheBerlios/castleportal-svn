@@ -36,6 +36,8 @@ public class Content : ActiveRecordBase
 #endif
     private int _id;
     private bool _published;
+    private bool _frontpage;
+    private bool _sectionFrontpage;
     private Category _category;
     private Language _lang;
     private IDictionary _dataHash = new Hashtable();
@@ -47,6 +49,16 @@ public class Content : ActiveRecordBase
     {
         _category = category;
         _creationdate = System.DateTime.Now;
+    }
+
+    public Content(Category __category, Language __lang, bool __published, bool __f, bool __sf, DateTime __dt)
+    {
+        _category = __category;
+        _lang = __lang;
+        _published = __published;
+        _frontpage = __f;
+        _sectionFrontpage = __sf;
+        _creationdate = __dt;
     }
 
     [PrimaryKey]
@@ -69,7 +81,21 @@ public class Content : ActiveRecordBase
         get { return _published; }
         set { _published = value; }
     }
-    
+ 
+    [Property]
+    public bool Frontpage
+    {
+        get { return _frontpage; }
+        set { _frontpage = value; }
+    }
+
+    [Property]
+    public bool SectionFrontpage
+    {
+        get { return _sectionFrontpage; }
+        set { _sectionFrontpage = value; }
+    }
+   
     [BelongsTo]
     public Category Category
     {
@@ -95,12 +121,9 @@ public class Content : ActiveRecordBase
         set { _dataHash = value; }
     }
 
-    public bool ExistsField(string fieldName)
+    public static Content[]FindAll()
     {
-        if (DataHash.Contains(fieldName))
-            return true;
-        else
-            return false;
+        return (Content[])ActiveRecordBase.FindAll(typeof(Content));
     }
 
     public string GetValueByFieldName(string fieldName)
@@ -115,6 +138,27 @@ public class Content : ActiveRecordBase
             return "";
 //            throw new NotFoundException("GetValueByFieldName:" + fieldName);
         }
+    }
+
+    public bool ExistsField(string fieldName)
+    {
+        if (DataHash.Contains(fieldName))
+            return true;
+        else
+            return false;
+    }
+
+    public bool ExistsFieldAndHaveContent(string fieldName)
+    {
+        if (DataHash.Contains(fieldName))
+        {
+            if (((DataModel)DataHash[fieldName]).Value.Length > 0)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
     }
 
     public DataModel GetDataModelByFieldName(string fieldName)
@@ -156,3 +200,4 @@ public class Content : ActiveRecordBase
     }
 }
 }
+

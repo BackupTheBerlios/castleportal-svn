@@ -45,6 +45,16 @@ public class File : ActiveRecordBase
         _CreateDate = System.DateTime.Now;
     }
 
+    public File(string __name, string __filename, string __contenttype, DateTime __createdate, int _size, string __dir)
+    {
+        _Name = __name;
+        _Filename = __filename;
+        _ContentType = __contenttype;
+        _CreateDate = __createdate;
+        _Size = _size;
+        _Directory = __dir;
+    }
+
     public File(string directory) : this() 
     {
         _Directory = directory;
@@ -168,10 +178,12 @@ public class File : ActiveRecordBase
 
     public void RemoveAttach()
     {
-        System.IO.File.Move(this.FullPath(), this.FullPath()+".bak");
-        this.Delete ();
+        if (System.IO.File.Exists(this.FullPath()))
+        {
+            System.IO.File.Move(this.FullPath(), this.FullPath()+".bak");
+            this.Delete ();
+        }
     }
 }
-
 }
 

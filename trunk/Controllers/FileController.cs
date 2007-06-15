@@ -33,13 +33,20 @@ namespace CastlePortal
 			Response.Redirect("portal" , "index"); 
 		}
 
-		public void Delete ([ ARFetch ("Id", Create = false)] File file)
-		{
-			if (file != null) 
-				file.RemoveAttach();
+      public void Delete ([ARFetch ("Id", Create = false)] File file, [ARFetch("datamodel", Create = false)] DataModel dataModel)
+      {
+         if (file != null)
+            file.RemoveAttach();
 
-			Response.Redirect ("file", "list");
-		}
+         Content content = dataModel.Content;
+         content.DataHash.Remove(dataModel);
+         content.Save();
+         dataModel.Delete();
+
+         Hashtable parameters = new Hashtable();
+         parameters["Id"] = content.Id;
+         Redirect("portal", "viewcontent", parameters);
+      }
 
 		public void Get ([ ARFetch ("Id", Create = false)] File file)
 		{

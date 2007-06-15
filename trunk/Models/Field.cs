@@ -16,6 +16,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 using Castle.ActiveRecord;
+using Castle.ActiveRecord.Queries;
 using System.Collections;
 using Iesi.Collections;
 using NHibernate.Expression;
@@ -31,6 +32,7 @@ public class Field : ActiveRecordBase
 {
     private int _id;
     private string _name;
+    private string _code;
     private string _description;
     private IList _templateList;
     private Type _type;
@@ -38,10 +40,11 @@ public class Field : ActiveRecordBase
     public Field()
     {}
 
-    public Field(string name, string description, Type type)
+    public Field(string name, string description, string code, Type type)
     {
         _name = name;
         _description = description;
+        _code = code;
         _type = type;
     }
 
@@ -57,6 +60,13 @@ public class Field : ActiveRecordBase
     {
         get { return _name; }
         set { _name = value; }
+    }
+
+    [Property]
+    public string Code
+    {
+        get { return _code; }
+        set { _code = value; }
     }
 
     [Property]
@@ -106,6 +116,29 @@ public class Field : ActiveRecordBase
                    Expression.Eq("Name", name )
                );
 
+    }
+
+    public static Field FindByCode(string code)
+    {
+        SimpleQuery q = new SimpleQuery(typeof(Field), @"
+            from Field
+            where F.Code = ?", code);
+
+        Field[] fields = (Field[])ExecuteQuery(q);
+
+        if ((fields != null) && (fields.Length > 0))
+            return fields[0];
+        else
+            return null;
+    }
+
+    public static Field[] FindAllOrderByCode()
+    {
+        SimpleQuery q = new SimpleQuery(typeof(Field), @"
+            from Field F
+            order by F.Code");
+
+        return (Field[])ExecuteQuery(q);
     }
 
     public IList ReferenceRowList()

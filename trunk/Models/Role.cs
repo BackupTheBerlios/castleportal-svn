@@ -30,6 +30,7 @@ public class Role : ActiveRecordBase
 {
     private int _Id;
     private string _Name;
+    private string _Code;
     private bool _CanCreate;
     private bool _CanModify;
     private bool _CanDelete;
@@ -39,16 +40,16 @@ public class Role : ActiveRecordBase
 
     public Role () { }
 
-    public Role (string __Name, bool c, bool m, bool d, bool p, bool r)
+    public Role (string __Name, string __Code, bool c, bool m, bool d, bool p, bool r)
     {
         _Name = __Name;
+        _Code = __Code;
         _CanCreate = c;
         _CanModify = m;
         _CanDelete= d;
         _CanPublish = p;
         _CanRead = r;
     }
-
 
     [PrimaryKey]
     public int Id
@@ -62,6 +63,13 @@ public class Role : ActiveRecordBase
     {
         get { return _Name; }
         set { _Name = value; }
+    }
+
+    [Property]
+    public string Code
+    {
+        get { return _Code; }
+        set { _Code = value; }
     }
 
     [Property]

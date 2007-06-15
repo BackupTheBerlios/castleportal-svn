@@ -50,7 +50,8 @@
 			</DIV>
 
 			<DIV id="menumain">
-				$MenuHelper.BuildTree("main", $menu,  $category, 1, "$lang", "actual")
+##				$MenuHelper.BuildTree("main", $menu,  $category, 1, "$lang", "actual")
+				$MenuHelper.MakeMenu("main", $category, "$lang", "")
 			</DIV>
 			<DIV id="lateral">
 				#parse("/layouts/language_selector.vm")
@@ -66,7 +67,8 @@
 			</DIV>
 			<hr>
 			<DIV id="menuleft">
-				$MenuHelper.BuildTreeLeft("main", $menu,  $category, 999, "$lang", "submenu")
+##				$MenuHelper.BuildTreeLeft("main", $menu,  $category, 999, "$lang", "submenu")
+				$MenuHelper.MakeMenu("left", $category, "$lang", "")
 			</DIV>
         <hr><center>
             #if ($context.Session.User)

@@ -320,6 +320,7 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 			html += " title=\"" + menu.Name +"\">" + item;
 			html += "</a>";
 			html += "</li>";
+			html += "<img src=\"/Public/style/img/separamenu.gif\" class=\"" + this.styleClass + "\">";
 			return html;
 		}
 
@@ -332,6 +333,7 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 			html += " title=\"" + menu.Name +"\">" + item;
 			html += "</a>";
 			html += "</li>";
+			html += "<img src=\"/Public/style/img/separamenu.gif\" class=\"" + this.styleClass + "\">";
 			return html;
 		}
 
@@ -385,6 +387,7 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 			html += "</td>";
 			html += "</table>";
 			html += "</li>";
+			html += "<img src=\"/Public/style/img/separamenu.gif\" class=\"" + this.styleClass + ">";
 			return html;
 		}
 
@@ -405,6 +408,7 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 			html += "</td>";
 			html += "</table>";
 			html += "</li>";
+			html += "<img src=\"/Public/style/img/separamenu.gif\" class=\"" + this.styleClass + ">";
 			return html;
 		}
 

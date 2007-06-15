@@ -29,14 +29,16 @@ namespace CastlePortal
 public class Acl : ActiveRecordBase
 {
     private int _Id;
+    private string _Code;
     private Group _Group;
     private Role _Role;
     public ISet _Containers;
 
     public Acl () { }
 
-    public Acl(Group g, Role r)
+    public Acl(string code, Group g, Role r)
     {
+        _Code = code;
         _Group = g;
         _Role = r;
     }
@@ -52,6 +54,13 @@ public class Acl : ActiveRecordBase
     {
         get { return _Id; }
         set { _Id = value; }
+    }
+
+    [Property]
+    public string Code
+    {
+        get { return _Code; }
+        set { _Code = value; }
     }
 
     [BelongsTo("group_id")]
@@ -124,18 +133,12 @@ public class Acl : ActiveRecordBase
         if (acl != null)
         {
             if (Id == acl.Id)
-            {
                 return true;
-            }
             else
-            {
                 return false;
-            }
         }
         else
-        {
             return false;
-        }
     }
     
     public override int GetHashCode()

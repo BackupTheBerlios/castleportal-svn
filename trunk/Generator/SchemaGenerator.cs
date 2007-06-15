@@ -34,8 +34,10 @@
  */
 namespace CastlePortal
 {
+using System;
 using System.IO;
 using System.Configuration;
+using System.Globalization;
 using Castle.ActiveRecord.Framework;
 using Castle.ActiveRecord.Framework.Config;
 using Iesi.Collections;
@@ -60,8 +62,8 @@ public class SchemaGenerator
     private static Hashtable types = new Hashtable();
     private static Hashtable users = new Hashtable();
     private static Hashtable languages = new Hashtable();
-    private static Hashtable schedules = new Hashtable();
     private static Hashtable menustranslations = new Hashtable();
+    private static Hashtable contents = new Hashtable();
 
     private static string NodeGetString(XmlNode node, string name)
     {
@@ -75,7 +77,15 @@ public class SchemaGenerator
     private static bool NodeGetBool(XmlNode node, string name)
     {
         string s = NodeGetString(node, name);
-        return (s == "true") || (s == "1") | (s == "yes");
+        return (s == "true") || (s == "1") || (s == "yes") || (s == "True");
+    }
+
+    private static DateTime NodeGetDateTime(XmlNode node, string name)
+    {
+        string s = NodeGetString(node, name);
+        CultureInfo ci = new CultureInfo("es-Es");
+        DateTime dt = DateTime.Parse(s, ci.DateTimeFormat);
+        return dt;
     }
 
     private static object NodeGetObject(XmlNode node, string key, Hashtable input)
@@ -153,34 +163,6 @@ public class SchemaGenerator
         return null;
     }
 
-    private static string ReadSchedule(XmlNode node)
-    {
-        if (node.Name == "Schedule")
-        {
-            string user = NodeGetString(node, "user");
-            string group = NodeGetString(node, "group");
-
-            System.Console.WriteLine ("Schedule: " + user + " " + group);
-            Schedule s = null;
-            if ((user != null) && (user.Length > 0))
-            {
-                User u = User.FindByExactName(user);
-                s = new Schedule(u);
-                s.Save();
-                schedules[user] = s;
-            }
-            else if ((group != null) && (group.Length > 0))
-            {
-                Group g = Group.FindByExactName(group);
-                s = new Schedule(g);
-                s.Save();
-                schedules[group] = s;
-            }
-        }
-
-        return null;
-    }
-
     private static string ReadLanguage(XmlNode node)
     {
         if (node.Name == "Language")
@@ -201,12 +183,12 @@ public class SchemaGenerator
     {
         if (node.Name == "CategoryHelp")
         {
-            string catname = NodeGetString(node, "category");
-            System.Console.WriteLine ("Ayuda: "+ catname);
-            Category c = Category.FindByName(catname);
+            Category c = (Category) NodeGetObject(node, "categorycode", categories);
             c.Information = node.InnerXml;
             c.Update();
+            System.Console.WriteLine ("Ayuda: " + c.Name);
         }
+
         return null;
     }
 
@@ -248,7 +230,7 @@ public class SchemaGenerator
     {
         if (node.Name == "Role")
         {
-            string nombre = NodeGetString(node, "nombrecorto");
+            string code = NodeGetString(node, "nombrecorto");
             string name = NodeGetString(node, "nombrelargo");
             bool create = NodeGetBool(node, "create");
             bool modify = NodeGetBool(node, "modify");
@@ -256,11 +238,11 @@ public class SchemaGenerator
             bool publish = NodeGetBool(node, "publish");
             bool read = NodeGetBool(node, "read");
 
-            System.Console.WriteLine ("Roles: "+ nombre);
-            Role r = new Role (name, create, modify, delete, publish, read);
+            System.Console.WriteLine ("Roles: "+ code);
+            Role r = new Role (name, code, create, modify, delete, publish, read);
             r.Save();
 
-            roles[nombre] = r;
+            roles[code] = r;
         }
         return null;
     }
@@ -339,12 +321,14 @@ public class SchemaGenerator
         {
             string nombre = NodeGetString(node, "nombrecorto");
             string description = NodeGetString(node, "nombrelargo");
+            string code = NodeGetString(node, "code");
             Type type = (Type) NodeGetObject(node, "type", types);
 
             System.Console.WriteLine ("Field: "+ nombre);
-            Field f = new Field(nombre, description, type);
+            Field f = new Field(nombre, description, code, type);
             f.Save();
             fields[nombre] = f;
+            fields[code] = f;
         }
         return null;
     }
@@ -416,7 +400,7 @@ public class SchemaGenerator
             Group g = (Group) NodeGetObject(node, "group", groups);
             Role r = (Role) NodeGetObject(node, "role", roles);
 
-            Acl a = new Acl(g, r);
+            Acl a = new Acl(nombre, g, r);
             System.Console.WriteLine ("Acl: "+ nombre);
             a.Save();
             acls[nombre] = a;
@@ -451,14 +435,16 @@ public class SchemaGenerator
 
     }
 
-    private static string ReadCategory(XmlNode node)
+    private static string ReadCategory(XmlNode node, Category parent)
     {
         if (node.Name == "Category")
         {
             string name = NodeGetString(node, "name");
             string visiblename = NodeGetString(node, "visiblename");
             string code = NodeGetString(node, "code");
-            Category parent = (Category) NodeGetObject(node, "category", categories);
+//            Category parent = (Category) NodeGetObject(node, "parentcode", categories);
+//            if (parent == null)
+//                parent = (Category) NodeGetObject(node, "category", categories);
             Template t = (Template) NodeGetObject(node, "template", templates);
             Role r = (Role) NodeGetObject(node, "role", roles);
             //	string ayuda = NodeGetString(node, "ayuda");
@@ -471,7 +457,8 @@ public class SchemaGenerator
             c.Name = name;
             c.Description = visiblename;
             c.Code = code;
-            c.Parent = parent;
+            if (parent != null)
+                c.Parent = parent;
             c.Template = t;
             c.AnonRole = r;
             //c.Information = ayuda;
@@ -482,20 +469,26 @@ public class SchemaGenerator
 
             c.Save();
             categories[name] = c;
+            if (categories[code] == null)
+                categories[code] = c;
+            else
+                System.Console.WriteLine("Hay otra categoría con el mismo CODE ({0})", c.Description);
 
             foreach (XmlNode n in node.ChildNodes)
             {
                 if (n.Name == "Category")
-                    ReadCategory(n);
+                    ReadCategory(n, c);
                 else
+                {
                     if (n.Name == "Content")
                         ReadContent(n, c);
+                }
             }
         }
         return null;
     }
 
-    private static string ReadMenu(XmlNode node)
+    private static string ReadMenu(XmlNode node, Menu parent)
     {
         try
         {
@@ -507,9 +500,10 @@ public class SchemaGenerator
                     description = name;
                 if (name == "" && description != "")
                     name = description;
-                string code = NodeGetString(node, "idcategory");
+                string idcategory = NodeGetString(node, "categorycode");
+                string code = NodeGetString(node, "code");
 
-                Menu parent = (Menu)NodeGetObject(node, "parent", menus);
+//                Menu parent = (Menu)NodeGetObject(node, "parent", menus);
                 string orderString = NodeGetString(node, "order");
                 int ordering = int.Parse(orderString);
 
@@ -522,8 +516,8 @@ public class SchemaGenerator
                 Category category = null;
                 if (url == "")
                 {
-                    if (code != "")
-                        category = Category.FindByCode(code);
+                    if (idcategory != "")
+                        category = (Category) NodeGetObject(node, "categorycode", categories);
                     else
                         category = (Category) GetObject(categorystring, categories, node, "category");
                 }
@@ -533,10 +527,14 @@ public class SchemaGenerator
                 Menu m = new Menu(name, description, code, ordering, url, parent, category, show);
                 m.Save();
                 menus[name] = m;
+                if (menus[code] == null)
+                    menus[code] = m;
+                else
+                    System.Console.WriteLine("Hay otro menú con el mismo CODE ({0})", m.Description);
 
                 foreach (XmlNode n in node.ChildNodes)
                 if (n.Name == "Menu")
-                    ReadMenu(n);
+                    ReadMenu(n, m);
             }
             return null;
         }
@@ -554,9 +552,8 @@ public class SchemaGenerator
             {
                 string lang = NodeGetString(node, Constants.MENU_TRANSLATION_LANG);
                 string translation = NodeGetString(node, Constants.MENU_TRANSLATION);
-                string code = NodeGetString(node, Constants.MENU_TRANSLATION_CODE);
+                Menu menu = (Menu)NodeGetObject(node, Constants.MENU_TRANSLATION_MENUCODE, menus);
                 Language l = Language.FindByName(lang);
-                Menu menu = Menu.FindByCode(code);
                 MenuTranslation m = new MenuTranslation(l, menu, translation);
                 m.Save();
                 menustranslations[lang] = m;
@@ -570,6 +567,139 @@ public class SchemaGenerator
         }
     }
 
+    private static string ReadCategoryTranslation(XmlNode node)
+    {
+        try
+        {
+            if (node.Name == "CategoryTranslation")
+            {
+                string lang = NodeGetString(node, Constants.MENU_TRANSLATION_LANG);
+                string translation = NodeGetString(node, Constants.CATEGORY_TRANSLATION);
+                Category category = (Category)NodeGetObject(node, Constants.CATEGORY_TRANSLATION_CATEGORYCODE, categories);
+                Language l = Language.FindByName(lang);
+                CategoryTranslation ct = new CategoryTranslation(l, category, translation);
+                ct.Save();
+                System.Console.WriteLine ("Category Translation: "+ translation);
+            }
+            return null;
+        }
+        catch(System.FormatException)
+        {
+            return "No se pudo leeer columna ordering";
+        }
+    }
+
+    private static string ReadContent(XmlNode node)
+    {
+        try
+        {
+            if (node.Name == "Content")
+            {
+                Category category = (Category) NodeGetObject(node, Constants.GENERATOR_CATEGORYCODE, categories);
+                if (category != null)
+                {
+//                string categorycode = NodeGetString(node, Constants.GENERATOR_CATEGORYCODE);
+                    string lang = NodeGetString(node, Constants.GENERATOR_LANG);
+                    DateTime creationdate = NodeGetDateTime(node, Constants.GENERATOR_CREATIONDATE);
+                    bool published = NodeGetBool(node, Constants.GENERATOR_PUBLISHED);
+                    bool frontpage = NodeGetBool(node, Constants.GENERATOR_FRONTPAGE);
+                    bool sectionfrontpage = NodeGetBool(node, Constants.GENERATOR_SECTIONFRONTPAGE);
+
+//                Category category = Category.FindByCode(categorycode);
+                    Language l = Language.FindByName(lang);
+                    Content c = new Content(category, l, published, frontpage, sectionfrontpage, creationdate);
+                    c.Save();
+                    contents[category.Code] = c;
+                    System.Console.WriteLine ("Content: "+ creationdate.ToString() + " " + category.Code);
+
+                    foreach (XmlNode n in node.ChildNodes)
+                    {
+                        if (n.Name == "DataModel")
+                            ReadDataModel(n, c);
+                    }
+                }
+                else
+                {
+                    string categorycode = NodeGetString(node, Constants.GENERATOR_CATEGORYCODE);
+                    System.Console.WriteLine("No existe la categoria {0}", categorycode);
+                }
+            }
+
+            return null;
+        }
+        catch(System.FormatException)
+        {
+            return "No se pudo leeer columna ordering";
+        }
+    }
+
+    private static string ReadDataModel(XmlNode node, Content content)
+    {
+        try
+        {
+            if (node.Name == "DataModel")
+            {
+                string val = NodeGetString(node, Constants.GENERATOR_VALUE);
+
+                Field field = (Field)NodeGetObject(node, Constants.GENERATOR_FIELDCODE, fields);
+                DataModel dm = new DataModel(content, field, val);
+                dm.Save();
+                System.Console.WriteLine ("DataModel: " + content.Category.Code);
+
+                foreach (XmlNode n in node.ChildNodes)
+                {
+                    if (n.Name == "Value")
+                    {
+                        dm.Value = n.InnerText;
+                        dm.Save();
+                    }
+                }
+
+                foreach (XmlNode n in node.ChildNodes)
+                {
+                    if (n.Name == "File")
+                    {
+                        dm.Value = ReadFile(n).ToString();
+                        dm.Save();
+                    }
+                }
+            }
+
+            return null;
+        }
+        catch(System.FormatException)
+        {
+            return "No se pudo leeer columna ordering";
+        }
+    }
+
+    private static int ReadFile(XmlNode node)
+    {
+        try
+        {
+            if (node.Name == "File")
+            {
+                string name = NodeGetString(node, Constants.GENERATOR_NAME);
+                string filename = NodeGetString(node, Constants.GENERATOR_FILENAME);
+                string contenttype = NodeGetString(node, Constants.GENERATOR_CONTENTTYPE);
+                DateTime createdate = DateTime.Parse(NodeGetString(node, Constants.GENERATOR_CREATEDATE));
+                int size = Int32.Parse(NodeGetString(node, Constants.GENERATOR_SIZE));
+                string directory = NodeGetString(node, Constants.GENERATOR_DIRECTORY);
+
+                File f = new File(name, filename, contenttype, createdate, size, directory);
+                f.Save();
+                System.Console.WriteLine ("File: " + contenttype);
+
+                return f.Id;
+            }
+        }
+        catch(System.FormatException e)
+        {
+            System.Console.Error.WriteLine(e.Message);
+        }
+
+        return 0;
+    }
 
     /************************ CREATES *************************/
 
@@ -591,7 +721,8 @@ public class SchemaGenerator
     {
         string[] elements = { "BaseTypes", "Configs", "ConfigCombos", "Roles", "Groups",
                               "Includes", "Users", "Fields", "Templates", "Acls",
-                              "Categories", "Menus", "Help", "Languages", "Schedules", "MenusTranslations"
+                              "Categories", "Menus", "Help", "Languages", "MenusTranslations",
+                              "Contents", "CategoriesTranslations"
                             };
 
         foreach (string element in elements)
@@ -632,10 +763,10 @@ public class SchemaGenerator
                 ReadAcl(node);
                 break;
             case "Categories":
-                ReadCategory(node);
+                ReadCategory(node, null);
                 break;
             case "Menus":
-                ReadMenu(node);
+                ReadMenu(node, null);
                 break;
             case "Help":
                 ReadHelp(node);
@@ -643,11 +774,14 @@ public class SchemaGenerator
             case "Languages":
                 ReadLanguage(node);
                 break;
-            case "Schedules":
-                ReadSchedule(node);
-                break;
             case "MenusTranslations":
                 ReadMenuTranslation(node);
+                break;
+            case "CategoriesTranslations":
+                ReadCategoryTranslation(node);
+                break;
+            case "Contents":
+                ReadContent(node);
                 break;
             }
         }

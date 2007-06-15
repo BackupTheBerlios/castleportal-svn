@@ -38,6 +38,7 @@ $TemplateVarsTester.IsNotNull($dataModel, "dataModel", "file.vm", "$caller")
 		<a href="$siteRoot/file/get.$EXTENSION?id=$file.Id" title="$l10n.SHOW $file.Name">$file.Name</a>
 		<a href="$siteRoot/file/download.$EXTENSION?id=$file.Id" title="$l10n.DOWNLOAD $file.Name"><img src="$siteRoot/Public/images/fileexport.png"/></a>
 		($StringHelper.IntFriendly($file.Size) - $StringHelper.DateFriendly($file.CreateDate))
+		<a href="$siteRoot/file/delete.$EXTENSION?id=$file.Id&datamodel=$dataModel.Id" title="$l10n.DELETE">$l10n.DELETE</a>
 		<br>
 	#else
 		$l10n.NO_FILE

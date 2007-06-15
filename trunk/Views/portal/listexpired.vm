@@ -1,0 +1,21 @@
+<table>
+	<tr>
+		<th>$l10n.CATEGORY</th>
+		<th>$l10n.SELL_BY_DATE</th>
+		<th>$l10n.LINK</th>
+	</tr>
+	#foreach ($content in $contents)
+		<tr>
+			<td>
+				$content.Category.Description
+			</td>
+			<td>
+				$content.GetValueByFieldName("caducidad")
+			</td>
+			<td>
+				$HtmlHelper.LinkTo("$l10n.VIEW", "portal", "viewcontent", $content.Id)
+			</td>
+		<tr>
+	#end
+</table>
+

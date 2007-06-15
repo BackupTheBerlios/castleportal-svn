@@ -1,0 +1,19 @@
+$TemplateVarsTester.IsNotNull($dataModel, "dataModel", "date.vm", "$caller")
+
+#if ($controller.Action == "viewcontent")
+
+	<div class="date">$!dataModel.Value</div>
+
+#elseif ($controller.Action == "editcontent" || $controller.Action == "newcontent" || $controller.Action == "copycontent")
+$TemplateVarsTester.IsNotNull($field, "field", "date.vm", "$caller")
+
+	<script type="text/javascript">
+	   cal3('$field.Field.Name');
+	</script>
+
+##	<input class="date" type="text" name="$field.Field.Name" value="$!dataModel.Value" size="10" class="formText" />
+	<input class="formText" type="text" name="$field.Field.Name" id="f_date_c$field.Field.Name" readonly="1" value="$!dataModel.Value" size="10" />
+	<img src="$siteRoot/Public/jscalendar-1.0/img.gif" id="f_trigger_c$field.Field.Name" style="cursor: pointer; border: 1px solid red;" title="Date selector" onmouseover="this.style.background='red';" onmouseout="this.style.background=''" />
+#else
+	$!dataModel.Value
+#end

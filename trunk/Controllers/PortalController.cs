@@ -1407,6 +1407,9 @@ public class PortalController:ARSmartDispatcherController
             }
         }
 
+        Category c = Category.FindByCode(config.GetValue(Constants.FRONTPAGE));
+        PropertyBag[Constants.CATEGORY]  = c;
+        PropertyBag[Constants.MENU]  = Menu.FindByCategory(c);
         PropertyBag["contents"] = contents;
     }
 }

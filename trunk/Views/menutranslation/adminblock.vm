@@ -3,9 +3,9 @@
 	<div id="list">
 		<img src='${siteRoot}/Public/images/plus.gif' id="img$form.Id" onclick="javascript:reloadSubmenu($form.Id, 'menu$form.Id', 'adminblock.$EXTENSION', '${siteRoot}')"/>
 		<a href="$form.ToUrl($siteRoot)" title="Get">$form.Name</a>
-		#if($session.aclmenu.get_Item($form.Id).get_Item($PermissionModify))
+##		#if($session.aclmenu.get_Item($form.Id).get_Item($PermissionModify))
 		<a href="$siteRoot/menutranslation/edit.$EXTENSION?id=$form.Id"><img src="${siteRoot}/Public/images/edit.gif" border="0"/></a>
-		#end
+##		#end
 		#if($form.Children.Count == 0 && $session.aclmenu.get_Item($form.Id).get_Item($PermissionDelete))
 ##			<a href="$siteRoot/menu/delete.$EXTENSION?id=$form.Id"><img src="${siteRoot}/Public/images/borrar.png" border="0"/></a>
 		#end
@@ -13,7 +13,7 @@
 	</div>
 	#end
 #end
-#if ($session.aclmenu.get_Item($parent).get_Item($PermissionCreate))
+###if ($session.aclmenu.get_Item($parent).get_Item($PermissionCreate))
 	<a href="$siteRoot/menutranslation/edit.$EXTENSION?id=$parent&parent=1">$l10n.ADD</a>
-#end
+###end
 

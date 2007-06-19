@@ -120,7 +120,7 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 			MenuTranslation mt = MenuTranslation.FindByMenuAndLang(menu, Language.FindByName(this.language));
 			string description;
 
-			if (mt != null)
+			if ((mt != null) && (mt.Translation.Length > 0))
 				description = mt.Translation;
 			else
 				description = menu.Description;

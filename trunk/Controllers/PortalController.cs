@@ -516,6 +516,16 @@ public class PortalController:ARSmartDispatcherController
         RedirectToAction("viewcategory", parameters);
     }
 
+    public void SetCSS(string estilo, string id)
+    {
+        Session["estilo"] = estilo;
+
+        Hashtable parameters = new Hashtable();
+        parameters["Id"] = id;
+        parameters["layout"] = true;
+        RedirectToAction("viewcategory", parameters);
+    }
+
     public void Redir()
     {
         RedirectToAction("index");

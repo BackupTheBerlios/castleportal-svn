@@ -18,8 +18,12 @@
 // limitations under the License.
 
 using System;
+using System.IO;
 using System.Collections;
 using System.Text.RegularExpressions;
+using System.Xml;
+using System.Xml.Xsl;
+using System.Xml.XPath;
 
 namespace CastlePortal
 {
@@ -45,10 +49,10 @@ public class ExtraHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
                 Language language = Language.FindByName(lang);
                 CategoryTranslation ct = CategoryTranslation.FindByCategoryAndLang(category, language);
 
-                if (ct == null)
-                    return category.Description;
-                else
+               if ((ct != null) && (ct.Translation.Length > 0))
                     return ct.Translation;
+                else
+                    return category.Description;
             }
             else
                 return category.Description;
@@ -280,5 +284,35 @@ public class ExtraHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
         return htmlSubstring;
     }
 
+    public string RemoveHtmlImgTags(string htmlString)
+    {
+        try
+		  {
+
+        XslTransform xslt = new XslTransform();
+
+        //Load the stylesheet.
+        string baseDir = System.AppDomain.CurrentDomain.BaseDirectory;
+        baseDir = System.IO.Path.Combine(baseDir, "Public");
+        baseDir = System.IO.Path.Combine(baseDir, "style");
+        xslt.Load(System.IO.Path.Combine(baseDir, "accesibilidad.xsl"));
+
+        htmlString = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n<xml>" + htmlString + "</xml>";
+        StringReader rdr = new StringReader(htmlString);
+        XPathDocument mydata = new XPathDocument(rdr);
+
+        StringWriter writer = new StringWriter();
+//      XmlWriter writer = new XmlTextWriter(Console.Out);
+        string htmlOutput;
+        xslt.Transform(mydata, null, writer, null);
+        htmlOutput = writer.ToString();
+        writer.Close();
+        return htmlOutput;
+        }
+        catch 
+        {
+            return htmlString;
+        }
+    }
 }
 }

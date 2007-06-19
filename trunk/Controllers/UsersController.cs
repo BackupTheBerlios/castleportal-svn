@@ -203,9 +203,17 @@ public class UsersController:ARSmartDispatcherController
     public void UserCreate ([DataBind ("user")] User user)
     {
         Commons.CheckSuperUser(Session);
-        User u = new User(user.Name, user.UserPassword);
-        u.Save();
-        Flash["aviso"] = "Creado usuario";
+        try
+        {
+            User u = new User(user.Name, user.UserPassword);
+            u.Save();
+        		Flash["aviso"] = "Creado usuario";
+        }
+        catch (Castle.ActiveRecord.Framework.ActiveRecordException e)
+        {
+            System.Console.WriteLine (e);
+            Flash["aviso"] = "Ya existe un usuario con ese nombre!";
+        }
 
         RedirectToAction ("usersedit");
     }
@@ -213,8 +221,23 @@ public class UsersController:ARSmartDispatcherController
     public void UserDelete ([ARFetch ("Id", Create = false)] User user)
     {
         Commons.CheckSuperUser(Session);
-        user.Delete ();
-        Flash["aviso"] = "Borrado usuario";
+        try {
+#if CACHE
+            foreach (Group g in user.Groups)
+            {
+                g.Users.Remove(user);
+                g.Save();
+            }
+#endif
+            user.Delete ();
+            Flash["aviso"] = "Borrado usuario";
+        }
+        catch (Exception e)
+        {
+            System.Console.WriteLine (e);
+            Flash["aviso"] = "Error al borrar usuario!";
+        }
+
         RedirectToAction ("usersedit");
     }
 

@@ -1,0 +1,34 @@
+<div id="header" style="background-image: url($siteRoot/Public/headers/$header/header${color}.jpg);">
+</div>
+
+<div id="menumain">
+	$MenuHelper.MakeMenu("main", $category, "$lang", "")
+</div>
+
+<div id="lateral">
+	#parse("/layouts/language_selector.vm")
+	<hr>
+	<div id="search">
+		<FORM method="get" action="$siteRoot/portal/search.$EXTENSION">
+			$l10n.SEARCH:
+			<INPUT name="key" type="text" class="buscar">
+				<NOSCRIPT>
+					<INPUT type="submit" value="buscar">
+				</NOSCRIPT>
+			</FORM>
+		</div>
+		<hr>
+
+		<div id="menuleft">
+			$MenuHelper.MakeMenu("left", $category, "$lang", "")
+		</div>
+		<hr>
+		<center>
+			#if ($context.Session.User)
+				<a href="$siteRoot/login/logout.$EXTENSION"><strong>[Logout]</strong></a> 
+			#else
+				<a href="$siteRoot/login/login.$EXTENSION"><strong>[Login]</strong></a> 
+			#end
+		</center>
+</div>
+

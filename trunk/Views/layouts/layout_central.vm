@@ -1,0 +1,26 @@
+<div id="central">
+	<div id="centralSup">&nbsp;
+	  #if ($Flash.ContainsKey("aviso")) $Flash.get_Item("aviso") <IMG src="$siteRoot/Public/images/tick.png"/> #end
+	  #if ($Flash.ContainsKey("error")) $Flash.get_Item("error") <IMG src="$siteRoot/Public/images/publish_x.png"/> #end
+	</div>
+
+	#set($ancestors = false)
+	#set($ancestors = $category.Ancestors(1))
+	#if($ancestors.Count>0)
+		<div id="ruta">
+		  $l10n.PATHWAY 
+		  #foreach($m in $ancestors)
+			  &gt; <a href="$m.ToUrl($siteRoot)" class="ruta" >$ExtraHelper.CategoryDescription($m, $lang)</a> 
+		  #end
+		</div>
+		<div id="accesibilidad">	
+			#if ($Session.Accesible == "1")
+				<a href="#" onclick="javascript: setActiveStyleSheet('normal'); changeValue('accesible', '0');document.access.submit(); return false;">Visualizar imagenes y colores </a> 
+			#else
+				<a href="#" onclick="javascript: setActiveStyleSheet('accesible'); changeValue('accesible', '1'); document.access.submit();return false;"><IMG style="border: 0px;" src="$siteRoot/Public/images/accesibilidad.gif" alt="accesibilidad"></a>
+			#end
+		</div>
+	#end
+	<div id="contenido">$childContent</div>
+</div>
+

@@ -1,0 +1,14 @@
+<div id="inferior">
+	#if (!$context.Session.User.Name)
+		<div style="float:left; margin-left: 20px; margin-top: 2px; border: 0px;">
+			<a href="$siteRoot/login/portal.$EXTENSION" title="Iniciar sesion"><IMG style="border: 0px;" src="$siteRoot/Public/estilos/img/candado.gif"></A>
+		</div>
+	#end
+##	<DIV style="float:right; margin-right: 12px; margin-top: 2px; border: 0px;">
+##	  <A href="$siteRoot/portal/incidencia.$EXTENSION" title="Informar de un fallo o sugerencia"><IMG style="border: 0px;" src="$siteRoot/Public/images/exclam.gif" alt="incidencia"></A>
+##	</DIV>
+	<br>
+	$footertext
+	<br>
+</div>
+

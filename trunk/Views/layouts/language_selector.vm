@@ -13,7 +13,7 @@
 			#end                
 ##$HtmlHelper.CreateOptionsFromArray($all_linguas, "EnglishName", "Name", $language)
 		</select>
-		$HtmlHelper.InputHidden("Id", "$category.Id")
+		$HtmlHelper.InputHidden("Id", "$!category.Id")
 	</form>
 </div>
 ##end

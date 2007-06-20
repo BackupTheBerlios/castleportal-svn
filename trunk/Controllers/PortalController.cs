@@ -509,6 +509,9 @@ public class PortalController:ARSmartDispatcherController
 
     public void SetLanguage(string language, int id)
     {
+        if (id == 0)
+            id = Category.FindByCode(config.GetValue(Constants.FRONTPAGE)).Id;
+
         Response.CreateCookie(Constants.LOCALE_COOKIE, language);
         Hashtable parameters = new Hashtable();
         parameters["Id"] = id;
@@ -516,10 +519,12 @@ public class PortalController:ARSmartDispatcherController
         RedirectToAction("viewcategory", parameters);
     }
 
-    public void SetCSS(string estilo, string id)
+    public void SetCSS(string estilo, int id)
     {
         Session["estilo"] = estilo;
 
+        if (id == 0)
+            id = Category.FindByCode(config.GetValue(Constants.FRONTPAGE)).Id;
         Hashtable parameters = new Hashtable();
         parameters["Id"] = id;
         parameters["layout"] = true;

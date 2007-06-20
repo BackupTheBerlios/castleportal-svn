@@ -13,11 +13,11 @@
 			  &gt; <a href="$m.ToUrl($siteRoot)" class="ruta" >$ExtraHelper.CategoryDescription($m, $lang)</a> 
 		  #end
 		</div>
-		<div id="accesibilidad">	
-			#if ($Session.Accesible == "1")
-				<a href="#" onclick="javascript: setActiveStyleSheet('normal'); changeValue('accesible', '0');document.access.submit(); return false;">Visualizar imagenes y colores </a> 
+		<div id="accesibilidad">
+			#if ($Session.estilo == "onlytext")
+				<a href="$siteRoot/portal/setcss.$EXTENSION?estilo=normal&amp;id=$!category.Id">$l10n.IMAGES_AND_COLOR</a>
 			#else
-				<a href="#" onclick="javascript: setActiveStyleSheet('accesible'); changeValue('accesible', '1'); document.access.submit();return false;"><IMG style="border: 0px;" src="$siteRoot/Public/images/accesibilidad.gif" alt="accesibilidad"></a>
+				<a href="$siteRoot/portal/setcss.$EXTENSION?estilo=onlytext&amp;id=$!category.Id">$l10n.TEXT_ONLY</a>
 			#end
 		</div>
 	#end

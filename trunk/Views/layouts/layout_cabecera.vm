@@ -15,20 +15,21 @@
 				<NOSCRIPT>
 					<INPUT type="submit" value="buscar">
 				</NOSCRIPT>
-			</FORM>
-		</div>
-		<hr>
+			$HtmlHelper.InputHidden("lang", "$!lang")
+		</FORM>
+	</div>
+	<hr>
 
-		<div id="menuleft">
-			$MenuHelper.MakeMenu("left", $category, "$lang", "")
-		</div>
-		<hr>
-		<center>
-			#if ($context.Session.User)
-				<a href="$siteRoot/login/logout.$EXTENSION"><strong>[Logout]</strong></a> 
-			#else
-				<a href="$siteRoot/login/login.$EXTENSION"><strong>[Login]</strong></a> 
-			#end
-		</center>
+	<div id="menuleft">
+		$MenuHelper.MakeMenu("left", $category, "$lang", "")
+	</div>
+	<hr>
+	<center>
+		#if ($context.Session.User)
+			<a href="$siteRoot/login/logout.$EXTENSION"><strong>[Logout]</strong></a> 
+		#else
+			<a href="$siteRoot/login/login.$EXTENSION"><strong>[Login]</strong></a> 
+		#end
+	</center>
 </div>
 

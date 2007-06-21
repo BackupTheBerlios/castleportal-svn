@@ -240,6 +240,11 @@ public class Category : Container
         return (Category) ActiveRecordBase.FindOne( typeof(Category),  Expression.Eq("Id", id));
     }
 
+    public static Category FindByCode(string code)
+    {
+        return (Category)FindOne(typeof(Category), Expression.Eq("Code", code));
+    }
+
     public new static Category[] FindByParent(int parentid)
     {
         if (parentid > 0)
@@ -312,6 +317,40 @@ public class Category : Container
         return ancestors;
     }
 
+   public static Category[] SearchByWord2(string s)
+   {
+      string sql;
+      char[] charSeparators = new char[] {',',' ',';','.'};
+      string[] ssplit = s.Split(charSeparators);
+
+      if (s == null)
+         return new Category[0];
+
+      sql = "from Category C where C.Description ~* '" + s;
+      sql += "' or C.Name ~* '" + s;
+      sql += "' or C.Information ~* '" + s;
+      sql += "' or C.Description ~* '" + s;
+      sql += "'";
+
+      foreach (string substr in ssplit)
+      {
+         if (substr != "") {
+            sql += " or C.Description ~* '" + substr;
+            sql += "' or C.Name ~* '" + substr;
+            sql += "' or C.Information ~* '" + substr;
+            sql += "'";
+         }
+      }
+
+      SimpleQuery q = new SimpleQuery(typeof(Category), sql);
+
+      Category[] category = (Category[])ExecuteQuery(q);
+      if (category.Length == 0) {
+         return new Category[0];
+      } else
+         return category;
+    }
+
     public static Category[] SearchByWord(string s)
     {
         if (s == null)
@@ -331,7 +370,7 @@ public class Category : Container
 
     public static ArrayList SearchByWordAndUser(string s, User u)
     {
-        Category[] results = SearchByWord(s);
+        Category[] results = SearchByWord2(s);
 
         ArrayList visibleResults = new ArrayList();
         foreach (Category category in results)
@@ -339,7 +378,6 @@ public class Category : Container
             visibleResults.Add(category);
         return visibleResults;
     }
-
 
     public string FindTranslation(string lang)
     {
@@ -394,11 +432,6 @@ public class Category : Container
         }
 
         return contents;
-    }
-
-    public static Category FindByCode(string code)
-    {
-        return (Category)FindOne(typeof(Category), Expression.Eq("Code", code));
     }
 }
 }

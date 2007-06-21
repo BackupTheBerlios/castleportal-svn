@@ -649,6 +649,9 @@ public class PortalController:ARSmartDispatcherController
             PropertyBag[Constants.CONTENT] = content;
             //RenderView(row.Category.Template.TView);
         }
+
+        PropertyBag[Constants.MENU]  = Menu.FindByCategory(content.Category);
+        PropertyBag[Constants.CATEGORY]  = content.Category;
     }
 
     public void ViewContent ([ARFetch("id")]Content content, bool layout)
@@ -665,6 +668,9 @@ public class PortalController:ARSmartDispatcherController
         }
         if (!layout)
             LayoutName = null;
+
+        PropertyBag[Constants.MENU]  = Menu.FindByCategory(content.Category);
+        PropertyBag[Constants.CATEGORY]  = content.Category;
     }
 
     public void EditContent ([ARFetch("id")]Content content)

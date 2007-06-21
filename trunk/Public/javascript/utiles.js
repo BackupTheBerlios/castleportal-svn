@@ -102,6 +102,24 @@ function reloadSubmenu(parentId, div, controler, siteRoot)
 	return false;
 }
 
+function reloadSubDirectoryTree(parentId, div, controler, siteRoot)
+{
+   imgsrc = "img"+ parentId;
+   openimg = document.getElementById(imgsrc);
+   if (openimg.src.indexOf('plus') != -1)
+   {
+      openimg.src = siteRoot+"/Public/images/minus.gif";
+      new Ajax.Updater(div, controler, {asynchronous:true, evalScripts:true, parameters:'parent='+parentId+'&layout=false'});
+   }
+   else
+   {
+      div = document.getElementById(div);
+      div.innerHTML = "";
+      openimg.src = siteRoot+"/Public/images/plus.gif";
+   }
+   return false;
+}
+
 function reloadGenericSubmenu(parentId, div, controler, siteRoot, div2update)
 {
 	imgsrc = "img"+ parentId;

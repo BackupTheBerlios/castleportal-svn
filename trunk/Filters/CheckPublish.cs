@@ -43,7 +43,11 @@ public class CheckPublishFilter : Castle.MonoRail.Framework.IFilter
         
         if (pub == "0")
         {
-            string loggedCookie = context.Request.ReadCookie(Constants.LOGGED_COOKIE);
+            string baseDir = System.AppDomain.CurrentDomain.BaseDirectory;
+            string[] currentDomain = baseDir.Split('/');
+            string dir = currentDomain[currentDomain.Length - 1];
+
+            string loggedCookie = context.Request.ReadCookie(Constants.LOGGED_COOKIE + dir);
             if ((loggedCookie == "false") || (loggedCookie == null) || (loggedCookie.Length == 0))
             {
                 context.Session["FromUrl"] = context.Url;

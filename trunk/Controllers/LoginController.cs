@@ -61,8 +61,12 @@ public class LoginController: SmartDispatcherController
         }
         else
         {
+            string baseDir = System.AppDomain.CurrentDomain.BaseDirectory;
+            string[] currentDomain = baseDir.Split('/');
+            string dir = currentDomain[currentDomain.Length - 1];
+
             Flash["aviso"] = "Bienvenido al sistema";
-            Response.CreateCookie("logged", "true");
+            Response.CreateCookie("logged" + dir, "true");
             Session[Constants.USER] = user;
             Session[Constants.CATEGORIES_ACLS] = null;
             Session[Constants.MENUS_ACLS] = null;
@@ -95,8 +99,13 @@ public class LoginController: SmartDispatcherController
             Flash["aviso"] = "Ya está usted fuera del sistema.";
         }
         System.Console.WriteLine("Gracias por su visita");
-        Response.RemoveCookie("logged");
-        Response.CreateCookie("logged", "");
+
+        string baseDir = System.AppDomain.CurrentDomain.BaseDirectory;
+        string[] currentDomain = baseDir.Split('/');
+        string dir = currentDomain[currentDomain.Length - 1];
+
+        Response.RemoveCookie("logged" + dir);
+        Response.CreateCookie("logged" + dir, "");
         Session[Constants.CATEGORIES_ACLS] = null;
         Session[Constants.MENUS_ACLS] = null;
 //#if GPC

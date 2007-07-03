@@ -2,7 +2,7 @@
 </div>
 
 <div id="menumain">
-	$MenuHelper.MakeMenu("main", $category, "$lang", "")
+	$MenuHelper.MakeMenu("main", $category, "$lang", "menumain")
 </div>
 
 <div id="lateral">
@@ -21,7 +21,7 @@
 	<hr>
 
 	<div id="menuleft">
-		$MenuHelper.MakeMenu("left", $category, "$lang", "")
+		$MenuHelper.MakeMenu("left", $category, "$lang", "menuleft")
 	</div>
 	<hr>
 	<center>

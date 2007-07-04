@@ -279,13 +279,6 @@ public class PortalController:ARSmartDispatcherController
             category.Parent.Save();
 #endif
         }
-
-        User user = null;
-        if (Session.Contains(Constants.USER))
-        {
-            user = sessionUser;  
-        } 
-        ((IDictionary)Session[Constants.CATEGORIES_ACLS])[category.Id] = category.GetPermissionsHash(user);
     }
 
     private Category DeletePortalCategory(int id, string confirm)

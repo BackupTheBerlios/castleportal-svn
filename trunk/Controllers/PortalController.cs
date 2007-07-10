@@ -349,6 +349,11 @@ public class PortalController:ARSmartDispatcherController
             {
                 content.Delete();
             }*/
+
+            CategoryTranslation[] translations = CategoryTranslation.FindByCategory(category);
+            foreach (CategoryTranslation t in translations)
+                t.Delete();
+
             category.Children.Clear();
             category.ContentList.Clear();
             category.ContentListSortedByReverseDate.Clear();

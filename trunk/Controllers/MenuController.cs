@@ -166,6 +166,10 @@ public class MenuController:Castle.MonoRail.ActiveRecordSupport.ARSmartDispatche
                 }
             }
 #endif
+            MenuTranslation[] translations = MenuTranslation.FindByMenu(menu);
+            foreach (MenuTranslation t in translations)
+                t.Delete();
+
             menu.Delete ();
         }
         RefreshMenusAcl();

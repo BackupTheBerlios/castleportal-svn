@@ -25,6 +25,7 @@ using NHibernate.Expression;
 namespace CastlePortal
 {
     [Layout ("general")]
+    [Helper (typeof (ExtraHelper))]
     [Helper (typeof (MenuHelper))]
     [Helper (typeof (StringHelper))]
     [Helper (typeof (ForumHelper))]
@@ -129,6 +130,8 @@ namespace CastlePortal
             PropertyBag["subdirs"] = subdirs;
             PropertyBag["files"] = filesfullpath;
             PropertyBag["filesrelativepath"] = files;
+            PropertyBag["category"] = Category.FindByCode("70");
+            PropertyBag["menu"] = Menu.FindByCode("60");
 
             if (!layout)
                 LayoutName = null;
@@ -155,6 +158,8 @@ namespace CastlePortal
             CheckGroup(parent);
             PropertyBag["parent"] = parent;
             PropertyBag["type"] = type;
+            PropertyBag["category"] = Category.FindByCode("70");
+            PropertyBag["menu"] = Menu.FindByCode("60");
             LayoutName = "layout_castleportal";
         }
 
@@ -173,6 +178,9 @@ namespace CastlePortal
                 if (((System.Web.HttpPostedFile)Request.Files[input]).ContentLength != 0)
                 {
                     string filename = ((System.Web.HttpPostedFile)Request.Files[input]).FileName;
+                    string[] f = filename.Split('\\');
+                    if (f.Length > 1)
+                        filename = f[f.Length - 1];
                     path = System.IO.Path.Combine (parent, filename);
                     ((System.Web.HttpPostedFile)Request.Files[input]).SaveAs(path);
                 }

@@ -27,7 +27,7 @@ namespace CastlePortal
 
 public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 {
-
+/*
     public Menu GetMenu(string s)
     {
         return Menu.FindByName(s);
@@ -37,7 +37,7 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
     {
         return Category.FindByName(s);
     }
-
+*/
 
 	  /*********************************************************************/
 	 /******************			Classes Abstractas			*****************/
@@ -242,11 +242,12 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 		protected string	_separator = String.Empty;
 		protected string	_styleClass = String.Empty;
 		protected string	_language = String.Empty;
+		protected bool		_drawIcons = true;
 
 		public abstract string Header ();
 		public abstract string Divider ();
 		public abstract string Footer ();
-		public abstract string PrintItem (string item);
+		public abstract string PrintItem (string code);
 
 		public string styleClass {
 			get {return _styleClass;}
@@ -260,6 +261,37 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 			get {return _language;}
 			set {_language = value;}
 		}
+		public bool drawIcons {
+			get {return _drawIcons;}
+			set {_drawIcons = value;}
+		}
+
+		protected string GetDescription (Menu menu)
+		{
+			MenuTranslation mt = MenuTranslation.FindByMenuAndLang(menu, Language.FindByName(this.language));
+			string description;
+
+			if (mt != null)
+				description = mt.Translation;
+			else
+				description = menu.Description;
+
+			return description;
+		}
+
+		protected string GetDescription (Category category)
+		{
+			CategoryTranslation ct = CategoryTranslation.FindByCategoryAndLang(category, Language.FindByName(this.language));
+			string description;
+
+			if (ct != null)
+				description = ct.Translation;
+			else
+				description = category.Description;
+
+			return description;
+		}
+
 
 		public string BuildMenu (params string []entries)
 		{
@@ -320,7 +352,6 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 			html += " title=\"" + menu.Name +"\">" + item;
 			html += "</a>";
 			html += "</li>";
-			html += "<img src=\"/Public/style/img/separamenu.gif\" class=\"" + this.styleClass + "\">";
 			return html;
 		}
 
@@ -333,7 +364,6 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 			html += " title=\"" + menu.Name +"\">" + item;
 			html += "</a>";
 			html += "</li>";
-			html += "<img src=\"/Public/style/img/separamenu.gif\" class=\"" + this.styleClass + "\">";
 			return html;
 		}
 
@@ -387,7 +417,7 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 			html += "</td>";
 			html += "</table>";
 			html += "</li>";
-			html += "<img src=\"/Public/style/img/separamenu.gif\" class=\"" + this.styleClass + ">";
+         html += "<img src=\"" + config.GetValue(Constants.SITE_ROOT) + "/Public/style/img/separamenu.gif\" class=\"" + this.styleClass + ">";
 			return html;
 		}
 
@@ -408,7 +438,7 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 			html += "</td>";
 			html += "</table>";
 			html += "</li>";
-			html += "<img src=\"/Public/style/img/separamenu.gif\" class=\"" + this.styleClass + ">";
+         html += "<img src=\"" + config.GetValue(Constants.SITE_ROOT) + "/Public/style/img/separamenu.gif\" class=\"" + this.styleClass + ">";
 			return html;
 		}
 
@@ -504,10 +534,11 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 
 	/**********************************************************************************/
 	/**********************************************************************************/
-	public class SimpleMenuByMenu: SimpleMenuAbstract
+	public class SimpleMenuByCode: SimpleMenuAbstract
 	{
-		public SimpleMenuByMenu (string style) {
+		public SimpleMenuByCode (string style, string language) {
 			_styleClass = style;
+			_language = language;
 			this.separator = "&nbsp;&nbsp;&nbsp;";
 		}
 
@@ -515,50 +546,21 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 		public override string Divider() {return this.separator;}
 		public override string Footer() {return "";}
 
-		public override string PrintItem (string item)
+		public override string PrintItem (string code)
 		{
-			Menu menu = Menu.FindByName (item);
-			if (menu == null) {
-				System.Console.WriteLine("SimpleMenu no puede crear el enlace porque no existe el menu con nombre '" + item + "'");
-				return String.Empty;
-			}
-			
-			string url = menu.ToUrl(config.GetValue(Constants.SITE_ROOT));
-			string html = String.Empty;
-
-			html += "<a class=\"" + this.styleClass + "\" href=\"" + url + "\">";
-			html += item;
-			html += "</a>";
-			return html;
-		}
-	}
-
-	/**********************************************************************************/
-	/**********************************************************************************/
-	public class SimpleMenuByCategory: SimpleMenuAbstract
-	{
-		public SimpleMenuByCategory (string style) {
-			_styleClass = style;
-			this.separator = "&nbsp;&nbsp;&nbsp;";
-		}
-
-		public override string Header() {return "";}
-		public override string Divider() {return this.separator;}
-		public override string Footer() {return "";}
-
-		public override string PrintItem (string item)
-		{
-			Category cat = Category.FindByName(item); 
+			Category cat = Category.FindByCode(code); 
 			if (cat == null) {
-				System.Console.WriteLine("SimpleMenu no puede crear el enlace porque no existe la categoría con nombre '" + item + "'");
+				System.Console.WriteLine("SimpleMenu no puede crear el enlace porque no existe la categoría con código '" + code + "'");
 				return String.Empty;
 			}
 
 			string url = cat.ToUrl(config.GetValue(Constants.SITE_ROOT));
 			string html = String.Empty;
 
+			if (drawIcons)
+				html += "<img src=\"" + config.GetValue(Constants.SITE_ROOT) + "/Public/style/img/" + code + ".gif\" class=\"" + this.styleClass + "\" >";
 			html += "<a class=\"" + this.styleClass + "\" href=\"" + url + "\">";
-			html += item;
+			html += GetDescription(cat);
 			html += "</a>";
 			return html;
 		}
@@ -613,9 +615,11 @@ public class MenuHelper:Castle.MonoRail.Framework.Helpers.AbstractHelper
 		return wv.BuildTree(currentLanguage, depth_level, styleClass);
 	}
 
-	public string MenuSimple (string style, params string [] items)
+	public string MenuSimple (string style, string language, bool icons, params string [] items)
 	{
-		SimpleMenuByMenu sm = new SimpleMenuByMenu (style);
+		SimpleMenuByCode sm = new SimpleMenuByCode (style, language);
+
+		sm.drawIcons = icons;
 
 		return sm.BuildMenu (items);
 	}

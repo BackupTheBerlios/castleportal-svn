@@ -163,7 +163,11 @@ public class File : ActiveRecordBase
 
         if (attach != null) {
             _Name = System.Text.RegularExpressions.Regex.Replace(attach.FileName, "^.*[/\\\\]", "");
-            _Filename = attach.FileName + "_" + Formname;
+            string[] name = attach.FileName.Split('\\');
+            if (name.Length > 0)
+                _Filename = name[name.Length - 1];
+
+            _Filename = _Filename + "_" + Formname;
             _ContentType = attach.ContentType;
             _Size = attach.ContentLength;
             if (_Id != 0)

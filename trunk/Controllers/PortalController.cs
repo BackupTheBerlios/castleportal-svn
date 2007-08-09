@@ -152,21 +152,24 @@ public class PortalController:ARSmartDispatcherController
             // delete current data 
             foreach (string option in options)
             {
-                Field field = Field.Find(int.Parse(option));
-                FieldTemplate fieldTemplate;
-                // if field is within main list
-                if ((Array.BinarySearch(ol, option) >= 0) && (Array.BinarySearch(ol, option) <= options.Length))
+                if (option.Length > 0)
                 {
-                    fieldTemplate = new FieldTemplate(field, template, i++, j++);
-                    fieldTemplate.Save();
-                    template.Fields.Add(fieldTemplate);
-                    template.ListingVisibleFields.Add(fieldTemplate);
-                }
-                else
-                {
-                    fieldTemplate = new FieldTemplate(field, template, -1, j++);
-                    fieldTemplate.Save();
-                    template.Fields.Add(fieldTemplate);
+                    Field field = Field.Find(int.Parse(option));
+                    FieldTemplate fieldTemplate;
+                    // if field is within main list
+                    if ((Array.BinarySearch(ol, option) >= 0) && (Array.BinarySearch(ol, option) <= options.Length))
+                    {
+                        fieldTemplate = new FieldTemplate(field, template, i++, j++);
+                        fieldTemplate.Save();
+                        template.Fields.Add(fieldTemplate);
+                        template.ListingVisibleFields.Add(fieldTemplate);
+                    }
+                    else
+                    {
+                        fieldTemplate = new FieldTemplate(field, template, -1, j++);
+                        fieldTemplate.Save();
+                        template.Fields.Add(fieldTemplate);
+                    }
                 }
             }
         }

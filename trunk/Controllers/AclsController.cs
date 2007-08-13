@@ -108,7 +108,7 @@ public class AclsController:ARSmartDispatcherController
 
     public void Delete(int id)
     {
-//        Usuario.Find(id).Delete();
+        Acl.Find(id).Delete();
         CancelView();
     }
 

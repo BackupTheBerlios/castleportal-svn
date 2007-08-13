@@ -14,7 +14,7 @@
 		 <a href="$siteRoot/menutranslation/admin.$EXTENSION">[$l10n.MENUSTRANSLATION]</a>
 		 <a href="$siteRoot/portal/templates.$EXTENSION">[$l10n.TEMPLATES]</a>
 		 <a href="$siteRoot/portal/fields.$EXTENSION">[$l10n.FIELDS]</a>
-		 <a href="$siteRoot/acls/aclsedit.$EXTENSION">[$l10n.ACLS]</a>
+		 <a href="$siteRoot/acls/index.$EXTENSION">[$l10n.ACLS]</a>
 		 <a href="$siteRoot/acls/rolesedit.$EXTENSION">[$l10n.ROLES]</a>
 		 <a href="$siteRoot/chat/index.$EXTENSION">[$l10n.CHAT]</a>
 		 <a href="$siteRoot/forum/index.$EXTENSION">[$l10n.FORUM]</a>

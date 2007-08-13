@@ -1,0 +1,13 @@
+#set ($title = "Nuevo Usuario")
+
+$HtmlHelper.Form("create.$EXTENSION")
+
+	$HtmlHelper.InputHidden("acl.Id", $!acl.Id)
+	
+	#parse("acls/_form.vm")
+	
+	<div class="actions">
+		$HtmlHelper.SubmitButton("$l10n.SAVE")
+	</div>
+
+$HtmlHelper.EndForm()

@@ -1,0 +1,19 @@
+<div id="aclssedit">
+	<h3>$l10n.ACLS_ADMINISTRATION </h3>
+
+	<table>
+		#foreach ($acl in $acls)
+			<tr id="acl$acl.Id" class="item$alt#if ($edited == $acl.Id) fade#end">
+				<td>$!acl.Code</td>
+				<td>$!acl.Group.Name</td>
+				<td>$!acl.Role.Name</td>
+				<td class="actions">
+					$HtmlHelper.LinkTo("<img class='botones' src='$siteRoot/Public/images/editar.gif' alt='Editar' />", "acls", "edit", $acl.Id)
+					$AjaxHelper.LinkToRemote("<img class='botones' src='$siteRoot/Public/images/eliminar.gif' alt='$l10n.DELETE'/>", "$siteRoot/acls/delete.$EXTENSION", $DictHelper.CreateDict("with='id=$acl.Id'", "condition=confirm('Delete?')", "onsuccess=new Effect.Fade('acl$acl.Id')"))
+				</td>
+			</tr>
+		#end
+	</table>
+	$HtmlHelper.LinkTo("<img class='botones' src='$siteRoot/Public/images/newcategory.gif' alt='Nuevo' />", "acls", "new")
+</div>
+

@@ -26,7 +26,7 @@ namespace CastlePortal
 #else
 [ActiveRecord("acl")]
 #endif
-public class Acl : ActiveRecordBase
+public class Acl : ActiveRecordValidationBase
 {
     private int _Id;
     private string _Code;

@@ -1,0 +1,12 @@
+#set ($title = "Editar Usuario")
+
+$HtmlHelper.Form("update.$EXTENSION")
+	$HtmlHelper.InputHidden("acl.Id", $!acl.Id)
+	
+	#parse("acls/_form.vm")
+	
+	<div class="actions">
+		$HtmlHelper.SubmitButton("$l10n.SAVE")
+	</div>
+
+$HtmlHelper.EndForm()

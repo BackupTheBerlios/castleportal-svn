@@ -45,11 +45,71 @@ public class AclsController:ARSmartDispatcherController
         Response.Redirect(Constants.PORTAL_CONTROLLER , "index");
     }
 
+    public void Index()
+    {
+        RedirectToAction("list");
+    }
+
     public void AclsEdit()
     {
         PropertyBag["categories"] = Category.FindAll();
         PropertyBag["groups"] = Group.FindAll();
         PropertyBag["roles"] = Role.FindAll();
+    }
+
+    public void List()
+    {
+        PropertyBag["acls"] = Acl.FindAll();
+    }
+
+    public void Edit(int id)
+    {
+         PropertyBag["acl"] = Acl.Find(id);
+         PropertyBag["groups"] = Group.FindAll();
+         PropertyBag["roles"] = Role.FindAll();
+    }
+
+    public void Update([ARDataBind("acl", AutoLoadBehavior.Always)]Acl acl)
+    {
+        if (acl.IsValid())
+        {
+            acl.Update();
+            Flash["edited"] = acl.Id;
+            RedirectToAction("list");
+        }
+        else
+        {
+            PropertyBag["acl"] = acl;
+            RenderView("edit");
+        }
+    }
+
+    public void New()
+    {
+        PropertyBag["acl"] = new Acl();
+        PropertyBag["groups"] = Group.FindAll();
+        PropertyBag["roles"] = Role.FindAll();
+    }
+
+    public void Create([DataBind("acl")]Acl acl)
+    {
+        if (acl.IsValid())
+        {
+            acl.Create();
+            Flash["edited"] = acl.Id;
+            RedirectToAction("list");
+        }
+        else
+        {
+            PropertyBag["acl"] = acl;
+            RenderView("new");
+        }
+    }
+
+    public void Delete(int id)
+    {
+//        Usuario.Find(id).Delete();
+        CancelView();
     }
 
     public void AclSave(int idCategory, int idGroup, string[] roles)

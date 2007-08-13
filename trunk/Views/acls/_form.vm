@@ -1,0 +1,31 @@
+#if ($ScaffoldHelper.HasError($acl))
+<div id="errors">
+	$ScaffoldHelper.ErrorsFor($acl)
+</div>
+$Effects2Helper.Shake("errors")
+#end
+
+<div class="fields">
+	<table>
+		<tr>
+			<td>$l10n.CODE</td>
+			<td>$HtmlHelper.InputText("acl.Code", "$!acl.Code")</td>
+		</tr>
+		<tr>
+			<td>$l10n.GROUPS</td>
+			<td>
+				$HtmlHelper.Select('acl.Group.Id')
+					$HtmlHelper.CreateOptionsFromArray($groups, "Name", "Id", $!acl.Group.Id)
+				$HtmlHelper.EndSelect()
+			</td>
+		</tr>
+		<tr>
+			<td>$l10n.ROLE</td>
+			<td>
+				$HtmlHelper.Select('acl.Role.Id')
+					$HtmlHelper.CreateOptionsFromArray($roles, "Name", "Id", $!acl.Role.Id)
+				$HtmlHelper.EndSelect()
+			</td>
+		</tr>
+	</table>
+</div>
